@@ -6,6 +6,7 @@
     "node": ">=22.13.0"
   },
   "scripts": {
+    "prebuild": "node scripts/build-route-preloads.mjs",
     "dev": "vite --host 0.0.0.0",
     "build": "vite build",
     "build:vercel": "vite build",

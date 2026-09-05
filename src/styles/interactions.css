@@ -606,3 +606,45 @@ button {
 img[data-gradient-surface] {
   filter: blur(2px);
 }
+
+/* Preserve the navigation while the prepared destination gently replaces the page. */
+.site-nav {
+  view-transition-name: site-navigation;
+}
+::view-transition-group(root),
+::view-transition-group(site-navigation) {
+  animation-duration: 180ms;
+}
+::view-transition-old(root) {
+  animation: route-fade-out 180ms ease both;
+}
+::view-transition-new(root) {
+  animation: route-fade-in 180ms ease both;
+}
+::view-transition-old(site-navigation) {
+  animation: none;
+  opacity: 0;
+}
+::view-transition-new(site-navigation) {
+  animation: none;
+}
+::view-transition-group(site-navigation) {
+  z-index: 1;
+}
+@keyframes route-fade-out {
+  to {
+    opacity: 0;
+  }
+}
+@keyframes route-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}

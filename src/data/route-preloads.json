@@ -1,0 +1,186 @@
+{
+  "/": [
+    {
+      "src": "/vendor/framer/images/FcJPSxu5QRR0s0hFrNnbIBqvac.png?width=2280&height=1098",
+      "srcSet": "/vendor/framer/images/FcJPSxu5QRR0s0hFrNnbIBqvac.png?scale-down-to=512&width=2280&height=1098 512w,/vendor/framer/images/FcJPSxu5QRR0s0hFrNnbIBqvac.png?scale-down-to=1024&width=2280&height=1098 1024w,/vendor/framer/images/FcJPSxu5QRR0s0hFrNnbIBqvac.png?scale-down-to=2048&width=2280&height=1098 2048w,/vendor/framer/images/FcJPSxu5QRR0s0hFrNnbIBqvac.png?width=2280&height=1098 2280w",
+      "sizes": "(min-width: 1200px) max(min(max(100vw - 80px, 1px), 1240px), 1px), (max-width: 809.98px) max(min(max(100vw - 80px, 1px), 1240px), 1px), (min-width: 810px) and (max-width: 1199.98px) max(min(max(100vw - 60px, 1px), 810px), 1px)"
+    }
+  ],
+  "/404": [
+    {
+      "src": "/vendor/framer/images/neRMXlaRFnqdQOaKO9rnCHcRmeU.png?width=2752&height=1140",
+      "srcSet": "/vendor/framer/images/neRMXlaRFnqdQOaKO9rnCHcRmeU.png?scale-down-to=512&width=2752&height=1140 512w,/vendor/framer/images/neRMXlaRFnqdQOaKO9rnCHcRmeU.png?scale-down-to=1024&width=2752&height=1140 1024w,/vendor/framer/images/neRMXlaRFnqdQOaKO9rnCHcRmeU.png?scale-down-to=2048&width=2752&height=1140 2048w,/vendor/framer/images/neRMXlaRFnqdQOaKO9rnCHcRmeU.png?width=2752&height=1140 2752w",
+      "sizes": "(min-width: 1200px) max(min(min(max(100vw - 80px, 1px), 1240px), 688px), 1px), (max-width: 809.98px) max(min(min(100vw - 32px, 500px), 688px), 1px), (min-width: 810px) and (max-width: 1199.98px) max(min(min(max(100vw - 60px, 1px), 810px), 688px), 1px)"
+    }
+  ],
+  "/about-us": [
+    {
+      "src": "/vendor/framer/gradients/UIpX3PUgTgkNx4Bx5MgOQSfAI.avif",
+      "sizes": "(min-width: 1200px) 100vw, (min-width: 810px) and (max-width: 1199.98px) 100vw, (max-width: 809.98px) 100vw"
+    },
+    {
+      "src": "/vendor/framer/images/wo9Pb2CrvbGdKe9lzLTVmfhjGsc.png?width=3420&height=2049",
+      "srcSet": "/vendor/framer/images/wo9Pb2CrvbGdKe9lzLTVmfhjGsc.png?scale-down-to=512&width=3420&height=2049 512w,/vendor/framer/images/wo9Pb2CrvbGdKe9lzLTVmfhjGsc.png?scale-down-to=1024&width=3420&height=2049 1024w,/vendor/framer/images/wo9Pb2CrvbGdKe9lzLTVmfhjGsc.png?scale-down-to=2048&width=3420&height=2049 2048w,/vendor/framer/images/wo9Pb2CrvbGdKe9lzLTVmfhjGsc.png?width=3420&height=2049 3420w",
+      "sizes": "(min-width: 1200px) max(min(max(100vw - 80px, 1px), 1240px), 1px), (min-width: 810px) and (max-width: 1199.98px) max(min(max(100vw - 60px, 1px), 810px), 1px), (max-width: 809.98px) max(min(max(100vw - 32px, 1px), 500px), 1px)"
+    }
+  ],
+  "/blog/building-long-lasting-customer-in-saas": [
+    {
+      "src": "/vendor/framer/gradients/UIpX3PUgTgkNx4Bx5MgOQSfAI.avif",
+      "sizes": "(min-width: 1200px) calc(100vw - 40px), (min-width: 810px) and (max-width: 1199.98px) calc(100vw - 40px), (max-width: 809.98px) calc(100vw - 40px)"
+    },
+    {
+      "src": "/vendor/framer/images/YtaRTIWBHwKVRRvRltM3z8uCvRo.png?width=1504&height=846",
+      "srcSet": "/vendor/framer/images/YtaRTIWBHwKVRRvRltM3z8uCvRo.png?scale-down-to=512&width=1504&height=846 512w,/vendor/framer/images/YtaRTIWBHwKVRRvRltM3z8uCvRo.png?scale-down-to=1024&width=1504&height=846 1024w,/vendor/framer/images/YtaRTIWBHwKVRRvRltM3z8uCvRo.png?width=1504&height=846 1504w",
+      "sizes": "(min-width: 1200px) min(max(100vw - 120px, 1px), 752px), (min-width: 810px) and (max-width: 1199.98px) min(max(100vw - 100px, 1px), 752px), (max-width: 809.98px) min(max(100vw - 72px, 1px), 752px)"
+    }
+  ],
+  "/blog/efficient-strategies-for-scaling-your-saas-business": [
+    {
+      "src": "/vendor/framer/gradients/UIpX3PUgTgkNx4Bx5MgOQSfAI.avif",
+      "sizes": "(min-width: 1200px) calc(100vw - 40px), (min-width: 810px) and (max-width: 1199.98px) calc(100vw - 40px), (max-width: 809.98px) calc(100vw - 40px)"
+    },
+    {
+      "src": "/vendor/framer/images/EC8BRXqnxQT8QfRwtidOozt7cs.png?width=1504&height=846",
+      "srcSet": "/vendor/framer/images/EC8BRXqnxQT8QfRwtidOozt7cs.png?scale-down-to=512&width=1504&height=846 512w,/vendor/framer/images/EC8BRXqnxQT8QfRwtidOozt7cs.png?scale-down-to=1024&width=1504&height=846 1024w,/vendor/framer/images/EC8BRXqnxQT8QfRwtidOozt7cs.png?width=1504&height=846 1504w",
+      "sizes": "(min-width: 1200px) min(max(100vw - 120px, 1px), 752px), (min-width: 810px) and (max-width: 1199.98px) min(max(100vw - 100px, 1px), 752px), (max-width: 809.98px) min(max(100vw - 72px, 1px), 752px)"
+    }
+  ],
+  "/blog/essential-financial-metrics-for-sustainable-saas-success": [
+    {
+      "src": "/vendor/framer/gradients/UIpX3PUgTgkNx4Bx5MgOQSfAI.avif",
+      "sizes": "(min-width: 1200px) calc(100vw - 40px), (min-width: 810px) and (max-width: 1199.98px) calc(100vw - 40px), (max-width: 809.98px) calc(100vw - 40px)"
+    },
+    {
+      "src": "/vendor/framer/images/w30PRJHAzUUUyagAgLvoqk1ok8.png?width=1502&height=846",
+      "srcSet": "/vendor/framer/images/w30PRJHAzUUUyagAgLvoqk1ok8.png?scale-down-to=512&width=1502&height=846 512w,/vendor/framer/images/w30PRJHAzUUUyagAgLvoqk1ok8.png?scale-down-to=1024&width=1502&height=846 1024w,/vendor/framer/images/w30PRJHAzUUUyagAgLvoqk1ok8.png?width=1502&height=846 1502w",
+      "sizes": "(min-width: 1200px) min(max(100vw - 120px, 1px), 752px), (min-width: 810px) and (max-width: 1199.98px) min(max(100vw - 100px, 1px), 752px), (max-width: 809.98px) min(max(100vw - 72px, 1px), 752px)"
+    }
+  ],
+  "/blog/integrating-payment-gateways-for-seamless-transactions": [
+    {
+      "src": "/vendor/framer/gradients/UIpX3PUgTgkNx4Bx5MgOQSfAI.avif",
+      "sizes": "(min-width: 1200px) calc(100vw - 40px), (min-width: 810px) and (max-width: 1199.98px) calc(100vw - 40px), (max-width: 809.98px) calc(100vw - 40px)"
+    },
+    {
+      "src": "/vendor/framer/images/tmq5wh891SjVWu2KSdBgSq16bXU.png?width=1504&height=846",
+      "srcSet": "/vendor/framer/images/tmq5wh891SjVWu2KSdBgSq16bXU.png?scale-down-to=512&width=1504&height=846 512w,/vendor/framer/images/tmq5wh891SjVWu2KSdBgSq16bXU.png?scale-down-to=1024&width=1504&height=846 1024w,/vendor/framer/images/tmq5wh891SjVWu2KSdBgSq16bXU.png?width=1504&height=846 1504w",
+      "sizes": "(min-width: 1200px) min(max(100vw - 120px, 1px), 752px), (min-width: 810px) and (max-width: 1199.98px) min(max(100vw - 100px, 1px), 752px), (max-width: 809.98px) min(max(100vw - 72px, 1px), 752px)"
+    }
+  ],
+  "/blog/maximizing-your-roi-with-effective-saas-solutions": [
+    {
+      "src": "/vendor/framer/gradients/UIpX3PUgTgkNx4Bx5MgOQSfAI.avif",
+      "sizes": "(min-width: 1200px) calc(100vw - 40px), (min-width: 810px) and (max-width: 1199.98px) calc(100vw - 40px), (max-width: 809.98px) calc(100vw - 40px)"
+    },
+    {
+      "src": "/vendor/framer/images/AXGl21RdTEG4fwdLHoUkXazbNgw.png?width=1504&height=846",
+      "srcSet": "/vendor/framer/images/AXGl21RdTEG4fwdLHoUkXazbNgw.png?scale-down-to=512&width=1504&height=846 512w,/vendor/framer/images/AXGl21RdTEG4fwdLHoUkXazbNgw.png?scale-down-to=1024&width=1504&height=846 1024w,/vendor/framer/images/AXGl21RdTEG4fwdLHoUkXazbNgw.png?width=1504&height=846 1504w",
+      "sizes": "(min-width: 1200px) min(max(100vw - 120px, 1px), 752px), (min-width: 810px) and (max-width: 1199.98px) min(max(100vw - 100px, 1px), 752px), (max-width: 809.98px) min(max(100vw - 72px, 1px), 752px)"
+    }
+  ],
+  "/blog/site-optimization-techniques-to-boost-conversions": [
+    {
+      "src": "/vendor/framer/gradients/UIpX3PUgTgkNx4Bx5MgOQSfAI.avif",
+      "sizes": "(min-width: 1200px) calc(100vw - 40px), (min-width: 810px) and (max-width: 1199.98px) calc(100vw - 40px), (max-width: 809.98px) calc(100vw - 40px)"
+    },
+    {
+      "src": "/vendor/framer/images/6DM069MH6JAo4vNaeiIA39GOHA.png?width=1504&height=846",
+      "srcSet": "/vendor/framer/images/6DM069MH6JAo4vNaeiIA39GOHA.png?scale-down-to=512&width=1504&height=846 512w,/vendor/framer/images/6DM069MH6JAo4vNaeiIA39GOHA.png?scale-down-to=1024&width=1504&height=846 1024w,/vendor/framer/images/6DM069MH6JAo4vNaeiIA39GOHA.png?width=1504&height=846 1504w",
+      "sizes": "(min-width: 1200px) min(max(100vw - 120px, 1px), 752px), (min-width: 810px) and (max-width: 1199.98px) min(max(100vw - 100px, 1px), 752px), (max-width: 809.98px) min(max(100vw - 72px, 1px), 752px)"
+    }
+  ],
+  "/blog/why-data-security-is-vital-for-every-saas-platform": [
+    {
+      "src": "/vendor/framer/gradients/UIpX3PUgTgkNx4Bx5MgOQSfAI.avif",
+      "sizes": "(min-width: 1200px) calc(100vw - 40px), (min-width: 810px) and (max-width: 1199.98px) calc(100vw - 40px), (max-width: 809.98px) calc(100vw - 40px)"
+    },
+    {
+      "src": "/vendor/framer/images/Ldk98dSMJtEwsDSUI1r98VpAT4I.png?width=1502&height=846",
+      "srcSet": "/vendor/framer/images/Ldk98dSMJtEwsDSUI1r98VpAT4I.png?scale-down-to=512&width=1502&height=846 512w,/vendor/framer/images/Ldk98dSMJtEwsDSUI1r98VpAT4I.png?scale-down-to=1024&width=1502&height=846 1024w,/vendor/framer/images/Ldk98dSMJtEwsDSUI1r98VpAT4I.png?width=1502&height=846 1502w",
+      "sizes": "(min-width: 1200px) min(max(100vw - 120px, 1px), 752px), (min-width: 810px) and (max-width: 1199.98px) min(max(100vw - 100px, 1px), 752px), (max-width: 809.98px) min(max(100vw - 72px, 1px), 752px)"
+    }
+  ],
+  "/blog": [
+    {
+      "src": "/vendor/framer/gradients/UIpX3PUgTgkNx4Bx5MgOQSfAI.avif",
+      "sizes": "(min-width: 1200px) calc(100vw - 40px), (min-width: 810px) and (max-width: 1199.98px) calc(100vw - 40px), (max-width: 809.98px) calc(100vw - 40px)"
+    },
+    {
+      "src": "/vendor/framer/gradients/gUrIjZ2n8b2RrowJ0g1CbV3gUM.avif",
+      "sizes": "(min-width: 1200px) 1006px, (max-width: 809.98px) 1006px, (min-width: 810px) and (max-width: 1199.98px) 1006px"
+    },
+    {
+      "src": "/vendor/framer/images/YtaRTIWBHwKVRRvRltM3z8uCvRo.png?width=1504&height=846",
+      "srcSet": "/vendor/framer/images/YtaRTIWBHwKVRRvRltM3z8uCvRo.png?scale-down-to=512&width=1504&height=846 512w,/vendor/framer/images/YtaRTIWBHwKVRRvRltM3z8uCvRo.png?scale-down-to=1024&width=1504&height=846 1024w,/vendor/framer/images/YtaRTIWBHwKVRRvRltM3z8uCvRo.png?width=1504&height=846 1504w",
+      "sizes": "(min-width: 1200px) max(min(max((max(min(max(100vw - 120px, 1px), 1240px), 1px) - 120px) / 2, 1px), 518px), 1px), (max-width: 809.98px) max(max(min(max(100vw - 72px, 1px), 500px), 1px) - 48px, 1px), (min-width: 810px) and (max-width: 1199.98px) max(min(max((max(min(max(100vw - 100px, 1px), 810px), 1px) - 80px) / 2, 1px), 518px), 1px)"
+    }
+  ],
+  "/changelog": [
+    {
+      "src": "/vendor/framer/gradients/UIpX3PUgTgkNx4Bx5MgOQSfAI.avif",
+      "sizes": "(min-width: 1200px) 100vw, (min-width: 810px) and (max-width: 1199.98px) 100vw, (max-width: 809.98px) 100vw"
+    },
+    {
+      "src": "/vendor/framer/images/LanYoBYeqcX0ZGQJdNoCKgVuQQ8.png?width=3008&height=1568",
+      "srcSet": "/vendor/framer/images/LanYoBYeqcX0ZGQJdNoCKgVuQQ8.png?scale-down-to=512&width=3008&height=1568 512w,/vendor/framer/images/LanYoBYeqcX0ZGQJdNoCKgVuQQ8.png?scale-down-to=1024&width=3008&height=1568 1024w,/vendor/framer/images/LanYoBYeqcX0ZGQJdNoCKgVuQQ8.png?scale-down-to=2048&width=3008&height=1568 2048w,/vendor/framer/images/LanYoBYeqcX0ZGQJdNoCKgVuQQ8.png?width=3008&height=1568 3008w",
+      "sizes": "(min-width: 1200px) max(min(100vw - 80px, 1240px) * 0.6134, 1px), (min-width: 810px) and (max-width: 1199.98px) max(min(100vw - 60px, 810px) * 0.6134, 1px), (max-width: 809.98px) max(min(100vw - 32px, 500px), 1px)"
+    },
+    {
+      "src": "/vendor/framer/images/pB7N6QwgUGcwqF354ZmVAtFEn4Q.png?width=3008&height=1568",
+      "srcSet": "/vendor/framer/images/pB7N6QwgUGcwqF354ZmVAtFEn4Q.png?scale-down-to=512&width=3008&height=1568 512w,/vendor/framer/images/pB7N6QwgUGcwqF354ZmVAtFEn4Q.png?scale-down-to=1024&width=3008&height=1568 1024w,/vendor/framer/images/pB7N6QwgUGcwqF354ZmVAtFEn4Q.png?scale-down-to=2048&width=3008&height=1568 2048w,/vendor/framer/images/pB7N6QwgUGcwqF354ZmVAtFEn4Q.png?width=3008&height=1568 3008w",
+      "sizes": "(min-width: 1200px) max(min(100vw - 80px, 1240px) * 0.6134, 1px), (min-width: 810px) and (max-width: 1199.98px) max(min(100vw - 60px, 810px) * 0.6134, 1px), (max-width: 809.98px) max(min(100vw - 32px, 500px), 1px)"
+    }
+  ],
+  "/contact": [
+    {
+      "src": "/vendor/framer/gradients/UIpX3PUgTgkNx4Bx5MgOQSfAI.avif",
+      "sizes": "(min-width: 1200px) 100vw, (max-width: 809.98px) 100vw, (min-width: 810px) and (max-width: 1199.98px) 100vw"
+    }
+  ],
+  "/integrations": [
+    {
+      "src": "/vendor/framer/gradients/UIpX3PUgTgkNx4Bx5MgOQSfAI.avif",
+      "sizes": "(min-width: 1200px) 100vw, (min-width: 810px) and (max-width: 1199.98px) 100vw, (max-width: 809.98px) 100vw"
+    },
+    {
+      "src": "/vendor/framer/images/K1igqdrIObFe3FcxUZBcCgaawfo.png?width=1674&height=1237",
+      "srcSet": "/vendor/framer/images/K1igqdrIObFe3FcxUZBcCgaawfo.png?scale-down-to=512&width=1674&height=1237 512w,/vendor/framer/images/K1igqdrIObFe3FcxUZBcCgaawfo.png?scale-down-to=1024&width=1674&height=1237 1024w,/vendor/framer/images/K1igqdrIObFe3FcxUZBcCgaawfo.png?width=1674&height=1237 1674w",
+      "sizes": "(min-width: 1200px) max(min(max((max(min(max(100vw - 80px, 1px), 1240px), 1px) - 80px) / 2, 1px), 558px), 1px), (min-width: 810px) and (max-width: 1199.98px) max(min(max((max(min(max(100vw - 60px, 1px), 810px), 1px) - 30px) / 2, 1px), 328px), 1px), (max-width: 809.98px) max(min(100vw - 32px, 500px), 1px)"
+    }
+  ],
+  "/pricing": [
+    {
+      "src": "/vendor/framer/gradients/UIpX3PUgTgkNx4Bx5MgOQSfAI.avif",
+      "sizes": "(min-width: 1200px) 100vw, (max-width: 809.98px) 100vw, (min-width: 810px) and (max-width: 1199.98px) 100vw"
+    },
+    {
+      "src": "/vendor/framer/images/sVkwweGRCRcQUW2eM3O9WXUNw4w.png",
+      "srcSet": "/vendor/framer/images/sVkwweGRCRcQUW2eM3O9WXUNw4w.png?scale-down-to=512 512w,/vendor/framer/images/sVkwweGRCRcQUW2eM3O9WXUNw4w.png 1024w",
+      "sizes": "(min-width: 1200px) 20px, (max-width: 809.98px) 20px, (min-width: 810px) and (max-width: 1199.98px) 20px"
+    }
+  ],
+  "/privacy-policy": [
+    {
+      "src": "/vendor/framer/gradients/UIpX3PUgTgkNx4Bx5MgOQSfAI.avif",
+      "sizes": "(min-width: 1200px) 100vw, (min-width: 810px) and (max-width: 1199.98px) 100vw, (max-width: 809.98px) 100vw"
+    }
+  ],
+  "/terms-conditions": [
+    {
+      "src": "/vendor/framer/gradients/UIpX3PUgTgkNx4Bx5MgOQSfAI.avif",
+      "sizes": "(min-width: 1200px) 100vw, (min-width: 810px) and (max-width: 1199.98px) 100vw, (max-width: 809.98px) 100vw"
+    }
+  ],
+  "/waitlist": [
+    {
+      "src": "/vendor/framer/images/DF7xSh6kSq7HHGDQ24fk3SRG5XI.png?width=128&height=128"
+    },
+    {
+      "src": "/vendor/framer/images/U7Qv3wrAivXFgQ99v7sdnbXpVtI.png?width=128&height=128"
+    },
+    {
+      "src": "/vendor/framer/images/1bFnl3c18R8Ko9U7v0zmkbVZmCs.png?width=128&height=128"
+    }
+  ]
+}

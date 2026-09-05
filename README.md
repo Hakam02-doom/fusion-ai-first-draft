@@ -75,3 +75,12 @@ Verified the section and backdrop on desktop and mobile, including zero globe-ce
 ## Carousel hover behavior — 2026-09-06
 
 All tickers and testimonial slideshows continue autoplay on pointer hover. Keyboard-focus and reduced-motion behavior remain available. The “2. Connect your apps” preview uses the reference’s independent row settings: right at 25px/s above, left at 50px/s below, on desktop and mobile. Verified a ticker’s position changing and a slideshow advancing with `:hover` still active; lint and production build pass.
+
+
+## Page and background transitions — 2026-09-06
+
+Internal navigation preloads route modules and responsive hero images on pointer hover or keyboard focus. The existing page stays visible until the destination is ready; resolved modules prevent a Suspense loading flash between pages. Scroll position changes at the page commit, browser Back/Forward restore saved positions, and newer navigation requests supersede older ones. `scripts/build-route-preloads.mjs` regenerates image hints before production builds.
+
+Visible orange/blue backdrops interpolate from the outgoing page’s measured geometry to the destination’s original placement, using the archived global transition’s 500ms duration and cubic-bezier(.27, 0, .51, 1) easing. This runs on the live image behind the content, allowing original heading entrances to continue independently. Interrupted transitions resume from the currently displayed position. Home and other transitions without a shared visible backdrop use a 180ms native crossfade with a steady navigation bar when supported. Reduced motion uses an immediate prepared page change.
+
+Verified desktop and mobile navigation, backdrop arrival positions, no loading fallback during navigation, Back/Forward, closed mobile menus, and no browser console errors. Lint and production build pass. The transition implementation is maintained React/Web Animations code, not the captured Framer runtime.
