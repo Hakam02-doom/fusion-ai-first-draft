@@ -15,6 +15,20 @@ npm run build
 npm start
 ```
 
+## Vercel
+
+The Vercel deployment serves the same captured frontend as static files, including
+the local animation runtime. It does not require a Cloudflare Worker or package
+installation. `vercel.json` selects the static build and clean page URLs.
+
+```sh
+npm run build:vercel
+```
+
+Output: `dist-vercel/`. Import the GitHub repository into Vercel; the committed
+configuration supplies the build settings. Contact and waitlist submissions stay
+preview-only. The deployment is excluded from search indexing.
+
 ## Implementation
 
 - Vinext/Vite project with the Sites and shadcn scaffold retained.
