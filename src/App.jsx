@@ -1,4 +1,8 @@
 import { Component, lazy, Suspense, useEffect, useState } from 'react';
+import {
+  useReferenceLoops,
+  useReferenceScroll,
+} from './components/ReferenceMotion.jsx';
 import routes from './data/routes.json';
 
 const modules = import.meta.glob('./pages/*.jsx');
@@ -12,6 +16,8 @@ const currentPath = () =>
   decodeURI(location.pathname).replace(/\/+$/, '') || '/';
 
 function PageReady({ children }) {
+  useReferenceLoops();
+  useReferenceScroll();
   useEffect(() => {
     if (location.hash)
       requestAnimationFrame(() =>

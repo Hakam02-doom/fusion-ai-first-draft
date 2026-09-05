@@ -133,6 +133,9 @@ let route = '/',
   sections = [],
   used = new Set();
 const sharedNodes = {};
+let renderingPrompt = false;
+const promptNodes = new Map();
+let navButton;
 function props(node) {
   const result = [];
   if (
@@ -241,7 +244,14 @@ function render(node, allowSection = true, shared = false) {
     return '';
   const name = attr(node, 'data-framer-name') ?? '',
     cls = attr(node, 'class') ?? '';
-  if (node.tagName === 'nav' && name === 'Navigation') return '<Navigation />';
+  if (node.tagName === 'nav' && name === 'Navigation') {
+    if (!navButton)
+      walk(node, (n) => {
+        if (!navButton && n.tagName === 'a' && text(n).includes('Get Started'))
+          navButton = n;
+      });
+    return '<Navigation />';
+  }
   if (!shared && node.tagName === 'footer') {
     sharedNodes.Footer ??= node;
     return '<Footer />';
@@ -260,11 +270,43 @@ function render(node, allowSection = true, shared = false) {
       .map((n) => render(n))
       .join('\n')}</Slideshow>`;
   }
+  if (cls.split(' ').includes('framer-8LnrN')) return '<ChatSequence />';
   if (cls.split(' ').includes('framer-db5EB'))
     return `<FAQList ${props(node)} />`;
   if (cls.split(' ').includes('framer-aOvZl')) return '<BillingToggle />';
-  if (cls.split(' ').includes('framer-PLzz3'))
+  if (cls.split(' ').includes('framer-PLzz3') && !renderingPrompt) {
+    promptNodes.set(cls.match(/framer-v-[\w-]+/)[0], node);
     return `<PromptDemo ${props(node)} />`;
+  }
+  if (renderingPrompt && cls.includes('framer-vqyd67-container'))
+    return `<div ${props(node)}><input className="reference-prompt-input" aria-label="AI prompt demo" value={value} onChange={onChange} onKeyDown={event => { if (event.key === 'Enter') onSend(); }} />{!value && <span className="reference-prompt-typewriter" aria-hidden="true">{placeholder}<span className="reference-prompt-cursor">|</span></span>}</div>`;
+  if (
+    node.tagName === 'canvas' ||
+    attr(node, 'data-framer-component-type') === 'Shader'
+  ) {
+    let parent = node.parentNode,
+      preset;
+    while (parent && !preset) {
+      preset = (attr(parent, 'class') ?? '')
+        .split(' ')
+        .find((c) =>
+          [
+            'framer-2c8pm2-container',
+            'framer-meh7xt-container',
+            'framer-16amyoj-container',
+            'framer-cifcpl-container',
+            'framer-1nu49vs-container',
+            'framer-1ypbnk5-container',
+          ].includes(c),
+        );
+      parent = parent.parentNode;
+    }
+    if (preset)
+      return node.tagName === 'canvas'
+        ? `<ShaderCanvas preset={${quote(preset)}} ${props(node)} />`
+        : `<div ${props(node)}><ShaderCanvas preset={${quote(preset)}} style={{display:'block', width:'100%', height:'100%'}} /></div>`;
+  }
+  if (node.tagName === 'video') return `<AmbientVideo ${props(node)} />`;
   if (
     allowSection &&
     ['header', 'section'].includes(node.tagName) &&
@@ -307,7 +349,11 @@ function render(node, allowSection = true, shared = false) {
     extra = ` as={${quote(tag)}}`;
     tag = 'Reveal';
   }
-  const attributes = props(node);
+  const attributes =
+    props(node) +
+    (renderingPrompt && node.tagName === 'button'
+      ? ' type="button" onClick={onSend}'
+      : '');
   if (voids.has(node.tagName)) return `<${tag} ${attributes} />`;
   const children = (node.childNodes ?? [])
     .map((n) => render(n, allowSection, shared))
@@ -352,7 +398,7 @@ for (const file of files) {
   for (const sheet of css) sharedStyles.add(sheet);
   await writeFile(
     `src/pages/${currentName}.jsx`,
-    `import { Navigation, FAQList, BillingProvider, BillingToggle, PlanPrice, PreviewForm, PromptDemo, Reveal, Ticker, Slideshow, PromoCard } from '../components/Interactions.jsx';\nimport { Footer, CallToAction } from '../components/SiteChrome.jsx';\n\nexport default function ${currentName}() {\n  return (<BillingProvider><>${jsx}</></BillingProvider>);\n}\n\n${sections.join('\n\n')}\n`,
+    `import { Navigation, FAQList, BillingProvider, BillingToggle, PlanPrice, PreviewForm, PromptDemo, Reveal, Ticker, Slideshow, PromoCard } from '../components/Interactions.jsx';\nimport { Footer, CallToAction } from '../components/SiteChrome.jsx';\nimport { ShaderCanvas, AmbientVideo } from '../components/ReferenceMotion.jsx';\nimport ChatSequence from '../components/ChatSequence.jsx';\n\nexport default function ${currentName}() {\n  return (<BillingProvider><>${jsx}</></BillingProvider>);\n}\n\n${sections.join('\n\n')}\n`,
   );
   routes.push({ path: route, component: currentName, title, description });
 }
@@ -391,6 +437,8 @@ for (const file of [
   'src/components/SiteChrome.jsx',
 ]) {
   let code = await readFile(file, 'utf8');
+  if (!code.includes('<ChatSequence'))
+    code = code.replace(/import ChatSequence[^;]+;\n/, '');
   code = code.replace(
     /import \{ ([^}]+) \} from ([^;]+);/g,
     (_, imports, from) => {
@@ -407,3 +455,22 @@ for (const file of [
   );
   await writeFile(file, code);
 }
+
+// Preserve each original responsive input composition.
+renderingPrompt = true;
+const promptVariants = [...promptNodes]
+  .map(
+    ([variant, node]) =>
+      `if (props.className.includes('${variant}')) return (${render(node, false, true).replace(/^<div[^>]*>/, '<div {...props}>')});`,
+  )
+  .join('\n');
+await writeFile(
+  'src/components/PromptShell.jsx',
+  `import { ShaderCanvas } from './ReferenceMotion.jsx';
+export default function PromptShell({value, onChange, placeholder, onSend, ...props}) { ${promptVariants} return null; }\n`,
+);
+renderingPrompt = false;
+await writeFile(
+  'src/components/NavButton.jsx',
+  `export default function NavButton() { return (${render(navButton, false, true)}); }\n`,
+);

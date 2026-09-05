@@ -9,6 +9,8 @@ import {
   PromoCard,
 } from '../components/Interactions.jsx';
 import { Footer, CallToAction } from '../components/SiteChrome.jsx';
+import { ShaderCanvas, AmbientVideo } from '../components/ReferenceMotion.jsx';
+import ChatSequence from '../components/ChatSequence.jsx';
 
 export default function Home() {
   return (
@@ -6641,7 +6643,7 @@ function HomeHero() {
           name={'Hero Video'}
           style={{}}
         >
-          <video
+          <AmbientVideo
             src={'/vendor/framer/assets/Bax1SXv4b9QI33bMvkicABKnI.mp4'}
             loop={true}
             preload={'none'}
@@ -6657,7 +6659,7 @@ function HomeHero() {
               backgroundColor: 'rgba(0, 0, 0, 0)',
               objectPosition: '50% 50%',
             }}
-          ></video>
+          />
         </Reveal>
       </div>
       <div className={'ssr-variant hidden-1i4kwtr hidden-72rtr7'}>
@@ -6667,7 +6669,7 @@ function HomeHero() {
           data-framer-name={'Hero Video'}
           name={'Hero Video'}
         >
-          <video
+          <AmbientVideo
             src={'/vendor/framer/assets/Bax1SXv4b9QI33bMvkicABKnI.mp4'}
             loop={true}
             preload={'none'}
@@ -6683,7 +6685,7 @@ function HomeHero() {
               backgroundColor: 'rgba(0, 0, 0, 0)',
               objectPosition: '50% 50%',
             }}
-          ></video>
+          />
         </Reveal>
       </div>
       <div className={'framer-1rrlo4s'} data-framer-name={'Container'}>
@@ -8648,102 +8650,7 @@ function HomeFeature() {
                   data-framer-name={'Chat Panel Wrapper'}
                 >
                   <div className={'framer-10rphs1-container'}>
-                    <div
-                      className={
-                        'framer-8LnrN framer-JY1O8 framer-v0jfm0 framer-v-rkftqi'
-                      }
-                      data-framer-name={'Static'}
-                      style={{ width: '100%' }}
-                    >
-                      <Reveal
-                        as={'div'}
-                        className={'framer-16m5uc8'}
-                        data-framer-name={'Message UI'}
-                        style={{}}
-                      >
-                        <div
-                          className={'framer-6ionjn'}
-                          data-border={'true'}
-                          data-framer-name={'Text'}
-                          style={{
-                            '--border-bottom-width': '1px',
-                            '--border-color': 'rgba(255, 255, 255, 0.08)',
-                            '--border-left-width': '1px',
-                            '--border-right-width': '1px',
-                            '--border-style': 'solid',
-                            '--border-top-width': '1px',
-                            backdropFilter: 'blur(2.5px)',
-                            backgroundColor: 'rgba(255, 255, 255, 0.02)',
-                            WebkitBackdropFilter: 'blur(2.5px)',
-                            borderBottomLeftRadius: '16px',
-                            borderBottomRightRadius: '16px',
-                            borderTopLeftRadius: '16px',
-                            borderTopRightRadius: '16px',
-                          }}
-                        >
-                          <div
-                            className={'framer-d3mige'}
-                            data-framer-name={
-                              'Hey, can you generate a customer follow-up list'
-                            }
-                            data-framer-component-type={'RichTextContainer'}
-                            style={{
-                              '--framer-paragraph-spacing': '0px',
-                              transform: 'none',
-                            }}
-                          >
-                            <p
-                              className={
-                                'framer-text framer-styles-preset-1kk3io7'
-                              }
-                              data-styles-preset={'GMSbta4Nb'}
-                              dir={'auto'}
-                              style={{ '--framer-text-alignment': 'right' }}
-                            >
-                              {
-                                'Hey, can you generate a customer follow-up list'
-                              }
-                            </p>
-                          </div>
-                        </div>
-                        <div
-                          className={'framer-136ip9c'}
-                          data-framer-name={'User Avatar'}
-                        >
-                          <div
-                            style={{
-                              position: 'absolute',
-                              borderRadius: 'inherit',
-                              cornerShape: 'inherit',
-                              top: '0',
-                              right: '0',
-                              bottom: '0',
-                              left: '0',
-                            }}
-                            data-framer-background-image-wrapper={'true'}
-                          >
-                            <img
-                              decoding={'async'}
-                              width={'92'}
-                              height={'92'}
-                              src={
-                                '/vendor/framer/images/GuG9ZZ2TfzZoJIEFtSbrTqZgHz4.png?width=92&height=92'
-                              }
-                              alt={'User avatar'}
-                              style={{
-                                display: 'block',
-                                width: '100%',
-                                height: '100%',
-                                borderRadius: 'inherit',
-                                cornerShape: 'inherit',
-                                objectPosition: 'center',
-                                objectFit: 'cover',
-                              }}
-                            />
-                          </div>
-                        </div>
-                      </Reveal>
-                    </div>
+                    <ChatSequence />
                   </div>
                   <div className={'framer-112ktnk-container'}>
                     <PromptDemo
@@ -8940,37 +8847,14 @@ function HomeFeature() {
                           transform: 'none',
                         }}
                       >
-                        <div
+                        <ShaderCanvas
+                          preset={'framer-meh7xt-container'}
                           style={{
-                            position: 'absolute',
-                            borderRadius: 'inherit',
-                            cornerShape: 'inherit',
-                            top: '0',
-                            right: '0',
-                            bottom: '0',
-                            left: '0',
+                            display: 'block',
+                            width: '100%',
+                            height: '100%',
                           }}
-                          data-framer-background-image-wrapper={'true'}
-                        >
-                          <img
-                            decoding={'async'}
-                            loading={'lazy'}
-                            src={
-                              '/vendor/framer/images/9YTqFHuM8NChDkE1s1hYzrNN348.png?width=160&height=160'
-                            }
-                            alt={''}
-                            style={{
-                              display: 'block',
-                              width: '100%',
-                              height: '100%',
-                              borderRadius: 'inherit',
-                              cornerShape: 'inherit',
-                              objectPosition: 'center',
-                              objectFit: 'cover',
-                            }}
-                            draggable={'false'}
-                          />
-                        </div>
+                        />
                       </div>
                     </div>
                   </div>
@@ -9012,37 +8896,14 @@ function HomeFeature() {
                           transform: 'none',
                         }}
                       >
-                        <div
+                        <ShaderCanvas
+                          preset={'framer-16amyoj-container'}
                           style={{
-                            position: 'absolute',
-                            borderRadius: 'inherit',
-                            cornerShape: 'inherit',
-                            top: '0',
-                            right: '0',
-                            bottom: '0',
-                            left: '0',
+                            display: 'block',
+                            width: '100%',
+                            height: '100%',
                           }}
-                          data-framer-background-image-wrapper={'true'}
-                        >
-                          <img
-                            decoding={'async'}
-                            loading={'lazy'}
-                            src={
-                              '/vendor/framer/images/jgZpfC5YLyyidHutUnAZQi0GhaE.png?width=160&height=160'
-                            }
-                            alt={''}
-                            style={{
-                              display: 'block',
-                              width: '100%',
-                              height: '100%',
-                              borderRadius: 'inherit',
-                              cornerShape: 'inherit',
-                              objectPosition: 'center',
-                              objectFit: 'cover',
-                            }}
-                            draggable={'false'}
-                          />
-                        </div>
+                        />
                       </div>
                     </div>
                   </div>
@@ -9084,37 +8945,14 @@ function HomeFeature() {
                           transform: 'none',
                         }}
                       >
-                        <div
+                        <ShaderCanvas
+                          preset={'framer-cifcpl-container'}
                           style={{
-                            position: 'absolute',
-                            borderRadius: 'inherit',
-                            cornerShape: 'inherit',
-                            top: '0',
-                            right: '0',
-                            bottom: '0',
-                            left: '0',
+                            display: 'block',
+                            width: '100%',
+                            height: '100%',
                           }}
-                          data-framer-background-image-wrapper={'true'}
-                        >
-                          <img
-                            decoding={'async'}
-                            loading={'lazy'}
-                            src={
-                              '/vendor/framer/images/eR3kBTkIWJkm3IGwQ1k5UJrO2go.png?width=160&height=160'
-                            }
-                            alt={''}
-                            style={{
-                              display: 'block',
-                              width: '100%',
-                              height: '100%',
-                              borderRadius: 'inherit',
-                              cornerShape: 'inherit',
-                              objectPosition: 'center',
-                              objectFit: 'cover',
-                            }}
-                            draggable={'false'}
-                          />
-                        </div>
+                        />
                       </div>
                     </div>
                   </div>
@@ -9156,37 +8994,14 @@ function HomeFeature() {
                           transform: 'none',
                         }}
                       >
-                        <div
+                        <ShaderCanvas
+                          preset={'framer-1nu49vs-container'}
                           style={{
-                            position: 'absolute',
-                            borderRadius: 'inherit',
-                            cornerShape: 'inherit',
-                            top: '0',
-                            right: '0',
-                            bottom: '0',
-                            left: '0',
+                            display: 'block',
+                            width: '100%',
+                            height: '100%',
                           }}
-                          data-framer-background-image-wrapper={'true'}
-                        >
-                          <img
-                            decoding={'async'}
-                            loading={'lazy'}
-                            src={
-                              '/vendor/framer/images/uQI7pUHkORj7Reqfwlz5RvIiME.png?width=160&height=160'
-                            }
-                            alt={''}
-                            style={{
-                              display: 'block',
-                              width: '100%',
-                              height: '100%',
-                              borderRadius: 'inherit',
-                              cornerShape: 'inherit',
-                              objectPosition: 'center',
-                              objectFit: 'cover',
-                            }}
-                            draggable={'false'}
-                          />
-                        </div>
+                        />
                       </div>
                     </div>
                   </div>
@@ -9228,37 +9043,14 @@ function HomeFeature() {
                           transform: 'none',
                         }}
                       >
-                        <div
+                        <ShaderCanvas
+                          preset={'framer-1ypbnk5-container'}
                           style={{
-                            position: 'absolute',
-                            borderRadius: 'inherit',
-                            cornerShape: 'inherit',
-                            top: '0',
-                            right: '0',
-                            bottom: '0',
-                            left: '0',
+                            display: 'block',
+                            width: '100%',
+                            height: '100%',
                           }}
-                          data-framer-background-image-wrapper={'true'}
-                        >
-                          <img
-                            decoding={'async'}
-                            loading={'lazy'}
-                            src={
-                              '/vendor/framer/images/voeJuivo56UxnoWnMSNI8SsdfQ.png?width=160&height=160'
-                            }
-                            alt={''}
-                            style={{
-                              display: 'block',
-                              width: '100%',
-                              height: '100%',
-                              borderRadius: 'inherit',
-                              cornerShape: 'inherit',
-                              objectPosition: 'center',
-                              objectFit: 'cover',
-                            }}
-                            draggable={'false'}
-                          />
-                        </div>
+                        />
                       </div>
                     </div>
                   </div>
@@ -9319,37 +9111,14 @@ function HomeFeature() {
                             transform: 'none',
                           }}
                         >
-                          <div
+                          <ShaderCanvas
+                            preset={'framer-meh7xt-container'}
                             style={{
-                              position: 'absolute',
-                              borderRadius: 'inherit',
-                              cornerShape: 'inherit',
-                              top: '0',
-                              right: '0',
-                              bottom: '0',
-                              left: '0',
+                              display: 'block',
+                              width: '100%',
+                              height: '100%',
                             }}
-                            data-framer-background-image-wrapper={'true'}
-                          >
-                            <img
-                              decoding={'async'}
-                              loading={'lazy'}
-                              src={
-                                '/vendor/framer/images/9YTqFHuM8NChDkE1s1hYzrNN348.png?width=160&height=160'
-                              }
-                              alt={''}
-                              style={{
-                                display: 'block',
-                                width: '100%',
-                                height: '100%',
-                                borderRadius: 'inherit',
-                                cornerShape: 'inherit',
-                                objectPosition: 'center',
-                                objectFit: 'cover',
-                              }}
-                              draggable={'false'}
-                            />
-                          </div>
+                          />
                         </div>
                       </div>
                     </div>
@@ -9391,37 +9160,14 @@ function HomeFeature() {
                             transform: 'none',
                           }}
                         >
-                          <div
+                          <ShaderCanvas
+                            preset={'framer-1nu49vs-container'}
                             style={{
-                              position: 'absolute',
-                              borderRadius: 'inherit',
-                              cornerShape: 'inherit',
-                              top: '0',
-                              right: '0',
-                              bottom: '0',
-                              left: '0',
+                              display: 'block',
+                              width: '100%',
+                              height: '100%',
                             }}
-                            data-framer-background-image-wrapper={'true'}
-                          >
-                            <img
-                              decoding={'async'}
-                              loading={'lazy'}
-                              src={
-                                '/vendor/framer/images/uQI7pUHkORj7Reqfwlz5RvIiME.png?width=160&height=160'
-                              }
-                              alt={''}
-                              style={{
-                                display: 'block',
-                                width: '100%',
-                                height: '100%',
-                                borderRadius: 'inherit',
-                                cornerShape: 'inherit',
-                                objectPosition: 'center',
-                                objectFit: 'cover',
-                              }}
-                              draggable={'false'}
-                            />
-                          </div>
+                          />
                         </div>
                       </div>
                     </div>
@@ -9472,37 +9218,14 @@ function HomeFeature() {
                             transform: 'none',
                           }}
                         >
-                          <div
+                          <ShaderCanvas
+                            preset={'framer-16amyoj-container'}
                             style={{
-                              position: 'absolute',
-                              borderRadius: 'inherit',
-                              cornerShape: 'inherit',
-                              top: '0',
-                              right: '0',
-                              bottom: '0',
-                              left: '0',
+                              display: 'block',
+                              width: '100%',
+                              height: '100%',
                             }}
-                            data-framer-background-image-wrapper={'true'}
-                          >
-                            <img
-                              decoding={'async'}
-                              loading={'lazy'}
-                              src={
-                                '/vendor/framer/images/jgZpfC5YLyyidHutUnAZQi0GhaE.png?width=160&height=160'
-                              }
-                              alt={''}
-                              style={{
-                                display: 'block',
-                                width: '100%',
-                                height: '100%',
-                                borderRadius: 'inherit',
-                                cornerShape: 'inherit',
-                                objectPosition: 'center',
-                                objectFit: 'cover',
-                              }}
-                              draggable={'false'}
-                            />
-                          </div>
+                          />
                         </div>
                       </div>
                     </div>
@@ -9544,37 +9267,14 @@ function HomeFeature() {
                             transform: 'none',
                           }}
                         >
-                          <div
+                          <ShaderCanvas
+                            preset={'framer-1ypbnk5-container'}
                             style={{
-                              position: 'absolute',
-                              borderRadius: 'inherit',
-                              cornerShape: 'inherit',
-                              top: '0',
-                              right: '0',
-                              bottom: '0',
-                              left: '0',
+                              display: 'block',
+                              width: '100%',
+                              height: '100%',
                             }}
-                            data-framer-background-image-wrapper={'true'}
-                          >
-                            <img
-                              decoding={'async'}
-                              loading={'lazy'}
-                              src={
-                                '/vendor/framer/images/voeJuivo56UxnoWnMSNI8SsdfQ.png?width=160&height=160'
-                              }
-                              alt={''}
-                              style={{
-                                display: 'block',
-                                width: '100%',
-                                height: '100%',
-                                borderRadius: 'inherit',
-                                cornerShape: 'inherit',
-                                objectPosition: 'center',
-                                objectFit: 'cover',
-                              }}
-                              draggable={'false'}
-                            />
-                          </div>
+                          />
                         </div>
                       </div>
                     </div>
@@ -9628,37 +9328,14 @@ function HomeFeature() {
                             transform: 'none',
                           }}
                         >
-                          <div
+                          <ShaderCanvas
+                            preset={'framer-cifcpl-container'}
                             style={{
-                              position: 'absolute',
-                              borderRadius: 'inherit',
-                              cornerShape: 'inherit',
-                              top: '0',
-                              right: '0',
-                              bottom: '0',
-                              left: '0',
+                              display: 'block',
+                              width: '100%',
+                              height: '100%',
                             }}
-                            data-framer-background-image-wrapper={'true'}
-                          >
-                            <img
-                              decoding={'async'}
-                              loading={'lazy'}
-                              src={
-                                '/vendor/framer/images/eR3kBTkIWJkm3IGwQ1k5UJrO2go.png?width=160&height=160'
-                              }
-                              alt={''}
-                              style={{
-                                display: 'block',
-                                width: '100%',
-                                height: '100%',
-                                borderRadius: 'inherit',
-                                cornerShape: 'inherit',
-                                objectPosition: 'center',
-                                objectFit: 'cover',
-                              }}
-                              draggable={'false'}
-                            />
-                          </div>
+                          />
                         </div>
                       </div>
                     </div>

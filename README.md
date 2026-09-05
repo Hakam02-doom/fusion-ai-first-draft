@@ -25,6 +25,9 @@ Vite builds `dist/`. Vercel uses the committed build settings and SPA rewrite, s
 - `src/components/Interactions.jsx`: React navigation, mobile menu, FAQ, billing state, preview forms, prompt demo, reveals, tickers, testimonial carousel, and dismissible promotion.
 - `src/components/SiteChrome.jsx`: shared footer and closing call to action.
 - `src/App.jsx`: lazy page routing, browser history, page titles, error recovery, and anchor navigation.
+- `src/components/ReferenceMotion.jsx`: local hero video, original liquid/logo shaders, offscreen loop control, and scroll transforms.
+- `src/shaders/`: reference GLSL with the original colors and effect parameters.
+- `scripts/build-heightmaps.mjs`: builds the five logo height textures from their original masks.
 - `src/data/`: route metadata and FAQ content.
 - `src/styles/reference.css`: original responsive design rules, kept for visual fidelity.
 - `src/styles/interactions.css`: styles for the maintained React controls and motion.
@@ -39,3 +42,7 @@ The app renders JSX through React `createRoot`; it does not serve HTML snapshots
 ## Scope
 
 All 18 routes, including seven articles, are included. Shared interactions are implemented in React/CSS/Web Animations with reduced-motion support. Contact, waitlist, and AI prompt controls are preview-only and explicitly say that no submission or AI action was performed. No authentication, payments, email delivery, or AI backend is connected. Reference copy and external promotional links remain as supplied. The preview is excluded from search indexing.
+
+## Motion fidelity pass — 2026-09-05
+
+Restored the autoplaying hero film, responsive prompt compositions, animated liquid border, five logo shaders, conic badge lights, revolving card borders, globe rotations, fixed navigation, button label rollovers, the clipped “Powered” heading, and the five-message dashboard conversation (1s/4s/3s/3s progression). These run through React, WebGL2, CSS, and Web Animations; no captured Framer runtime is loaded. The original fragment shaders and numeric presets are retained, with precomputed logo height fields. Expensive loops pause outside the viewport; reduced motion retains readable still imagery. Scroll interpolation remains a React implementation of the original target transforms.

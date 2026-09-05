@@ -108,7 +108,7 @@ The outlined “View Pricing” link uses the frontmatter button token and a sol
 
 Navigation combines the captured brand, Inter links, and CTA. Resting navigation link text has 0.7 opacity. Its solid 1px border is `rgba(255, 255, 255, 0.1)`. Preserve its existing responsive variant and menu behavior.
 
-The small “Get Started” CTA retains its captured layered gradient, blurred glow, black inset fill, and duplicate-text treatment. The sidecar includes only simple source-grounded specimens; it documents the reference appearance. Shared controls now have React state, keyboard focus styles, and reduced-motion support; their motion timings are approximations of the published behavior.
+The small “Get Started” CTA retains its captured layered gradient, blurred glow, black inset fill, and duplicate-text treatment. The sidecar includes only simple source-grounded specimens; it documents the reference appearance. Shared controls now have React state, keyboard focus styles, and reduced-motion support; hero video, shader parameters, rotation periods, and feature entrance timings now follow the published source. Scroll interpolation and carousel transitions are maintained React implementations.
 
 ## Do's and Don'ts
 

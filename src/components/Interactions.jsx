@@ -8,7 +8,10 @@ import {
   useRef,
   useState,
 } from 'react';
-import { ArrowUp, ChevronDown, Globe, Menu, Plus, X } from 'lucide-react';
+import { Menu, Plus, X } from 'lucide-react';
+import NavButton from './NavButton.jsx';
+import PromptShell from './PromptShell.jsx';
+import appearEffects from '../data/appear.json';
 import questions from '../data/faq.json';
 
 const links = [
@@ -65,9 +68,7 @@ export function Navigation() {
             {label}
           </a>
         ))}
-        <a className="nav-cta" href="/contact" onClick={() => setOpen(false)}>
-          Get Started <span aria-hidden="true">↗</span>
-        </a>
+        <NavButton />
       </div>
     </nav>
   );
@@ -170,9 +171,10 @@ export function PreviewForm({
 }
 
 const prompts = [
-  'Create CRM contact from email',
-  'Generate weekly performance report',
-  'Summarize customer feedback',
+  'Generate weekly sales summary report',
+  'Create CRM contact from emails',
+  'Schedule meetings and send invites automatically',
+  'Schedule meetings and send invites automatically',
 ];
 export function PromptDemo({ className = '', style, ...props }) {
   const [value, setValue] = useState('');
@@ -188,61 +190,41 @@ export function PromptDemo({ className = '', style, ...props }) {
       const text = prompts[index];
       length += deleting ? -1 : 1;
       setPlaceholder(text.slice(0, length));
-      let delay = deleting ? 25 : 70;
+      let delay = deleting ? 20 : 100;
       if (length === text.length) {
         deleting = true;
-        delay = 2200;
+        delay = 1800;
       }
       if (length === 0 && deleting) {
         deleting = false;
         index = (index + 1) % prompts.length;
-        delay = 350;
+        delay = 100;
       }
       timer = setTimeout(tick, delay);
     }
-    timer = setTimeout(tick, 2000);
+    timer = setTimeout(tick, 100);
     return () => clearTimeout(timer);
   }, []);
   return (
-    <div {...props} className={`${className} prompt-demo`} style={style}>
-      <div className="prompt-model">
-        <span>
-          GPT 5.5 <ChevronDown size={12} />
-        </span>
-        <Globe size={16} />
-      </div>
-      <form
-        onSubmit={(event) => {
-          event.preventDefault();
-          setNotice(true);
+    <>
+      <PromptShell
+        {...props}
+        className={className}
+        style={style}
+        value={value}
+        placeholder={placeholder}
+        onChange={(event) => {
+          setValue(event.target.value);
+          setNotice(false);
         }}
-      >
-        <input
-          aria-label="AI prompt demo"
-          value={value}
-          onChange={(event) => {
-            setValue(event.target.value);
-            setNotice(false);
-          }}
-          placeholder={placeholder}
-        />
-        <div className="prompt-bottom">
-          <div className="prompt-chips">
-            <span>Chat</span>
-            <span>Launch Workflow</span>
-            <span>Data Analysis</span>
-          </div>
-          <button type="submit" aria-label="Send demo prompt">
-            <ArrowUp size={16} />
-          </button>
-        </div>
-      </form>
+        onSend={() => setNotice(true)}
+      />
       {notice && (
         <output className="prompt-notice">
           Preview only — connect an AI service to run this workflow.
         </output>
       )}
-    </div>
+    </>
   );
 }
 
@@ -251,23 +233,39 @@ export function Reveal({ as: Tag = 'div', children, ...props }) {
   useEffect(() => {
     const node = ref.current;
     if (!node || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const reference = Object.entries(appearEffects).find(([name]) =>
+      node.classList.contains(name),
+    )?.[1];
+    const transition = reference?.transition;
+    let animation;
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries.some((entry) => entry.isIntersecting)) {
-          node.animate(
+          animation = node.animate(
             [
-              { opacity: 0, translate: '0 20px' },
+              {
+                opacity: reference?.enter.opacity ?? 0,
+                translate: `0 ${reference?.enter.y ?? 50}px`,
+              },
               { opacity: 1, translate: '0 0' },
             ],
-            { duration: 700, easing: 'cubic-bezier(.22,1,.36,1)' },
+            {
+              duration: (transition?.duration ?? 0.6) * 1000,
+              delay: (transition?.delay ?? 0) * 1000,
+              easing: `cubic-bezier(${(transition?.ease ?? [0.12, 0.23, 0.5, 1]).join(',')})`,
+              fill: 'backwards',
+            },
           );
           observer.disconnect();
         }
       },
-      { threshold: 0.08 },
+      { threshold: reference?.threshold ?? 0.2 },
     );
     observer.observe(node);
-    return () => observer.disconnect();
+    return () => {
+      observer.disconnect();
+      animation?.cancel();
+    };
   }, []);
   return (
     <Tag {...props} ref={ref}>
@@ -277,6 +275,38 @@ export function Reveal({ as: Tag = 'div', children, ...props }) {
 }
 
 export function Ticker({ children, style, ...props }) {
+  const ref = useRef(null);
+  useEffect(() => {
+    const node = ref.current;
+    function measure() {
+      const gap = parseFloat(getComputedStyle(node).columnGap) || 0;
+      const distance = (node.scrollWidth + gap) / 2;
+      node.style.setProperty('--ticker-distance', `${-distance}px`);
+      node.style.setProperty('--ticker-duration', `${distance / 50}s`);
+    }
+    const observer = new IntersectionObserver((entries) => {
+      node.dataset.motionVisible = String(
+        entries.some((entry) => entry.isIntersecting) && !document.hidden,
+      );
+    });
+    const resize = new ResizeObserver(measure);
+    observer.observe(node);
+    resize.observe(node);
+    measure();
+    function visibility() {
+      node.dataset.motionVisible = String(
+        !document.hidden &&
+          node.getBoundingClientRect().bottom > 0 &&
+          node.getBoundingClientRect().top < innerHeight,
+      );
+    }
+    document.addEventListener('visibilitychange', visibility);
+    return () => {
+      observer.disconnect();
+      resize.disconnect();
+      document.removeEventListener('visibilitychange', visibility);
+    };
+  }, []);
   const items = Children.toArray(children).filter(
     (child) => typeof child === 'object',
   );
@@ -284,10 +314,13 @@ export function Ticker({ children, style, ...props }) {
     <ul
       {...props}
       className="react-ticker"
+      ref={ref}
       style={{
         ...style,
         width: 'max-content',
         maxWidth: 'none',
+        left: 0,
+        animationDirection: parseFloat(style?.left) < 0 ? 'reverse' : 'normal',
         transform: undefined,
       }}
     >
