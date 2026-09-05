@@ -57,7 +57,11 @@ def page(path):
 
 def asset(url):
     body, content_type = request(url)
-    path = ROOT / 'public' / local_url(url).lstrip('/')
+    local = local_url(url).lstrip('/')
+    if local.startswith('vendor/framer/sites/') or local.startswith('vendor/framer/modules/'):
+        path = ROOT / 'reference/runtime' / local.removeprefix('vendor/framer/')
+    else:
+        path = ROOT / 'public' / local
     path.parent.mkdir(parents=True, exist_ok=True)
     extra = set()
     if path.suffix in ('.mjs', '.js', '.css'):

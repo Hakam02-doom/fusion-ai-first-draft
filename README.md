@@ -1,44 +1,41 @@
-# Fusion AI — first draft
+# Fusion AI — React site
 
-A runnable fidelity-first capture of the user-specified reference:
-https://fusionai.framer.website/
+An editable React 19 + Vite implementation of https://fusionai.framer.website/, preserving its layouts, local fonts, artwork, and responsive styles.
 
-## Run
+## Run locally
 
 ```sh
-npm install
+npm ci
 npm run dev
 ```
 
+## Build and deploy
+
 ```sh
+npm run lint
 npm run build
 npm start
 ```
 
-## Vercel
+Vite builds `dist/`. Vercel uses the committed build settings and SPA rewrite, so direct links to every page and article work. GitHub: https://github.com/Hakam02-doom/fusion-ai-first-draft. Live: https://fusion-ai-first-draft.vercel.app.
 
-The Vercel deployment serves the same captured frontend as static files, including
-the local animation runtime. It does not require a Cloudflare Worker or package
-installation. `vercel.json` selects the static build and clean page URLs.
+## Edit the site
 
-```sh
-npm run build:vercel
-```
+- `src/pages/`: 18 editable JSX page components, organized into named page sections.
+- `src/components/Interactions.jsx`: React navigation, mobile menu, FAQ, billing state, preview forms, prompt demo, reveals, tickers, testimonial carousel, and dismissible promotion.
+- `src/components/SiteChrome.jsx`: shared footer and closing call to action.
+- `src/App.jsx`: lazy page routing, browser history, page titles, error recovery, and anchor navigation.
+- `src/data/`: route metadata and FAQ content.
+- `src/styles/reference.css`: original responsive design rules, kept for visual fidelity.
+- `src/styles/interactions.css`: styles for the maintained React controls and motion.
+- `public/vendor/`: local images and fonts.
 
-Output: `dist-vercel/`. Import the GitHub repository into Vercel; the committed
-configuration supplies the build settings. Contact and waitlist submissions stay
-preview-only. The deployment is excluded from search indexing.
+The app renders JSX through React `createRoot`; it does not serve HTML snapshots, use `dangerouslySetInnerHTML`, or load the captured Framer runtime or CMS. Existing CSS class names are retained to preserve the supplied design.
 
-## Implementation
+## Reference archive
 
-- Vinext/Vite project with the Sites and shadcn scaffold retained.
-- `app/[[...path]]/route.ts` serves each full document without layout wrappers.
-- `reference/pages/` contains the published HTML and exact responsive styles.
-- `public/vendor/` contains local images, webfonts, and compiled Framer/React/Motion components. Their relative imports remain intact.
-- `reference/manifest.json` records asset sources and SHA-256 hashes.
-- `scripts/capture-reference.py` refreshes the capture from the supplied site.
-- `public/draft-forms.js` keeps preview forms from submitting to the original site's service.
+`reference/pages/` and `reference/runtime/` retain the original capture as migration evidence, outside the published assets. `reference/manifest.json` records its original asset URL mapping and checksums; captured `/vendor/framer/sites/` and `/vendor/framer/modules/` files are now archived in `reference/runtime/`. `scripts/capture-reference.py` refreshes the reference archive. `scripts/migrate-to-react.mjs` is the one-time HTML-to-JSX migration utility; it is not part of the build. Re-running it overwrites page components, so retain manual edits first.
 
-The draft preserves the published frontend, including navigation, visual component variants, scroll reveals, hover effects, tickers, prompt animation, FAQ, and mobile layouts. It is **not** a hand-authored component rebuild or an editable Framer project. The captured component code is compiled; future structural changes should progressively replace it with maintained components.
+## Scope
 
-The original site's external links remain external. No AI service, account system, email delivery, or payment backend is included. Source-site promotional badges and factual copy are retained to match the reference. The original analytics script is omitted, and this review copy is marked noindex.
+All 18 routes, including seven articles, are included. Shared interactions are implemented in React/CSS/Web Animations with reduced-motion support. Contact, waitlist, and AI prompt controls are preview-only and explicitly say that no submission or AI action was performed. No authentication, payments, email delivery, or AI backend is connected. Reference copy and external promotional links remain as supplied. The preview is excluded from search indexing.

@@ -68,13 +68,13 @@ components:
 
 The binding visual authority is https://fusionai.framer.website/, captured on 2026-09-05. Preserve its typography, colors, assets, responsive composition, and animations. The black canvas, white copy, orange and blue glow assets, and fine translucent borders describe the captured appearance; they do not establish a new brand direction.
 
-This document records the first viewport and a small set of its shared primitives. The complete compiled frontend capture is the intentional first-draft implementation. `reference/pages/index.html` and the locally captured modules and assets govern the rendered result; unused scaffold CSS and shadcn components are not visual authority.
+This document records the first viewport and a small set of its shared primitives. The implementation now uses editable React JSX in `src/pages/`, shared React controls, and the preserved responsive CSS in `src/styles/reference.css`. `reference/pages/index.html` and local assets remain the visual reference; archived runtime modules are not shipped.
 
 **Key Characteristics:**
 - Black and near-black surfaces with white typography.
 - General Sans display and brand text paired with Inter body and control text.
 - Colored glow layers and fine translucent borders.
-- Published responsive variants and compiled motion preserved.
+- Published responsive variants retained; shared motion rebuilt with CSS and Web Animations.
 
 ## Colors
 
@@ -104,17 +104,17 @@ Navigation and the outlined pricing button have gently rounded corners. The smal
 
 ## Components
 
-The outlined “View Pricing” link uses the frontmatter button token and a solid 1px border in `rgba(255, 255, 255, 0.2)`. Its text container clips to a single line while the compiled component controls the duplicate-text hover variant.
+The outlined “View Pricing” link uses the frontmatter button token and a solid 1px border in `rgba(255, 255, 255, 0.2)`. Its text container clips to a single line with a CSS hover treatment in the React implementation.
 
 Navigation combines the captured brand, Inter links, and CTA. Resting navigation link text has 0.7 opacity. Its solid 1px border is `rgba(255, 255, 255, 0.1)`. Preserve its existing responsive variant and menu behavior.
 
-The small “Get Started” CTA retains its captured layered gradient, blurred glow, black inset fill, and duplicate-text treatment. The sidecar includes only simple source-grounded specimens; it does not replace the compiled component or claim to reproduce its runtime motion. Motion timings and focus treatments were not independently extracted in this pass.
+The small “Get Started” CTA retains its captured layered gradient, blurred glow, black inset fill, and duplicate-text treatment. The sidecar includes only simple source-grounded specimens; it documents the reference appearance. Shared controls now have React state, keyboard focus styles, and reduced-motion support; their motion timings are approximations of the published behavior.
 
 ## Do's and Don'ts
 
 ### Do:
 - Do treat the supplied reference and captured frontend as the visual authority.
-- Do preserve the local fonts, original assets, responsive variants, and compiled interactions.
+- Do preserve the local fonts, original assets, responsive variants, and React interactions.
 - Do verify future visual edits against the reference at the affected viewport sizes.
 
 ### Don't:
