@@ -262,7 +262,6 @@ button {
 .react-ticker > li {
   flex-shrink: 0;
 }
-.react-ticker:hover,
 .react-ticker:focus-within {
   animation-play-state: paused;
 }
@@ -606,9 +605,4 @@ button {
 /* Diffuse indexed-image grain in decorative backdrops, keeping artwork crisp. */
 img[data-gradient-surface] {
   filter: blur(2px);
-}
-
-/* The original integration rows continue at full speed while hovered. */
-.framer-1hpr5xf .react-ticker[data-motion-visible='true']:hover {
-  animation-play-state: running;
 }

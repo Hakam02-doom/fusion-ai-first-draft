@@ -230,7 +230,7 @@ export function PromptDemo({ className = '', style, ...props }) {
   );
 }
 
-export function Ticker({ children, style, direction, ...props }) {
+export function Ticker({ children, style, direction, speed = 50, ...props }) {
   const ref = useRef(null);
   useEffect(() => {
     const node = ref.current;
@@ -238,7 +238,7 @@ export function Ticker({ children, style, direction, ...props }) {
       const gap = parseFloat(getComputedStyle(node).columnGap) || 0;
       const distance = (node.scrollWidth + gap) / 2;
       node.style.setProperty('--ticker-distance', `${-distance}px`);
-      node.style.setProperty('--ticker-duration', `${distance / 50}s`);
+      node.style.setProperty('--ticker-duration', `${distance / speed}s`);
     }
     const observer = new IntersectionObserver((entries) => {
       node.dataset.motionVisible = String(
@@ -262,7 +262,7 @@ export function Ticker({ children, style, direction, ...props }) {
       resize.disconnect();
       document.removeEventListener('visibilitychange', visibility);
     };
-  }, []);
+  }, [speed]);
   const items = Children.toArray(children).filter(
     (child) => typeof child === 'object',
   );
@@ -271,6 +271,7 @@ export function Ticker({ children, style, direction, ...props }) {
       {...props}
       className="react-ticker"
       data-direction={direction}
+      data-speed={speed}
       ref={ref}
       style={{
         ...style,
@@ -314,15 +315,13 @@ export function Slideshow({ children }) {
     );
     return () => clearInterval(timer);
   }, [paused, slides.length]);
-  // Pointer and focus listeners pause automatic motion; navigation is handled by the buttons.
+  // Keyboard focus pauses for reading; pointer hover keeps autoplay running.
   return (
     // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
     <section
       className="react-slideshow"
       aria-label="Customer testimonials"
       aria-roledescription="carousel"
-      onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => setPaused(false)}
       onFocus={() => setPaused(true)}
       onBlur={() => setPaused(false)}
     >

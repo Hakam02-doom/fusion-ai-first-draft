@@ -13041,6 +13041,7 @@ function HomeIntegrations() {
                 >
                   <Ticker
                     direction="right"
+                    speed={50}
                     style={{
                       display: 'flex',
                       width: '100%',
@@ -13511,6 +13512,7 @@ function HomeIntegrations() {
                 >
                   <Ticker
                     direction="right"
+                    speed={50}
                     style={{
                       display: 'flex',
                       width: '100%',
@@ -13981,6 +13983,7 @@ function HomeIntegrations() {
                 >
                   <Ticker
                     direction="right"
+                    speed={50}
                     style={{
                       display: 'flex',
                       width: '100%',
@@ -14463,6 +14466,7 @@ function HomeIntegrations() {
                 >
                   <Ticker
                     direction="left"
+                    speed={50}
                     style={{
                       display: 'flex',
                       width: '100%',
@@ -14862,6 +14866,7 @@ function HomeIntegrations() {
                 >
                   <Ticker
                     direction="left"
+                    speed={50}
                     style={{
                       display: 'flex',
                       width: '100%',
@@ -15261,6 +15266,7 @@ function HomeIntegrations() {
                 >
                   <Ticker
                     direction="left"
+                    speed={50}
                     style={{
                       display: 'flex',
                       width: '100%',
@@ -16110,6 +16116,8 @@ function HomeHowItWorks() {
                       }}
                     >
                       <Ticker
+                        direction="right"
+                        speed={25}
                         style={{
                           display: 'flex',
                           width: '100%',
@@ -16579,6 +16587,8 @@ function HomeHowItWorks() {
                       }}
                     >
                       <Ticker
+                        direction="left"
+                        speed={50}
                         style={{
                           display: 'flex',
                           width: '100%',
@@ -17067,6 +17077,8 @@ function HomeHowItWorks() {
                       }}
                     >
                       <Ticker
+                        direction="right"
+                        speed={25}
                         style={{
                           display: 'flex',
                           width: '100%',
@@ -17536,6 +17548,8 @@ function HomeHowItWorks() {
                       }}
                     >
                       <Ticker
+                        direction="left"
+                        speed={50}
                         style={{
                           display: 'flex',
                           width: '100%',

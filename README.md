@@ -70,3 +70,8 @@ The integration globe now composes centering before rotation, preserving its cen
 Seven decorative images use the original CDN’s browser-optimized AVIF renditions, saved locally by `scripts/fetch-gradient-assets.mjs` with source URLs and checksums in `src/data/gradient-assets.json`. Full-section backdrops receive a 2px diffusion filter to remove visible palette grain; globe edges and foreground artwork remain crisp. These replacements apply across all pages, and inaccurate source-set width descriptors have been removed for these files. The template advertisement and Framer badge are omitted during migration and absent from every rendered route.
 
 Verified the section and backdrop on desktop and mobile, including zero globe-center drift, no horizontal overflow, and removal of the floating promotion. Production build and lint pass.
+
+
+## Carousel hover behavior — 2026-09-06
+
+All tickers and testimonial slideshows continue autoplay on pointer hover. Keyboard-focus and reduced-motion behavior remain available. The “2. Connect your apps” preview uses the reference’s independent row settings: right at 25px/s above, left at 50px/s below, on desktop and mobile. Verified a ticker’s position changing and a slideshow advancing with `:hover` still active; lint and production build pass.

@@ -354,11 +354,14 @@ function render(node, allowSection = true, shared = false) {
     let ancestor = node.parentNode;
     while (ancestor) {
       const parentClass = attr(ancestor, 'class') ?? '';
-      if (
-        parentClass === 'framer-a2vsaq-container' ||
-        parentClass === 'framer-lwl52w-container'
-      ) {
-        extra = ` direction="${parentClass === 'framer-a2vsaq-container' ? 'right' : 'left'}"`;
+      const tickerMotion = {
+        'framer-a2vsaq-container': ['right', 50],
+        'framer-lwl52w-container': ['left', 50],
+        'framer-ybw94b-container': ['right', 25],
+        'framer-1vhtvmc-container': ['left', 50],
+      }[parentClass];
+      if (tickerMotion) {
+        extra = ` direction="${tickerMotion[0]}" speed={${tickerMotion[1]}}`;
         break;
       }
       ancestor = ancestor.parentNode;
