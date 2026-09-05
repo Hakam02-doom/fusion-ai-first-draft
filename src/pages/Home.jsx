@@ -6547,7 +6547,7 @@ function HomeHero() {
                     }
                     data-framer-name={'Primary'}
                     data-highlight={'true'}
-                    href={'/contact'}
+                    href={'/dashboard'}
                     tabIndex={'0'}
                     style={{
                       borderBottomLeftRadius: '12px',
@@ -6652,7 +6652,7 @@ function HomeHero() {
                     }
                     data-framer-name={'Primary'}
                     data-highlight={'true'}
-                    href={'/contact'}
+                    href={'/dashboard'}
                     tabIndex={'0'}
                     style={{
                       width: '100%',

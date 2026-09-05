@@ -12,7 +12,8 @@
     "build:vercel": "vite build",
     "start": "vite preview --host 0.0.0.0",
     "lint": "oxlint src vite.config.ts scripts/migrate-to-react.mjs",
-    "format": "oxfmt"
+    "format": "oxfmt",
+    "test:builder": "node --test scripts/test-builder.mjs"
   },
   "dependencies": {
     "@base-ui/react": "1.7.0",

@@ -2,109 +2,127 @@
   {
     "path": "/",
     "component": "Home",
-    "title": "Fluence — AI Workspace for Modern Teams",
+    "title": "Fluence \u2014 AI Workspace for Modern Teams",
     "description": "Automate workflows, surface insights, and ship faster with Fluence, the AI workspace built for modern teams."
   },
   {
     "path": "/404",
     "component": "NotFound",
-    "title": "Page Not Found — Fluence",
-    "description": "Sorry, the page you’re looking for doesn’t exist or has moved."
+    "title": "Page Not Found \u2014 Fluence",
+    "description": "Sorry, the page you\u2019re looking for doesn\u2019t exist or has moved."
   },
   {
     "path": "/about-us",
     "component": "About",
-    "title": "About Us — Fluence",
+    "title": "About Us \u2014 Fluence",
     "description": "Meet the team behind Fluence and learn about our mission to make AI useful for every team."
   },
   {
     "path": "/blog/building-long-lasting-customer-in-saas",
     "component": "BlogBuildingLongLastingCustomerInSaas",
-    "title": "Building Long-Lasting Customer in SaaS — Fluence",
-    "description": "Tailor your site’s design to meet your financial targets. Easily adjust layouts, colors, and fonts to match your brand without extra cost."
+    "title": "Building Long-Lasting Customer in SaaS \u2014 Fluence",
+    "description": "Tailor your site\u2019s design to meet your financial targets. Easily adjust layouts, colors, and fonts to match your brand without extra cost."
   },
   {
     "path": "/blog/efficient-strategies-for-scaling-your-saas-business",
     "component": "BlogEfficientStrategiesForScalingYourSaasBusiness",
-    "title": "Efficient Strategies for Scaling Your SaaS Business — Fluence",
-    "description": "Tailor your site’s design to meet your financial targets. Easily adjust layouts, colors, and fonts to match your brand without extra cost."
+    "title": "Efficient Strategies for Scaling Your SaaS Business \u2014 Fluence",
+    "description": "Tailor your site\u2019s design to meet your financial targets. Easily adjust layouts, colors, and fonts to match your brand without extra cost."
   },
   {
     "path": "/blog/essential-financial-metrics-for-sustainable-saas-success",
     "component": "BlogEssentialFinancialMetricsForSustainableSaasSuccess",
-    "title": "Essential Financial Metrics for Sustainable SaaS Success — Fluence",
-    "description": "Tailor your site’s design to meet your financial targets. Easily adjust layouts, colors, and fonts to match your brand without extra cost."
+    "title": "Essential Financial Metrics for Sustainable SaaS Success \u2014 Fluence",
+    "description": "Tailor your site\u2019s design to meet your financial targets. Easily adjust layouts, colors, and fonts to match your brand without extra cost."
   },
   {
     "path": "/blog/integrating-payment-gateways-for-seamless-transactions",
     "component": "BlogIntegratingPaymentGatewaysForSeamlessTransactions",
-    "title": "Integrating Payment Gateways for Seamless Transactions — Fluence",
-    "description": "Tailor your site’s design to meet your financial targets. Easily adjust layouts, colors, and fonts to match your brand without extra cost."
+    "title": "Integrating Payment Gateways for Seamless Transactions \u2014 Fluence",
+    "description": "Tailor your site\u2019s design to meet your financial targets. Easily adjust layouts, colors, and fonts to match your brand without extra cost."
   },
   {
     "path": "/blog/maximizing-your-roi-with-effective-saas-solutions",
     "component": "BlogMaximizingYourRoiWithEffectiveSaasSolutions",
-    "title": "Maximizing Your ROI with Effective SaaS Solutions — Fluence",
-    "description": "Tailor your site’s design to meet your financial targets. Easily adjust layouts, colors, and fonts to match your brand without extra cost."
+    "title": "Maximizing Your ROI with Effective SaaS Solutions \u2014 Fluence",
+    "description": "Tailor your site\u2019s design to meet your financial targets. Easily adjust layouts, colors, and fonts to match your brand without extra cost."
   },
   {
     "path": "/blog/site-optimization-techniques-to-boost-conversions",
     "component": "BlogSiteOptimizationTechniquesToBoostConversions",
-    "title": "Site Optimization Techniques to Boost Conversions — Fluence",
-    "description": "Tailor your site’s design to meet your financial targets. Easily adjust layouts, colors, and fonts to match your brand without extra cost."
+    "title": "Site Optimization Techniques to Boost Conversions \u2014 Fluence",
+    "description": "Tailor your site\u2019s design to meet your financial targets. Easily adjust layouts, colors, and fonts to match your brand without extra cost."
   },
   {
     "path": "/blog/why-data-security-is-vital-for-every-saas-platform",
     "component": "BlogWhyDataSecurityIsVitalForEverySaasPlatform",
-    "title": "Why Data Security is Vital for Every SaaS Platform — Fluence",
-    "description": "Tailor your site’s design to meet your financial targets. Easily adjust layouts, colors, and fonts to match your brand without extra cost."
+    "title": "Why Data Security is Vital for Every SaaS Platform \u2014 Fluence",
+    "description": "Tailor your site\u2019s design to meet your financial targets. Easily adjust layouts, colors, and fonts to match your brand without extra cost."
   },
   {
     "path": "/blog",
     "component": "Blog",
-    "title": "Blog — Fluence",
+    "title": "Blog \u2014 Fluence",
     "description": "Insights, product updates, and guides on AI, automation, and productivity from the Fluence team."
   },
   {
     "path": "/changelog",
     "component": "Changelog",
-    "title": "Changelog — Fluence",
+    "title": "Changelog \u2014 Fluence",
     "description": "See the latest features, improvements, and fixes shipped across the Fluence platform."
   },
   {
     "path": "/contact",
     "component": "Contact",
-    "title": "Contact — Fluence",
+    "title": "Contact \u2014 Fluence",
     "description": "Get in touch with the Fluence team for sales, support, or partnership enquiries."
   },
   {
     "path": "/integrations",
     "component": "Integrations",
-    "title": "Integrations — Fluence",
+    "title": "Integrations \u2014 Fluence",
     "description": "Connect Fluence with the tools you already use and bring your whole workflow together."
   },
   {
     "path": "/pricing",
     "component": "Pricing",
-    "title": "Pricing — Fluence",
+    "title": "Pricing \u2014 Fluence",
     "description": "Simple, transparent pricing for teams of every size. Find the Fluence plan that fits you."
   },
   {
     "path": "/privacy-policy",
     "component": "Privacy",
-    "title": "Privacy Policy — Fluence",
+    "title": "Privacy Policy \u2014 Fluence",
     "description": "Learn how Fluence collects, uses, and protects your personal data."
   },
   {
     "path": "/terms-conditions",
     "component": "Terms",
-    "title": "Terms & Conditions — Fluence",
+    "title": "Terms & Conditions \u2014 Fluence",
     "description": "Read the terms and conditions for using Fluence products and services."
   },
   {
     "path": "/waitlist",
     "component": "Waitlist",
-    "title": "Join the Waitlist — Fluence",
+    "title": "Join the Waitlist \u2014 Fluence",
     "description": "Be the first to try Fluence. Join the waitlist for early access and product updates."
+  },
+  {
+    "path": "/dashboard",
+    "component": "Dashboard",
+    "title": "Your websites \u2014 Fusion AI",
+    "description": "Create and manage your websites with Fusion AI."
+  },
+  {
+    "path": "/workspace",
+    "component": "Workspace",
+    "title": "Website builder \u2014 Fusion AI",
+    "description": "Build and refine your website in a conversation."
+  },
+  {
+    "path": "/site",
+    "component": "Site",
+    "title": "Website preview \u2014 Fusion AI",
+    "description": "Preview your website design."
   }
 ]

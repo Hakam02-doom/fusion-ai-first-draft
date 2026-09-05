@@ -84,3 +84,14 @@ Internal navigation preloads route modules and responsive hero images on pointer
 Visible orange/blue backdrops interpolate from the outgoing page’s measured geometry to the destination’s original placement, using the archived global transition’s 500ms duration and cubic-bezier(.27, 0, .51, 1) easing. This runs on the live image behind the content, allowing original heading entrances to continue independently. Interrupted transitions resume from the currently displayed position. Home and other transitions without a shared visible backdrop use a 180ms native crossfade with a steady navigation bar when supported. Reduced motion uses an immediate prepared page change.
 
 Verified desktop and mobile navigation, backdrop arrival positions, no loading fallback during navigation, Back/Forward, closed mobile menus, and no browser console errors. Lint and production build pass. The transition implementation is maintained React/Web Animations code, not the captured Framer runtime.
+
+
+## Website builder — 2026-09-06
+
+The approved dashboard and chat/preview mockups are implemented as editable React screens at `/dashboard` and `/workspace?project=lumina`. The marketing page’s Get Started actions lead into the dashboard. `/site?project=lumina` opens a full preview.
+
+The dashboard supports project search, draft/published filters, grid/list views, template starts, rename, duplicate, and delete. The editor includes a conversation panel, supported local preview edits, appearance controls, responsive device widths, page views, undo/redo, and version history. Projects and conversation state save in localStorage. The original local General Sans/Inter files and orb asset are reused; thumbnail and architecture artwork comes from the approved design comps, with embedded provenance.
+
+This is a frontend demo. General AI generation, image analysis, accounts, cross-device synchronization, and public project publishing are not connected. The UI discloses these limits. The Publish dialog offers preview and HTML export; exported artwork depends on the app’s hosted assets. Sample project names/statuses and initial conversation are illustrative.
+
+Validation: `npm run lint`, `npm run test:builder`, and `npm run build`. Browser checks cover responsive layouts, project search/status filters, conversation-to-preview heading changes, undo, history persistence, and device preview sizing.

@@ -7,7 +7,7 @@ export default function NavButton() {
       }
       data-framer-name={'Small'}
       data-highlight={'true'}
-      href={'/contact'}
+      href={'/dashboard'}
       tabIndex={'0'}
       style={{
         borderBottomLeftRadius: '8px',

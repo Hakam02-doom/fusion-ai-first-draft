@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-09-05T17:44:32.196660+00:00",
+  "generatedAt": "2026-09-05T19:54:35.576845+00:00",
   "title": "Design System: Fusion AI reference draft",
   "extensions": {
     "colorMeta": {
@@ -31,6 +31,38 @@
       "text": {
         "role": "neutral",
         "displayName": "White text"
+      },
+      "builder-text": {
+        "role": "neutral",
+        "displayName": "Builder text"
+      },
+      "builder-border": {
+        "role": "neutral",
+        "displayName": "Builder border"
+      },
+      "builder-inset": {
+        "role": "neutral",
+        "displayName": "Builder inset"
+      },
+      "builder-focus": {
+        "role": "primary",
+        "displayName": "Builder keyboard focus"
+      },
+      "builder-input-focus": {
+        "role": "primary",
+        "displayName": "Builder input focus"
+      },
+      "preview-paper": {
+        "role": "neutral",
+        "displayName": "Sample website paper"
+      },
+      "preview-ink": {
+        "role": "neutral",
+        "displayName": "Sample website ink"
+      },
+      "preview-accent": {
+        "role": "primary",
+        "displayName": "Sample website accent"
       }
     },
     "typographyMeta": {
@@ -45,6 +77,26 @@
       "display-mobile": {
         "displayName": "Mobile hero",
         "purpose": "Captured mobile hero variant; observed at 390px viewport width."
+      },
+      "builder-heading": {
+        "displayName": "Builder Heading",
+        "purpose": "Dashboard heading; responsive sizes remain scoped to builder CSS."
+      },
+      "builder-body": {
+        "displayName": "Builder Body",
+        "purpose": "Application body and controls."
+      },
+      "builder-chat": {
+        "displayName": "Builder Chat",
+        "purpose": "Desktop conversation messages."
+      },
+      "preview-heading": {
+        "displayName": "Preview Heading",
+        "purpose": "Lumina sample website headline; independent of Fusion AI chrome."
+      },
+      "preview-body": {
+        "displayName": "Preview Body",
+        "purpose": "Sample website serif body."
       }
     },
     "breakpoints": [
@@ -59,6 +111,70 @@
       {
         "name": "mobile-layout",
         "value": "(max-width: 809.98px)"
+      },
+      {
+        "name": "builder-wide",
+        "value": "(min-width: 1750px)"
+      },
+      {
+        "name": "builder-compact",
+        "value": "(max-width: 1250px)"
+      },
+      {
+        "name": "builder-narrow",
+        "value": "(max-width: 900px)"
+      },
+      {
+        "name": "builder-mobile",
+        "value": "(max-width: 700px)"
+      },
+      {
+        "name": "preview-container",
+        "value": "@container (max-width: 650px)"
+      }
+    ],
+    "shadows": [
+      {
+        "name": "builder-glow",
+        "value": "-3px 0 10px #dc4e233d, 3px 0 10px #0098f33d",
+        "purpose": "Primary action at rest."
+      },
+      {
+        "name": "builder-glow-hover",
+        "value": "-3px 0 16px #dc4e234a, 3px 0 16px #0098f34a",
+        "purpose": "Primary action hover."
+      },
+      {
+        "name": "builder-menu",
+        "value": "0 8px 30px #0008",
+        "purpose": "Project action menu."
+      },
+      {
+        "name": "builder-toast",
+        "value": "0 10px 40px #0009",
+        "purpose": "Local action feedback."
+      },
+      {
+        "name": "builder-dialog",
+        "value": "0 20px 80px #000b",
+        "purpose": "Native modal dialog; backdrop uses #000a and blur(5px)."
+      }
+    ],
+    "motion": [
+      {
+        "name": "builder-state",
+        "value": "0.2s ease",
+        "purpose": "Glow, border, and drawer transitions; disabled by reduced-motion CSS."
+      },
+      {
+        "name": "builder-working",
+        "value": "1s ease infinite",
+        "purpose": "Working ellipsis fades to 0.3 opacity at 50%; disabled by reduced-motion CSS."
+      },
+      {
+        "name": "builder-preview-width",
+        "value": "none",
+        "purpose": "Device width switches immediately."
       }
     ]
   },
@@ -77,27 +193,83 @@
       "description": "Captured single-line navigation link at rest; responsive menu and interaction remain in the frontend.",
       "html": "<a class=\"ds-nav-link\" href=\"./pricing\"><span class=\"ds-nav-text\">Pricing</span></a>",
       "css": ".ds-nav-link { display: inline-flex; align-items: center; height: 26px; padding: 0; color: var(--token-2ff9a6d4-dab7-4ef6-b4fa-9e88617ec594, #fff); font-family: \"Inter\", \"Inter Placeholder\", sans-serif; font-size: 16px; font-weight: 500; line-height: 26px; white-space: pre; overflow: hidden; text-decoration: none; cursor: pointer; user-select: none; } .ds-nav-text { opacity: 0.7; }"
+    },
+    {
+      "name": "Builder primary action",
+      "kind": "button",
+      "description": "Illuminated primary action, scoped to the builder.",
+      "html": "<button class=\"ds-builder-glow\">New website</button>",
+      "css": ".ds-builder-glow{display:inline-flex;align-items:center;justify-content:center;gap:12px;border:1px solid transparent;background:linear-gradient(#050505,#050505) padding-box,linear-gradient(115deg,#ff923e 0%,#b85319 25%,#201e27 50%,#137dbb 80%,#32c2ff 100%) border-box;border-radius:9px;padding:10px 19px;color:#fff;font:15px/1.55 Inter,sans-serif;box-shadow:-3px 0 10px #dc4e233d,3px 0 10px #0098f33d;transition:box-shadow .2s,background-color .2s;cursor:pointer}.ds-builder-glow:hover{box-shadow:-3px 0 16px #dc4e234a,3px 0 16px #0098f34a}.ds-builder-glow:focus-visible{outline:2px solid #42aaff;outline-offset:4px}.ds-builder-glow:disabled{opacity:.35;cursor:not-allowed}@media(prefers-reduced-motion:reduce){[class^=\"ds-builder-\"]{transition:none!important;animation:none!important}}",
+      "refersTo": "builder-glow"
+    },
+    {
+      "name": "Builder input",
+      "kind": "input",
+      "description": "Transparent input on dark application surfaces.",
+      "html": "<input class=\"ds-builder-input\" aria-label=\"Website name\" placeholder=\"Website name\">",
+      "css": ".ds-builder-input{background:transparent;border:1px solid #262626;border-radius:8px;padding:11px 12px;color:#f6f6f6;font:15px/1.55 Inter,sans-serif;outline:none}.ds-builder-input::placeholder{color:#aaa;opacity:1}.ds-builder-input:focus{border-color:#6586a1}.ds-builder-input:focus-visible{outline:2px solid #42aaff;outline-offset:4px}@media(prefers-reduced-motion:reduce){[class^=\"ds-builder-\"]{transition:none!important;animation:none!important}}",
+      "refersTo": "builder-input"
+    },
+    {
+      "name": "Builder project card",
+      "kind": "card",
+      "description": "Project shell; approved artwork and React metadata fill the live card.",
+      "html": "<a class=\"ds-builder-card\" href=\"/workspace?project=lumina\"><strong>Lumina Studio</strong><span>Edited 2 hours ago</span></a>",
+      "css": ".ds-builder-card{display:block;padding:18px 13px;border:1px solid #262626;border-radius:9px;background:#060606;color:#f6f6f6;text-decoration:none;font:16px/1.4 Inter,sans-serif;transition:border-color .2s}.ds-builder-card strong{font-weight:400}.ds-builder-card span{display:block;color:#b1b1b1;font-size:13px;margin-top:5px}.ds-builder-card:hover{border-color:#626262}.ds-builder-card:focus-visible{outline:2px solid #42aaff;outline-offset:4px}@media(prefers-reduced-motion:reduce){[class^=\"ds-builder-\"]{transition:none!important;animation:none!important}}",
+      "refersTo": "builder-project-card"
+    },
+    {
+      "name": "Builder navigation item",
+      "kind": "nav",
+      "description": "Sidebar selection uses a restrained dark gradient.",
+      "html": "<button class=\"ds-builder-nav\" aria-current=\"page\">Projects</button>",
+      "css": ".ds-builder-nav{display:flex;gap:14px;padding:11px 12px;border:0;border-radius:7px;background:linear-gradient(100deg,#1c1c1c,#111);color:#fff;font:15px/1.55 Inter,sans-serif;cursor:pointer}.ds-builder-nav:hover{background:#111}.ds-builder-nav:focus-visible{outline:2px solid #42aaff;outline-offset:4px}@media(prefers-reduced-motion:reduce){[class^=\"ds-builder-\"]{transition:none!important;animation:none!important}}"
+    },
+    {
+      "name": "Builder suggestion",
+      "kind": "chip",
+      "description": "Prompt suggestion controls under the dashboard composer.",
+      "html": "<button class=\"ds-builder-chip\">Portfolio</button>",
+      "css": ".ds-builder-chip{display:flex;align-items:center;gap:10px;border:1px solid #262626;border-radius:7px;padding:9px 14px;color:#c9c9c9;background:#050505;font:15px/1.55 Inter,sans-serif;cursor:pointer}.ds-builder-chip:hover{border-color:#5a5a5a}.ds-builder-chip:focus-visible{outline:2px solid #42aaff;outline-offset:4px}@media(prefers-reduced-motion:reduce){[class^=\"ds-builder-\"]{transition:none!important;animation:none!important}}"
     }
   ],
   "narrative": {
     "northStar": "The supplied Fusion AI reference",
-    "overview": "The binding visual authority is https://fusionai.framer.website/, captured on 2026-09-05. Preserve its typography, colors, assets, responsive composition, and animations. The black canvas, white copy, orange and blue glow assets, and fine translucent borders describe the captured appearance; they do not establish a new brand direction.\n\nThis document records the first viewport and a small set of its shared primitives. The complete compiled frontend capture is the intentional first-draft implementation. `reference/pages/index.html` and the locally captured modules and assets govern the rendered result; unused scaffold CSS and shadcn components are not visual authority.",
+    "overview": "The binding visual authority is https://fusionai.framer.website/, captured on 2026-09-05. Preserve its typography, colors, assets, responsive composition, and animations. The black canvas, white copy, orange and blue glow assets, and fine translucent borders describe the captured appearance; they do not establish a new brand direction.\n\nThis document records the first viewport and a small set of its shared primitives. The complete compiled frontend capture is the intentional first-draft implementation. `reference/pages/index.html` and the locally captured modules and assets govern the rendered result; unused scaffold CSS and shadcn components are not visual authority.\n\nBuilder extension (2026-09-06): the approved dashboard and chat-workspace comps extend the incumbent identity to /dashboard, /workspace, and /site. Black application chrome retains the original orb, General Sans, Inter, and orange-to-blue illumination. The cream serif sample website remains independent preview content. Source: .impeccable/surfaces/builder.md and src/styles/builder.css.",
     "keyCharacteristics": [
       "Black and near-black surfaces with white typography.",
       "General Sans display and brand text paired with Inter body and control text.",
       "Colored glow layers and fine translucent borders.",
       "Published responsive variants and compiled motion preserved."
     ],
-    "rules": [],
+    "rules": [
+      {
+        "name": "Builder scope",
+        "body": "Use scoped builder tokens for application controls; preserve the marketing reference and the independent sample website identity.",
+        "section": "colors"
+      },
+      {
+        "name": "Builder local-demo boundary",
+        "body": "Projects, messages, and up to 30 versions save locally. Supported preview edits, undo/redo, history restoration, and current-page HTML export are implemented. General AI, authentication, image analysis, cross-device sync, and public project hosting are not connected; export artwork still loads from hosted app assets.",
+        "section": "components"
+      },
+      {
+        "name": "Approved builder evidence",
+        "body": "Approved comps: ../fusion-ai-app-design/dashboard.png and chat-workspace.png. Final captures: .impeccable/review/dashboard-desktop.png, workspace-desktop.png, dashboard-mobile.png, workspace-mobile.png, preview-mobile.png. Preserve side illumination, two-line default Lumina heading, all three gallery crops, mobile history access, accessible dialog names, and hidden closed mobile navigation.",
+        "section": "components"
+      }
+    ],
     "dos": [
       "Do treat the supplied reference and captured frontend as the visual authority.",
       "Do preserve the local fonts, original assets, responsive variants, and compiled interactions.",
-      "Do verify future visual edits against the reference at the affected viewport sizes."
+      "Do verify future visual edits against the reference at the affected viewport sizes.",
+      "Do retain the approved builder composition, visible focus, native named dialogs, and honest local-demo disclosures."
     ],
     "donts": [
       "Don't substitute unused scaffold tokens or component styles for the captured design.",
       "Don't invent a new palette, spacing scale, motion system, or brand metaphor.",
-      "Don't interpret this first-viewport documentation as a complete component or accessibility audit."
+      "Don't interpret this first-viewport documentation as a complete component or accessibility audit.",
+      "Don\u2019t imply that a sample Published badge or preview address provides public project hosting."
     ]
   }
 }
