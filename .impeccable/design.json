@@ -1,0 +1,103 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-09-05T17:44:32.196660+00:00",
+  "title": "Design System: Fusion AI reference draft",
+  "extensions": {
+    "colorMeta": {
+      "orange": {
+        "role": "primary",
+        "displayName": "Orange"
+      },
+      "orange-deep": {
+        "role": "primary",
+        "displayName": "Deep orange"
+      },
+      "blue": {
+        "role": "secondary",
+        "displayName": "Blue"
+      },
+      "canvas": {
+        "role": "neutral",
+        "displayName": "Canvas"
+      },
+      "surface": {
+        "role": "neutral",
+        "displayName": "Surface"
+      },
+      "surface-raised": {
+        "role": "neutral",
+        "displayName": "Raised surface"
+      },
+      "text": {
+        "role": "neutral",
+        "displayName": "White text"
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Desktop hero",
+        "purpose": "First-viewport hero headline."
+      },
+      "display-tablet": {
+        "displayName": "Tablet hero",
+        "purpose": "Captured tablet hero variant; observed at 1021px viewport width."
+      },
+      "display-mobile": {
+        "displayName": "Mobile hero",
+        "purpose": "Captured mobile hero variant; observed at 390px viewport width."
+      }
+    },
+    "breakpoints": [
+      {
+        "name": "desktop-layout",
+        "value": "(min-width: 1200px)"
+      },
+      {
+        "name": "tablet-layout",
+        "value": "(min-width: 810px) and (max-width: 1199.98px)"
+      },
+      {
+        "name": "mobile-layout",
+        "value": "(max-width: 809.98px)"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "View Pricing",
+      "kind": "button",
+      "refersTo": "button-outline",
+      "description": "Captured resting-state outlined link. Compiled duplicate-text hover motion remains in the frontend; no motion or focus styling is invented here.",
+      "html": "<a class=\"ds-pricing\" href=\"./pricing\">View Pricing</a>",
+      "css": ".ds-pricing { display: inline-flex; justify-content: center; align-items: center; gap: 8px; padding: 12px 42px; border: 1px solid rgba(255,255,255,0.2); border-radius: 12px; color: var(--token-2ff9a6d4-dab7-4ef6-b4fa-9e88617ec594, #fff); font-family: \"Inter\", \"Inter Placeholder\", sans-serif; font-size: 16px; font-weight: 500; line-height: 26px; white-space: pre; text-decoration: none; cursor: pointer; }"
+    },
+    {
+      "name": "Navigation link",
+      "kind": "nav",
+      "description": "Captured single-line navigation link at rest; responsive menu and interaction remain in the frontend.",
+      "html": "<a class=\"ds-nav-link\" href=\"./pricing\"><span class=\"ds-nav-text\">Pricing</span></a>",
+      "css": ".ds-nav-link { display: inline-flex; align-items: center; height: 26px; padding: 0; color: var(--token-2ff9a6d4-dab7-4ef6-b4fa-9e88617ec594, #fff); font-family: \"Inter\", \"Inter Placeholder\", sans-serif; font-size: 16px; font-weight: 500; line-height: 26px; white-space: pre; overflow: hidden; text-decoration: none; cursor: pointer; user-select: none; } .ds-nav-text { opacity: 0.7; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The supplied Fusion AI reference",
+    "overview": "The binding visual authority is https://fusionai.framer.website/, captured on 2026-09-05. Preserve its typography, colors, assets, responsive composition, and animations. The black canvas, white copy, orange and blue glow assets, and fine translucent borders describe the captured appearance; they do not establish a new brand direction.\n\nThis document records the first viewport and a small set of its shared primitives. The complete compiled frontend capture is the intentional first-draft implementation. `reference/pages/index.html` and the locally captured modules and assets govern the rendered result; unused scaffold CSS and shadcn components are not visual authority.",
+    "keyCharacteristics": [
+      "Black and near-black surfaces with white typography.",
+      "General Sans display and brand text paired with Inter body and control text.",
+      "Colored glow layers and fine translucent borders.",
+      "Published responsive variants and compiled motion preserved."
+    ],
+    "rules": [],
+    "dos": [
+      "Do treat the supplied reference and captured frontend as the visual authority.",
+      "Do preserve the local fonts, original assets, responsive variants, and compiled interactions.",
+      "Do verify future visual edits against the reference at the affected viewport sizes."
+    ],
+    "donts": [
+      "Don't substitute unused scaffold tokens or component styles for the captured design.",
+      "Don't invent a new palette, spacing scale, motion system, or brand metaphor.",
+      "Don't interpret this first-viewport documentation as a complete component or accessibility audit."
+    ]
+  }
+}
