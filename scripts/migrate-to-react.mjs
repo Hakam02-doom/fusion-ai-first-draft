@@ -5,6 +5,9 @@ import { readFile, readdir, mkdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
 const source = 'reference/pages';
+const gradientAssets = JSON.parse(
+  await readFile('src/data/gradient-assets.json', 'utf8'),
+);
 const motion = JSON.parse(
   await readFile('src/data/reference-motion.json', 'utf8'),
 );
@@ -141,6 +144,8 @@ const promptNodes = new Map();
 let navButton;
 function props(node) {
   const result = [];
+  const gradient = gradientAssets[attr(node, 'src')?.split('?')[0]];
+  if (gradient?.smooth) result.push('data-gradient-surface={true}');
   if (
     ['a', 'button', 'label'].includes(node.tagName) &&
     !attr(node, 'aria-label')
@@ -167,6 +172,8 @@ function props(node) {
   for (const a of node.attrs ?? []) {
     let name = a.prefix ? `${a.prefix}:${a.name}` : a.name,
       value = a.value;
+    if (gradient && name === 'srcset') continue;
+    if (gradient && name === 'src') value = gradient.local;
     if (
       name.startsWith('on') ||
       name.startsWith('data-framer-hydrate') ||
@@ -244,10 +251,15 @@ function render(node, allowSection = true, shared = false) {
   }
   if (!node.tagName) return '';
   if (['script', 'style', 'link', 'template'].includes(node.tagName)) return '';
-  if (attr(node, 'id') === 'overlay' || attr(node, 'id') === 'template-overlay')
+  if (
+    ['overlay', 'template-overlay', '__framer-badge-container'].includes(
+      attr(node, 'id'),
+    )
+  )
     return '';
   const name = attr(node, 'data-framer-name') ?? '',
     cls = attr(node, 'class') ?? '';
+  if (name === 'Promo Card (Delete This)') return '';
   if (node.tagName === 'nav' && name === 'Navigation') {
     if (!navButton)
       walk(node, (n) => {
@@ -330,7 +342,6 @@ function render(node, allowSection = true, shared = false) {
   }
   let tag = node.tagName,
     extra = '';
-  if (name === 'Promo Card (Delete This)') tag = 'PromoCard';
   if (name === 'X Icon') return '';
   if (tag === 'form') tag = 'PreviewForm';
   if (
@@ -338,19 +349,24 @@ function render(node, allowSection = true, shared = false) {
     (node.attrs ?? []).some(
       (a) => a.name === 'style' && a.value.includes('display:flex'),
     )
-  )
+  ) {
     tag = 'Ticker';
+    let ancestor = node.parentNode;
+    while (ancestor) {
+      const parentClass = attr(ancestor, 'class') ?? '';
+      if (
+        parentClass === 'framer-a2vsaq-container' ||
+        parentClass === 'framer-lwl52w-container'
+      ) {
+        extra = ` direction="${parentClass === 'framer-a2vsaq-container' ? 'right' : 'left'}"`;
+        break;
+      }
+      ancestor = ancestor.parentNode;
+    }
+  }
   if (
     (attr(node, 'data-framer-appear-id') || motion.appear[cls]) &&
-    ![
-      'svg',
-      'path',
-      'input',
-      'img',
-      'PromoCard',
-      'Ticker',
-      'PreviewForm',
-    ].includes(tag)
+    !['svg', 'path', 'input', 'img', 'Ticker', 'PreviewForm'].includes(tag)
   ) {
     extra = ` as={${quote(tag)}}`;
     tag = 'Reveal';
@@ -408,7 +424,7 @@ for (const file of files) {
   for (const sheet of css) sharedStyles.add(sheet);
   await writeFile(
     `src/pages/${currentName}.jsx`,
-    `import { Navigation, FAQList, BillingProvider, BillingToggle, PlanPrice, PreviewForm, PromptDemo, Reveal, Ticker, Slideshow, PromoCard } from '../components/Interactions.jsx';\nimport { Footer, CallToAction } from '../components/SiteChrome.jsx';\nimport { ShaderCanvas, AmbientVideo } from '../components/ReferenceMotion.jsx';\nimport ChatSequence from '../components/ChatSequence.jsx';\nimport ProductShowcase from '../components/ProductShowcase.jsx';\nimport { TextReveal } from '../components/EntranceMotion.jsx';\n\nexport default function ${currentName}() {\n  return (<BillingProvider><>${jsx}</></BillingProvider>);\n}\n\n${sections.join('\n\n')}\n`,
+    `import { Navigation, FAQList, BillingProvider, BillingToggle, PlanPrice, PreviewForm, PromptDemo, Reveal, Ticker, Slideshow } from '../components/Interactions.jsx';\nimport { Footer, CallToAction } from '../components/SiteChrome.jsx';\nimport { ShaderCanvas, AmbientVideo } from '../components/ReferenceMotion.jsx';\nimport ChatSequence from '../components/ChatSequence.jsx';\nimport ProductShowcase from '../components/ProductShowcase.jsx';\nimport { TextReveal } from '../components/EntranceMotion.jsx';\n\nexport default function ${currentName}() {\n  return (<BillingProvider><>${jsx}</></BillingProvider>);\n}\n\n${sections.join('\n\n')}\n`,
   );
   routes.push({ path: route, component: currentName, title, description });
 }

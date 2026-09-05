@@ -230,7 +230,7 @@ export function PromptDemo({ className = '', style, ...props }) {
   );
 }
 
-export function Ticker({ children, style, ...props }) {
+export function Ticker({ children, style, direction, ...props }) {
   const ref = useRef(null);
   useEffect(() => {
     const node = ref.current;
@@ -270,13 +270,20 @@ export function Ticker({ children, style, ...props }) {
     <ul
       {...props}
       className="react-ticker"
+      data-direction={direction}
       ref={ref}
       style={{
         ...style,
         width: 'max-content',
         maxWidth: 'none',
         left: 0,
-        animationDirection: parseFloat(style?.left) < 0 ? 'reverse' : 'normal',
+        animationDirection: direction
+          ? direction === 'right'
+            ? 'reverse'
+            : 'normal'
+          : parseFloat(style?.left) < 0
+            ? 'reverse'
+            : 'normal',
         transform: undefined,
       }}
     >
@@ -352,23 +359,5 @@ export function Slideshow({ children }) {
         ))}
       </div>
     </section>
-  );
-}
-
-export function PromoCard({ children, ...props }) {
-  const [closed, setClosed] = useState(false);
-  if (closed) return null;
-  return (
-    <div {...props}>
-      <button
-        className="promo-close"
-        type="button"
-        aria-label="Dismiss template promotion"
-        onClick={() => setClosed(true)}
-      >
-        <X size={14} />
-      </button>
-      {children}
-    </div>
   );
 }

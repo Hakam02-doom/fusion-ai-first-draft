@@ -22,7 +22,7 @@ Vite builds `dist/`. Vercel uses the committed build settings and SPA rewrite, s
 ## Edit the site
 
 - `src/pages/`: 18 editable JSX page components, organized into named page sections.
-- `src/components/Interactions.jsx`: React navigation, mobile menu, FAQ, billing state, preview forms, prompt demo, reveals, tickers, testimonial carousel, and dismissible promotion.
+- `src/components/Interactions.jsx`: React navigation, mobile menu, FAQ, billing state, preview forms, prompt demo, reveals, tickers, and testimonial carousel.
 - `src/components/SiteChrome.jsx`: shared footer and closing call to action.
 - `src/App.jsx`: lazy page routing, browser history, page titles, error recovery, and anchor navigation.
 - `src/components/ReferenceMotion.jsx`: local hero video, original liquid/logo shaders, offscreen loop control, and scroll transforms.
@@ -43,7 +43,7 @@ The app renders JSX through React `createRoot`; it does not serve HTML snapshots
 
 ## Scope
 
-All 18 routes, including seven articles, are included. Shared interactions are implemented in React/CSS/Web Animations with reduced-motion support. Contact, waitlist, and AI prompt controls are preview-only and explicitly say that no submission or AI action was performed. No authentication, payments, email delivery, or AI backend is connected. Reference copy and external promotional links remain as supplied. The preview is excluded from search indexing.
+All 18 routes, including seven articles, are included. Shared interactions are implemented in React/CSS/Web Animations with reduced-motion support. Contact, waitlist, and AI prompt controls are preview-only and explicitly say that no submission or AI action was performed. No authentication, payments, email delivery, or AI backend is connected. Reference copy is retained; the floating template promotion and Framer badge are removed. The preview is excluded from search indexing.
 
 ## Motion fidelity pass — 2026-09-05
 
@@ -62,3 +62,11 @@ Reviewed the supplied 88-second recording in sequence against the archived refer
 - 74–86s: three-step card stagger, expanding FAQ rows, plus/minus transition, and closing word reveal followed by copy and buttons.
 
 `scripts/extract-motion.mjs` reads archived source as syntax data and writes `src/data/reference-motion.json`; the archive is never executed in the app. Viewport triggers use the source visibility thresholds. A clipped decorative border no longer creates an internal scroll offset when its card receives focus. Browser checks cover desktop and mobile layouts, preview controls and automatic cycling, FAQ transitions, and console errors. Timing and spring targets use original values; the React/Web Animations implementation is independently maintained.
+
+## Integration and gradient corrections — 2026-09-06
+
+The integration globe now composes centering before rotation, preserving its center through a full 20-second turn. The first logo row moves right and the second moves left at the original 50px/s, including while hovered. Their original spacing, responsive sizes, masks, and artwork are retained.
+
+Seven decorative images use the original CDN’s browser-optimized AVIF renditions, saved locally by `scripts/fetch-gradient-assets.mjs` with source URLs and checksums in `src/data/gradient-assets.json`. Full-section backdrops receive a 2px diffusion filter to remove visible palette grain; globe edges and foreground artwork remain crisp. These replacements apply across all pages, and inaccurate source-set width descriptors have been removed for these files. The template advertisement and Framer badge are omitted during migration and absent from every rendered route.
+
+Verified the section and backdrop on desktop and mobile, including zero globe-center drift, no horizontal overflow, and removal of the floating promotion. Production build and lint pass.

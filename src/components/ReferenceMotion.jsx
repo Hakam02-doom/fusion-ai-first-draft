@@ -400,8 +400,15 @@ export function useReferenceLoops() {
       visible = new Set();
     for (const [className, duration] of Object.entries(rotations))
       for (const node of document.querySelectorAll(`.${className}`)) {
+        // Keep centering before rotation: an individual CSS rotate would also
+        // rotate the globe's translate(-50%, -50%) and send it around an orbit.
+        const base = node.style.transform || getComputedStyle(node).transform;
+        const placement = base === 'none' ? '' : base;
         const animation = node.animate(
-          [{ rotate: '0deg' }, { rotate: '360deg' }],
+          [
+            { transform: `${placement} rotate(0deg)` },
+            { transform: `${placement} rotate(360deg)` },
+          ],
           { duration: duration * 1000, iterations: Infinity, easing: 'linear' },
         );
         animation.pause();
