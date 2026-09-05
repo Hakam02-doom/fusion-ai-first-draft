@@ -26,6 +26,8 @@ Vite builds `dist/`. Vercel uses the committed build settings and SPA rewrite, s
 - `src/components/SiteChrome.jsx`: shared footer and closing call to action.
 - `src/App.jsx`: lazy page routing, browser history, page titles, error recovery, and anchor navigation.
 - `src/components/ReferenceMotion.jsx`: local hero video, original liquid/logo shaders, offscreen loop control, and scroll transforms.
+- `src/components/EntranceMotion.jsx`: word/line reveals and spring entrances using extracted reference timing.
+- `src/components/ProductShowcase.jsx`: three interactive product screens with seven-second progress indicators.
 - `src/shaders/`: reference GLSL with the original colors and effect parameters.
 - `scripts/build-heightmaps.mjs`: builds the five logo height textures from their original masks.
 - `src/data/`: route metadata and FAQ content.
@@ -46,3 +48,17 @@ All 18 routes, including seven articles, are included. Shared interactions are i
 ## Motion fidelity pass — 2026-09-05
 
 Restored the autoplaying hero film, responsive prompt compositions, animated liquid border, five logo shaders, conic badge lights, revolving card borders, globe rotations, fixed navigation, button label rollovers, the clipped “Powered” heading, and the five-message dashboard conversation (1s/4s/3s/3s progression). These run through React, WebGL2, CSS, and Web Animations; no captured Framer runtime is loaded. The original fragment shaders and numeric presets are retained, with precomputed logo height fields. Expensive loops pause outside the viewport; reduced motion retains readable still imagery. Scroll interpolation remains a React implementation of the original target transforms.
+
+## Recording review — 2026-09-06
+
+Reviewed the supplied 88-second recording in sequence against the archived reference settings:
+
+- 4–10s: hero word blur, line reveals, delayed buttons, video fade, and spring entrances for the prompt and dashboard.
+- 12–18s: feature cards enter with 0/.2/.4/.6-second stagger; the clipped “Powered” heading rises on scroll.
+- 20–30s: five chat messages appear in order, with the original 500/60/.1 spring and character reveal.
+- 33–40s: sticky feature cards shrink behind the next card using the reference 422/69/2.3 spring.
+- 43–56s: Workflow → Analytics → Integration previews, seven seconds per screen, clickable captions and progress controls.
+- 60–74s: opposing integration tickers, rotating globe, and moving testimonials retained.
+- 74–86s: three-step card stagger, expanding FAQ rows, plus/minus transition, and closing word reveal followed by copy and buttons.
+
+`scripts/extract-motion.mjs` reads archived source as syntax data and writes `src/data/reference-motion.json`; the archive is never executed in the app. Viewport triggers use the source visibility thresholds. A clipped decorative border no longer creates an internal scroll offset when its card receives focus. Browser checks cover desktop and mobile layouts, preview controls and automatic cycling, FAQ transitions, and console errors. Timing and spring targets use original values; the React/Web Animations implementation is independently maintained.

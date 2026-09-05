@@ -6,6 +6,8 @@ import {
 } from '../components/Interactions.jsx';
 import { Footer, CallToAction } from '../components/SiteChrome.jsx';
 
+import { TextReveal } from '../components/EntranceMotion.jsx';
+
 export default function Blog() {
   return (
     <BillingProvider>
@@ -663,7 +665,7 @@ function BlogFeaturedBlog() {
               </div>
             </div>
           </div>
-          <div
+          <TextReveal
             className={'framer-rnfgyg'}
             data-framer-name={'Title Text'}
             data-framer-component-type={'RichTextContainer'}
@@ -682,9 +684,9 @@ function BlogFeaturedBlog() {
               <span style={{ display: 'inline-block' }}>{'  Industry'}</span>{' '}
               <span style={{ display: 'inline-block' }}>{'News'}</span>
             </h1>
-          </div>
+          </TextReveal>
         </div>
-        <div className={'framer-1u6aix2'} style={{}}>
+        <Reveal as={'div'} className={'framer-1u6aix2'} style={{}}>
           <div className={'framer-1w52w3m'}>
             <div className={'ssr-variant hidden-1cnef43 hidden-d7fev5'}>
               <div className={'framer-10cg4pu-container'}>
@@ -1603,7 +1605,7 @@ function BlogFeaturedBlog() {
               </div>
             </div>
           </div>
-        </div>
+        </Reveal>
       </div>
     </section>
   );

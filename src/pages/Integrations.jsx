@@ -6,6 +6,8 @@ import {
 } from '../components/Interactions.jsx';
 import { Footer, CallToAction } from '../components/SiteChrome.jsx';
 
+import { TextReveal } from '../components/EntranceMotion.jsx';
+
 export default function Integrations() {
   return (
     <BillingProvider>
@@ -667,7 +669,7 @@ function IntegrationsHero() {
               </div>
               <div className={'framer-1re050x'} data-framer-name={'Text'}>
                 <div className={'ssr-variant hidden-1b96y61'}>
-                  <div
+                  <TextReveal
                     className={'framer-1o23pkp'}
                     data-framer-name={'Title Text'}
                     data-framer-component-type={'RichTextContainer'}
@@ -691,10 +693,10 @@ function IntegrationsHero() {
                       </span>{' '}
                       <span style={{ display: 'inline-block' }}>{'Stack'}</span>
                     </h1>
-                  </div>
+                  </TextReveal>
                 </div>
                 <div className={'ssr-variant hidden-15rghcj hidden-vsqpmu'}>
-                  <div
+                  <TextReveal
                     className={'framer-1o23pkp'}
                     data-framer-name={'Title Text'}
                     data-framer-component-type={'RichTextContainer'}
@@ -719,10 +721,11 @@ function IntegrationsHero() {
                       </span>{' '}
                       <span style={{ display: 'inline-block' }}>{'Stack'}</span>
                     </h1>
-                  </div>
+                  </TextReveal>
                 </div>
                 <div className={'ssr-variant hidden-1b96y61'}>
-                  <div
+                  <Reveal
+                    as={'div'}
                     className={'framer-1ezdh0j'}
                     data-framer-name={'Header Description'}
                     data-framer-component-type={'RichTextContainer'}
@@ -736,10 +739,11 @@ function IntegrationsHero() {
                         'One-click connectors sync Slack, HubSpot, Salesforce, and 50 + tools—automate instantly. Open API covers the rest.'
                       }
                     </p>
-                  </div>
+                  </Reveal>
                 </div>
                 <div className={'ssr-variant hidden-15rghcj hidden-vsqpmu'}>
-                  <div
+                  <Reveal
+                    as={'div'}
                     className={'framer-1ezdh0j'}
                     data-framer-name={'Header Description'}
                     data-framer-component-type={'RichTextContainer'}
@@ -754,12 +758,13 @@ function IntegrationsHero() {
                         'One-click connectors sync Slack, HubSpot, Salesforce, and 50 + tools—automate instantly. Open API covers the rest.'
                       }
                     </p>
-                  </div>
+                  </Reveal>
                 </div>
               </div>
             </div>
           </div>
-          <div
+          <Reveal
+            as={'div'}
             className={'framer-168rphz'}
             data-framer-name={'Column'}
             style={{}}
@@ -805,7 +810,7 @@ function IntegrationsHero() {
                 </div>
               </div>
             </div>
-          </div>
+          </Reveal>
         </div>
       </div>
     </section>

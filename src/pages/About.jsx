@@ -7,6 +7,8 @@ import {
 } from '../components/Interactions.jsx';
 import { Footer, CallToAction } from '../components/SiteChrome.jsx';
 
+import { TextReveal } from '../components/EntranceMotion.jsx';
+
 export default function About() {
   return (
     <BillingProvider>
@@ -1312,7 +1314,7 @@ function AboutHero() {
             </div>
           </div>
           <div className={'ssr-variant hidden-1l5jm3d'}>
-            <div
+            <TextReveal
               className={'framer-kq336'}
               data-framer-name={'Title Text'}
               data-framer-component-type={'RichTextContainer'}
@@ -1329,10 +1331,10 @@ function AboutHero() {
                 <span style={{ display: 'inline-block' }}>{'AI'}</span>{' '}
                 <span style={{ display: 'inline-block' }}>{'Solutions'}</span>
               </h1>
-            </div>
+            </TextReveal>
           </div>
           <div className={'ssr-variant hidden-fc5hpj hidden-1rjmjoc'}>
-            <div
+            <TextReveal
               className={'framer-kq336'}
               data-framer-name={'Title Text'}
               data-framer-component-type={'RichTextContainer'}
@@ -1350,7 +1352,7 @@ function AboutHero() {
                 <span style={{ display: 'inline-block' }}>{'AI'}</span>{' '}
                 <span style={{ display: 'inline-block' }}>{'Solutions'}</span>
               </h1>
-            </div>
+            </TextReveal>
           </div>
         </div>
         <div className={'framer-17vw4a2'} data-framer-name={'Image Wrapper'}>

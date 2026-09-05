@@ -11,7 +11,7 @@ import {
 import { Menu, Plus, X } from 'lucide-react';
 import NavButton from './NavButton.jsx';
 import PromptShell from './PromptShell.jsx';
-import appearEffects from '../data/appear.json';
+export { Reveal } from './EntranceMotion.jsx';
 import questions from '../data/faq.json';
 
 const links = [
@@ -94,10 +94,12 @@ export function FAQList({ className = '', style, ...props }) {
           </h3>
           <div
             id={`${id}-${index}`}
-            className="faq-answer"
-            hidden={open !== index}
+            className={`faq-answer ${open === index ? 'is-open' : ''}`}
+            aria-hidden={open !== index}
           >
-            <p>{answer}</p>
+            <div className="faq-answer-inner">
+              <p>{answer}</p>
+            </div>
           </div>
         </div>
       ))}
@@ -225,52 +227,6 @@ export function PromptDemo({ className = '', style, ...props }) {
         </output>
       )}
     </>
-  );
-}
-
-export function Reveal({ as: Tag = 'div', children, ...props }) {
-  const ref = useRef(null);
-  useEffect(() => {
-    const node = ref.current;
-    if (!node || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    const reference = Object.entries(appearEffects).find(([name]) =>
-      node.classList.contains(name),
-    )?.[1];
-    const transition = reference?.transition;
-    let animation;
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries.some((entry) => entry.isIntersecting)) {
-          animation = node.animate(
-            [
-              {
-                opacity: reference?.enter.opacity ?? 0,
-                translate: `0 ${reference?.enter.y ?? 50}px`,
-              },
-              { opacity: 1, translate: '0 0' },
-            ],
-            {
-              duration: (transition?.duration ?? 0.6) * 1000,
-              delay: (transition?.delay ?? 0) * 1000,
-              easing: `cubic-bezier(${(transition?.ease ?? [0.12, 0.23, 0.5, 1]).join(',')})`,
-              fill: 'backwards',
-            },
-          );
-          observer.disconnect();
-        }
-      },
-      { threshold: reference?.threshold ?? 0.2 },
-    );
-    observer.observe(node);
-    return () => {
-      observer.disconnect();
-      animation?.cancel();
-    };
-  }, []);
-  return (
-    <Tag {...props} ref={ref}>
-      {children}
-    </Tag>
   );
 }
 

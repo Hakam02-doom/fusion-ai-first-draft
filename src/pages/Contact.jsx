@@ -9,6 +9,8 @@ import {
 } from '../components/Interactions.jsx';
 import { Footer, CallToAction } from '../components/SiteChrome.jsx';
 
+import { TextReveal } from '../components/EntranceMotion.jsx';
+
 export default function Contact() {
   return (
     <BillingProvider>
@@ -2104,7 +2106,7 @@ function ContactContact() {
                 </div>
               </div>
             </div>
-            <div
+            <TextReveal
               className={'framer-1l42t5u'}
               data-framer-name={'Title Text'}
               data-framer-component-type={'RichTextContainer'}
@@ -2120,9 +2122,10 @@ function ContactContact() {
                 <span style={{ display: 'inline-block' }}>{'the'}</span>{' '}
                 <span style={{ display: 'inline-block' }}>{'team'}</span>
               </h1>
-            </div>
+            </TextReveal>
           </div>
-          <div
+          <Reveal
+            as={'div'}
             className={'framer-1aytutg'}
             data-framer-name={'Header Description'}
             data-framer-component-type={'RichTextContainer'}
@@ -2137,7 +2140,7 @@ function ContactContact() {
                 'Fusion AI helps you tackle data bottlenecks, streamline analysis, and make smarter decisions with ease.'
               }
             </p>
-          </div>
+          </Reveal>
         </div>
         <div className={'ssr-variant hidden-12uy9st hidden-420b5m'}>
           <PreviewForm className={'framer-1mm7bsd'} style={{}}>

@@ -6,6 +6,8 @@ import {
 } from '../components/Interactions.jsx';
 import { Footer, CallToAction } from '../components/SiteChrome.jsx';
 
+import { TextReveal } from '../components/EntranceMotion.jsx';
+
 export default function Terms() {
   return (
     <BillingProvider>
@@ -710,7 +712,7 @@ function TermsMain() {
                 </div>
               </div>
             </div>
-            <div
+            <TextReveal
               className={'framer-1fyactv'}
               data-framer-name={'Title Text'}
               data-framer-component-type={'RichTextContainer'}
@@ -725,7 +727,7 @@ function TermsMain() {
                 <span style={{ display: 'inline-block' }}>{'&'}</span>{' '}
                 <span style={{ display: 'inline-block' }}>{'Conditions'}</span>
               </h1>
-            </div>
+            </TextReveal>
           </div>
           <div
             className={'framer-6zwmz'}

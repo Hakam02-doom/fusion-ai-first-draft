@@ -1,4 +1,7 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { entranceAnimation, reducedMotion } from './EntranceMotion.jsx';
+
+const chatSpring = { type: 'spring', stiffness: 500, damping: 60, mass: 0.1 };
 
 const messages = [
   {
@@ -83,10 +86,12 @@ export default function ChatSequence() {
     }
     const observer = new IntersectionObserver(
       (entries) => {
-        visible = entries.some((entry) => entry.isIntersecting);
+        visible = entries.some(
+          (entry) => entry.isIntersecting && entry.intersectionRatio >= 0.5,
+        );
         update();
       },
-      { threshold: 0.25 },
+      { threshold: 0.5 },
     );
     observer.observe(node.closest('.framer-Bv3CW') || node);
     preference.addEventListener('change', update);
@@ -102,19 +107,30 @@ export default function ChatSequence() {
   useLayoutEffect(() => {
     const node = ref.current,
       height = node.getBoundingClientRect().height;
+    const animations = [];
     if (
       previousHeight.current &&
       height !== previousHeight.current &&
-      !matchMedia('(prefers-reduced-motion: reduce)').matches
+      !reducedMotion()
     )
-      node.animate(
-        [
-          { translate: `0 ${height - previousHeight.current}px` },
-          { translate: '0 0' },
-        ],
-        { duration: 400, easing: 'cubic-bezier(.22,1,.36,1)' },
+      animations.push(
+        entranceAnimation(
+          node,
+          { y: height - previousHeight.current, opacity: 1 },
+          chatSpring,
+        ),
       );
+    for (const row of node.querySelectorAll('.reference-chat-message')) {
+      if (row.dataset.chatEntered) continue;
+      row.dataset.chatEntered = 'true';
+      if (!reducedMotion())
+        animations.push(
+          entranceAnimation(row, { opacity: 0.001, y: 30 }, chatSpring),
+        );
+    }
+    animations.forEach((animation) => animation.play());
     previousHeight.current = height;
+    return () => animations.forEach((animation) => animation.cancel());
   }, [count]);
   return (
     <div

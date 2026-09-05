@@ -1,0 +1,1454 @@
+{
+  "appear": {
+    "framer-1aytutg": {
+      "enter": {
+        "opacity": 0,
+        "rotate": 0,
+        "rotateX": 0,
+        "rotateY": 0,
+        "scale": 1,
+        "skewX": 0,
+        "skewY": 0,
+        "x": 0,
+        "y": 30
+      },
+      "animate": {
+        "transition": {
+          "delay": 0.5,
+          "duration": 0.6,
+          "ease": [
+            0,
+            0,
+            0.58,
+            1
+          ],
+          "type": "tween"
+        }
+      },
+      "trigger": "inView",
+      "threshold": 0,
+      "source": "PyfXlYfHPRYSfFzwwxKfbS5maJDr2yLgwWtO-Ylbd8I.DvvEx37N.mjs"
+    },
+    "framer-1mm7bsd": {
+      "enter": {
+        "opacity": 0,
+        "rotate": 0,
+        "rotateX": 0,
+        "rotateY": 0,
+        "scale": 1,
+        "skewX": 0,
+        "skewY": 0,
+        "x": 0,
+        "y": 30
+      },
+      "animate": {
+        "transition": {
+          "delay": 0.6,
+          "duration": 0.6,
+          "ease": [
+            0,
+            0,
+            0.58,
+            1
+          ],
+          "type": "tween"
+        }
+      },
+      "trigger": "inView",
+      "threshold": 0,
+      "source": "PyfXlYfHPRYSfFzwwxKfbS5maJDr2yLgwWtO-Ylbd8I.DvvEx37N.mjs"
+    },
+    "framer-16903z1-container": {
+      "enter": {
+        "opacity": 0,
+        "rotate": 0,
+        "rotateX": 0,
+        "rotateY": 0,
+        "scale": 1,
+        "skewX": 0,
+        "skewY": 0,
+        "x": 0,
+        "y": 40
+      },
+      "animate": {
+        "transition": {
+          "delay": 0.2,
+          "duration": 0.8,
+          "ease": [
+            0.12,
+            0.23,
+            0.5,
+            1
+          ],
+          "type": "tween"
+        }
+      },
+      "trigger": "inView",
+      "threshold": 0,
+      "source": "Us1YyEKMIjCPdmBbrP6tgc0JSCAWmwaPlFgr0qvvtPE.DEgrRUOw.mjs"
+    },
+    "framer-1teo1c9-container": {
+      "enter": {
+        "opacity": 0,
+        "rotate": 0,
+        "rotateX": 0,
+        "rotateY": 0,
+        "scale": 1,
+        "skewX": 0,
+        "skewY": 0,
+        "x": 0,
+        "y": 80
+      },
+      "animate": {
+        "transition": {
+          "delay": 0.2,
+          "duration": 0.8,
+          "ease": [
+            0.12,
+            0.23,
+            0.5,
+            1
+          ],
+          "type": "tween"
+        }
+      },
+      "trigger": "inView",
+      "threshold": 0,
+      "source": "Us1YyEKMIjCPdmBbrP6tgc0JSCAWmwaPlFgr0qvvtPE.DEgrRUOw.mjs"
+    },
+    "framer-16g9qf0-container": {
+      "enter": {
+        "opacity": 0,
+        "rotate": 0,
+        "rotateX": 0,
+        "rotateY": 0,
+        "scale": 1,
+        "skewX": 0,
+        "skewY": 0,
+        "x": 0,
+        "y": 80
+      },
+      "animate": {
+        "transition": {
+          "delay": 0.3,
+          "duration": 0.8,
+          "ease": [
+            0.12,
+            0.23,
+            0.5,
+            1
+          ],
+          "type": "tween"
+        }
+      },
+      "trigger": "inView",
+      "threshold": 0,
+      "source": "Us1YyEKMIjCPdmBbrP6tgc0JSCAWmwaPlFgr0qvvtPE.DEgrRUOw.mjs"
+    },
+    "framer-16xssgr-container": {
+      "enter": {
+        "opacity": 0,
+        "rotate": 0,
+        "rotateX": 0,
+        "rotateY": 0,
+        "scale": 1,
+        "skewX": 0,
+        "skewY": 0,
+        "x": 0,
+        "y": 40
+      },
+      "animate": {
+        "transition": {
+          "delay": 0.4,
+          "duration": 0.8,
+          "ease": [
+            0.12,
+            0.23,
+            0.5,
+            1
+          ],
+          "type": "tween"
+        }
+      },
+      "trigger": "inView",
+      "threshold": 0,
+      "source": "Us1YyEKMIjCPdmBbrP6tgc0JSCAWmwaPlFgr0qvvtPE.DEgrRUOw.mjs"
+    },
+    "framer-16m5uc8": {
+      "enter": {
+        "opacity": 0.001,
+        "rotate": 0,
+        "rotateX": 0,
+        "rotateY": 0,
+        "scale": 1,
+        "skewX": 0,
+        "skewY": 0,
+        "x": 0,
+        "y": 30
+      },
+      "animate": {
+        "opacity": 1,
+        "rotate": 0,
+        "rotateX": 0,
+        "rotateY": 0,
+        "scale": 1,
+        "skewX": 0,
+        "skewY": 0,
+        "transition": {
+          "damping": 60,
+          "delay": 0,
+          "mass": 0.1,
+          "stiffness": 500,
+          "type": "spring"
+        },
+        "x": 0,
+        "y": 0
+      },
+      "trigger": "mount",
+      "source": "f5PNu4AeAMmCA8-uotaSYImqL5EewAToOSxqDoSTzG8.gBBiIDh1.mjs"
+    },
+    "framer-dbr6o2": {
+      "enter": {
+        "opacity": 0.001,
+        "rotate": 0,
+        "rotateX": 0,
+        "rotateY": 0,
+        "scale": 1,
+        "skewX": 0,
+        "skewY": 0,
+        "x": 0,
+        "y": 30
+      },
+      "animate": {
+        "opacity": 1,
+        "rotate": 0,
+        "rotateX": 0,
+        "rotateY": 0,
+        "scale": 1,
+        "skewX": 0,
+        "skewY": 0,
+        "transition": {
+          "damping": 60,
+          "delay": 0,
+          "mass": 0.1,
+          "stiffness": 500,
+          "type": "spring"
+        },
+        "x": 0,
+        "y": 0
+      },
+      "trigger": "mount",
+      "source": "f5PNu4AeAMmCA8-uotaSYImqL5EewAToOSxqDoSTzG8.gBBiIDh1.mjs"
+    },
+    "framer-1tszh0y": {
+      "enter": {
+        "opacity": 0.001,
+        "rotate": 0,
+        "rotateX": 0,
+        "rotateY": 0,
+        "scale": 1,
+        "skewX": 0,
+        "skewY": 0,
+        "x": 0,
+        "y": 30
+      },
+      "animate": {
+        "opacity": 1,
+        "rotate": 0,
+        "rotateX": 0,
+        "rotateY": 0,
+        "scale": 1,
+        "skewX": 0,
+        "skewY": 0,
+        "transition": {
+          "damping": 60,
+          "delay": 0,
+          "mass": 0.1,
+          "stiffness": 500,
+          "type": "spring"
+        },
+        "x": 0,
+        "y": 0
+      },
+      "trigger": "mount",
+      "source": "f5PNu4AeAMmCA8-uotaSYImqL5EewAToOSxqDoSTzG8.gBBiIDh1.mjs"
+    },
+    "framer-oxy98l": {
+      "enter": {
+        "opacity": 0.001,
+        "rotate": 0,
+        "rotateX": 0,
+        "rotateY": 0,
+        "scale": 1,
+        "skewX": 0,
+        "skewY": 0,
+        "x": 0,
+        "y": 30
+      },
+      "animate": {
+        "opacity": 1,
+        "rotate": 0,
+        "rotateX": 0,
+        "rotateY": 0,
+        "scale": 1,
+        "skewX": 0,
+        "skewY": 0,
+        "transition": {
+          "damping": 60,
+          "delay": 0,
+          "mass": 0.1,
+          "stiffness": 500,
+          "type": "spring"
+        },
+        "x": 0,
+        "y": 0
+      },
+      "trigger": "mount",
+      "source": "f5PNu4AeAMmCA8-uotaSYImqL5EewAToOSxqDoSTzG8.gBBiIDh1.mjs"
+    },
+    "framer-1lqp9v2": {
+      "enter": {
+        "opacity": 0.001,
+        "rotate": 0,
+        "rotateX": 0,
+        "rotateY": 0,
+        "scale": 1,
+        "skewX": 0,
+        "skewY": 0,
+        "x": 0,
+        "y": 30
+      },
+      "animate": {
+        "opacity": 1,
+        "rotate": 0,
+        "rotateX": 0,
+        "rotateY": 0,
+        "scale": 1,
+        "skewX": 0,
+        "skewY": 0,
+        "transition": {
+          "damping": 60,
+          "delay": 0,
+          "mass": 0.1,
+          "stiffness": 500,
+          "type": "spring"
+        },
+        "x": 0,
+        "y": 0
+      },
+      "trigger": "mount",
+      "source": "f5PNu4AeAMmCA8-uotaSYImqL5EewAToOSxqDoSTzG8.gBBiIDh1.mjs"
+    },
+    "framer-17qhr95-container": {
+      "enter": {
+        "opacity": 0.001,
+        "rotate": 0,
+        "rotateX": 0,
+        "rotateY": 0,
+        "scale": 1,
+        "skewX": 0,
+        "skewY": 0,
+        "x": 0,
+        "y": 0
+      },
+      "animate": {
+        "opacity": 1,
+        "rotate": 0,
+        "rotateX": 0,
+        "rotateY": 0,
+        "scale": 1,
+        "skewX": 0,
+        "skewY": 0,
+        "transition": {
+          "delay": 0.4,
+          "duration": 1.2,
+          "ease": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "type": "tween"
+        },
+        "x": 0,
+        "y": 0
+      },
+      "trigger": "mount",
+      "source": "f5PNu4AeAMmCA8-uotaSYImqL5EewAToOSxqDoSTzG8.gBBiIDh1.mjs"
+    },
+    "framer-vk4ezs-container": {
+      "enter": {
+        "opacity": 0.001,
+        "rotate": 0,
+        "rotateX": 0,
+        "rotateY": 0,
+        "scale": 1,
+        "skewX": 0,
+        "skewY": 0,
+        "x": 0,
+        "y": 30
+      },
+      "animate": {
+        "opacity": 1,
+        "rotate": 0,
+        "rotateX": 0,
+        "rotateY": 0,
+        "scale": 1,
+        "skewX": 0,
+        "skewY": 0,
+        "transition": {
+          "delay": 1,
+          "duration": 0.8,
+          "ease": [
+            0.12,
+            0.23,
+            0.5,
+            1
+          ],
+          "type": "tween"
+        },
+        "x": 0,
+        "y": 0
+      },
+      "trigger": "mount",
+      "source": "f5PNu4AeAMmCA8-uotaSYImqL5EewAToOSxqDoSTzG8.gBBiIDh1.mjs"
+    },
+    "framer-o5jzz8-container": {
+      "enter": {
+        "opacity": 0.001,
+        "rotate": 0,
+        "rotateX": 0,
+        "rotateY": 0,
+        "scale": 1,
+        "skewX": 0,
+        "skewY": 0,
+        "x": 0,
+        "y": 30
+      },
+      "animate": {
+        "opacity": 1,
+        "rotate": 0,
+        "rotateX": 0,
+        "rotateY": 0,
+        "scale": 1,
+        "skewX": 0,
+        "skewY": 0,
+        "transition": {
+          "delay": 1.1,
+          "duration": 0.8,
+          "ease": [
+            0.12,
+            0.23,
+            0.5,
+            1
+          ],
+          "type": "tween"
+        },
+        "x": 0,
+        "y": 0
+      },
+      "trigger": "mount",
+      "source": "f5PNu4AeAMmCA8-uotaSYImqL5EewAToOSxqDoSTzG8.gBBiIDh1.mjs"
+    },
+    "framer-10nplqn-container": {
+      "enter": {
+        "opacity": 0.001,
+        "rotate": 0,
+        "rotateX": 0,
+        "rotateY": 0,
+        "scale": 1,
+        "skewX": 0,
+        "skewY": 0,
+        "x": 0,
+        "y": 40
+      },
+      "animate": {
+        "opacity": 1,
+        "rotate": 0,
+        "rotateX": 0,
+        "rotateY": 0,
+        "scale": 1,
+        "skewX": 0,
+        "skewY": 0,
+        "transition": {
+          "damping": 30,
+          "delay": 0.5,
+          "mass": 1,
+          "stiffness": 80,
+          "type": "spring"
+        },
+        "x": 0,
+        "y": 0
+      },
+      "trigger": "mount",
+      "source": "f5PNu4AeAMmCA8-uotaSYImqL5EewAToOSxqDoSTzG8.gBBiIDh1.mjs"
+    },
+    "framer-f28i": {
+      "enter": {
+        "opacity": 0.001,
+        "rotate": 0,
+        "rotateX": 0,
+        "rotateY": 0,
+        "scale": 1,
+        "skewX": 0,
+        "skewY": 0,
+        "x": 0,
+        "y": 40
+      },
+      "animate": {
+        "opacity": 1,
+        "rotate": 0,
+        "rotateX": 0,
+        "rotateY": 0,
+        "scale": 1,
+        "skewX": 0,
+        "skewY": 0,
+        "transition": {
+          "damping": 30,
+          "delay": 0.8,
+          "mass": 1,
+          "stiffness": 80,
+          "type": "spring"
+        },
+        "x": 0,
+        "y": 0
+      },
+      "trigger": "mount",
+      "source": "f5PNu4AeAMmCA8-uotaSYImqL5EewAToOSxqDoSTzG8.gBBiIDh1.mjs"
+    },
+    "framer-qakhky": {
+      "enter": {
+        "opacity": 0.001,
+        "rotate": 0,
+        "rotateX": 0,
+        "rotateY": 0,
+        "scale": 1,
+        "skewX": 0,
+        "skewY": 0,
+        "x": 0,
+        "y": 0
+      },
+      "animate": {
+        "opacity": 1,
+        "rotate": 0,
+        "rotateX": 0,
+        "rotateY": 0,
+        "scale": 1,
+        "skewX": 0,
+        "skewY": 0,
+        "transition": {
+          "bounce": 0.2,
+          "delay": 0,
+          "duration": 0.4,
+          "type": "spring"
+        },
+        "x": 0,
+        "y": 0
+      },
+      "trigger": "mount",
+      "source": "f5PNu4AeAMmCA8-uotaSYImqL5EewAToOSxqDoSTzG8.gBBiIDh1.mjs"
+    },
+    "framer-1uwtv9a": {
+      "enter": {
+        "opacity": 0,
+        "rotate": 0,
+        "rotateX": 0,
+        "rotateY": 0,
+        "scale": 1,
+        "skewX": 0,
+        "skewY": 0,
+        "x": 0,
+        "y": 50
+      },
+      "animate": {
+        "transition": {
+          "delay": 0,
+          "duration": 0.6,
+          "ease": [
+            0.12,
+            0.23,
+            0.5,
+            1
+          ],
+          "type": "tween"
+        }
+      },
+      "trigger": "inView",
+      "threshold": 0.5,
+      "source": "f5PNu4AeAMmCA8-uotaSYImqL5EewAToOSxqDoSTzG8.gBBiIDh1.mjs"
+    },
+    "framer-5vak5l": {
+      "enter": {
+        "opacity": 0,
+        "rotate": 0,
+        "rotateX": 0,
+        "rotateY": 0,
+        "scale": 1,
+        "skewX": 0,
+        "skewY": 0,
+        "x": 0,
+        "y": 50
+      },
+      "animate": {
+        "transition": {
+          "delay": 0.2,
+          "duration": 0.6,
+          "ease": [
+            0.12,
+            0.23,
+            0.5,
+            1
+          ],
+          "type": "tween"
+        }
+      },
+      "trigger": "inView",
+      "threshold": 0.5,
+      "source": "f5PNu4AeAMmCA8-uotaSYImqL5EewAToOSxqDoSTzG8.gBBiIDh1.mjs"
+    },
+    "framer-ycqm8b": {
+      "enter": {
+        "opacity": 0,
+        "rotate": 0,
+        "rotateX": 0,
+        "rotateY": 0,
+        "scale": 1,
+        "skewX": 0,
+        "skewY": 0,
+        "x": 0,
+        "y": 50
+      },
+      "animate": {
+        "transition": {
+          "delay": 0.4,
+          "duration": 0.6,
+          "ease": [
+            0.12,
+            0.23,
+            0.5,
+            1
+          ],
+          "type": "tween"
+        }
+      },
+      "trigger": "inView",
+      "threshold": 0.5,
+      "source": "f5PNu4AeAMmCA8-uotaSYImqL5EewAToOSxqDoSTzG8.gBBiIDh1.mjs"
+    },
+    "framer-1w197o0": {
+      "enter": {
+        "opacity": 0,
+        "rotate": 0,
+        "rotateX": 0,
+        "rotateY": 0,
+        "scale": 1,
+        "skewX": 0,
+        "skewY": 0,
+        "x": 0,
+        "y": 50
+      },
+      "animate": {
+        "transition": {
+          "delay": 0.6,
+          "duration": 0.6,
+          "ease": [
+            0.12,
+            0.23,
+            0.5,
+            1
+          ],
+          "type": "tween"
+        }
+      },
+      "trigger": "inView",
+      "threshold": 0.5,
+      "source": "f5PNu4AeAMmCA8-uotaSYImqL5EewAToOSxqDoSTzG8.gBBiIDh1.mjs"
+    },
+    "framer-1xvqcci": {
+      "enter": {
+        "opacity": 0,
+        "rotate": 0,
+        "rotateX": 0,
+        "rotateY": 0,
+        "scale": 1,
+        "skewX": 0,
+        "skewY": 0,
+        "x": 0,
+        "y": 50
+      },
+      "animate": {
+        "transition": {
+          "delay": 0,
+          "duration": 0.6,
+          "ease": [
+            0.12,
+            0.23,
+            0.5,
+            1
+          ],
+          "type": "tween"
+        }
+      },
+      "trigger": "inView",
+      "threshold": 0.5,
+      "source": "f5PNu4AeAMmCA8-uotaSYImqL5EewAToOSxqDoSTzG8.gBBiIDh1.mjs"
+    },
+    "framer-28tpbi": {
+      "enter": {
+        "opacity": 0,
+        "rotate": 0,
+        "rotateX": 0,
+        "rotateY": 0,
+        "scale": 1,
+        "skewX": 0,
+        "skewY": 0,
+        "x": 0,
+        "y": 50
+      },
+      "animate": {
+        "transition": {
+          "delay": 0.2,
+          "duration": 0.6,
+          "ease": [
+            0.12,
+            0.23,
+            0.5,
+            1
+          ],
+          "type": "tween"
+        }
+      },
+      "trigger": "inView",
+      "threshold": 0.5,
+      "source": "f5PNu4AeAMmCA8-uotaSYImqL5EewAToOSxqDoSTzG8.gBBiIDh1.mjs"
+    },
+    "framer-mo9pza": {
+      "enter": {
+        "opacity": 0,
+        "rotate": 0,
+        "rotateX": 0,
+        "rotateY": 0,
+        "scale": 1,
+        "skewX": 0,
+        "skewY": 0,
+        "x": 0,
+        "y": 50
+      },
+      "animate": {
+        "transition": {
+          "delay": 0.4,
+          "duration": 0.6,
+          "ease": [
+            0.12,
+            0.23,
+            0.5,
+            1
+          ],
+          "type": "tween"
+        }
+      },
+      "trigger": "inView",
+      "threshold": 0.5,
+      "source": "f5PNu4AeAMmCA8-uotaSYImqL5EewAToOSxqDoSTzG8.gBBiIDh1.mjs"
+    },
+    "framer-1u6aix2": {
+      "enter": {
+        "opacity": 0,
+        "rotate": 0,
+        "rotateX": 0,
+        "rotateY": 0,
+        "scale": 1,
+        "skewX": 0,
+        "skewY": 0,
+        "x": 0,
+        "y": 30
+      },
+      "animate": {
+        "transition": {
+          "delay": 0.2,
+          "duration": 0.5,
+          "ease": [
+            0,
+            0,
+            0.58,
+            1
+          ],
+          "type": "tween"
+        }
+      },
+      "trigger": "inView",
+      "threshold": 0.5,
+      "source": "mWjDLWNR8YuA0w9i32q2NmQ4t5FwrEw9lMeXvYU3duQ.qc_X6nPi.mjs"
+    },
+    "framer-ay2mc7": {
+      "enter": {
+        "opacity": 0,
+        "rotate": 0,
+        "rotateX": 0,
+        "rotateY": 0,
+        "scale": 1,
+        "skewX": 0,
+        "skewY": 0,
+        "x": 0,
+        "y": 30
+      },
+      "animate": {
+        "transition": {
+          "delay": 0.5,
+          "duration": 0.6,
+          "ease": [
+            0.12,
+            0.23,
+            0.5,
+            1
+          ],
+          "type": "tween"
+        }
+      },
+      "trigger": "inView",
+      "threshold": 0.5,
+      "source": "script_main.vrye40xo.mjs"
+    },
+    "framer-v6yo73-container": {
+      "enter": {
+        "opacity": 0,
+        "rotate": 0,
+        "rotateX": 0,
+        "rotateY": 0,
+        "scale": 1,
+        "skewX": 0,
+        "skewY": 0,
+        "x": 0,
+        "y": 30
+      },
+      "animate": {
+        "transition": {
+          "delay": 0.6,
+          "duration": 0.6,
+          "ease": [
+            0,
+            0,
+            0.58,
+            1
+          ],
+          "type": "tween"
+        }
+      },
+      "trigger": "inView",
+      "threshold": 0.5,
+      "source": "script_main.vrye40xo.mjs"
+    },
+    "framer-11ocbob-container": {
+      "enter": {
+        "opacity": 0,
+        "rotate": 0,
+        "rotateX": 0,
+        "rotateY": 0,
+        "scale": 1,
+        "skewX": 0,
+        "skewY": 0,
+        "x": 0,
+        "y": 30
+      },
+      "animate": {
+        "transition": {
+          "delay": 0.7,
+          "duration": 0.6,
+          "ease": [
+            0,
+            0,
+            0.58,
+            1
+          ],
+          "type": "tween"
+        }
+      },
+      "trigger": "inView",
+      "threshold": 0.5,
+      "source": "script_main.vrye40xo.mjs"
+    },
+    "framer-1hlgjw7": {
+      "enter": {
+        "opacity": 0.001,
+        "rotate": 0,
+        "rotateX": 0,
+        "rotateY": 0,
+        "scale": 1,
+        "skewX": 0,
+        "skewY": 0,
+        "x": 0,
+        "y": 20
+      },
+      "animate": {
+        "opacity": 1,
+        "rotate": 0,
+        "rotateX": 0,
+        "rotateY": 0,
+        "scale": 1,
+        "skewX": 0,
+        "skewY": 0,
+        "transition": {
+          "delay": 2.2,
+          "duration": 0.4,
+          "ease": [
+            0.44,
+            0,
+            0.56,
+            1
+          ],
+          "type": "tween"
+        },
+        "x": 0,
+        "y": 0
+      },
+      "trigger": "mount",
+      "source": "script_main.vrye40xo.mjs"
+    },
+    "framer-1ezdh0j": {
+      "enter": {
+        "opacity": 0,
+        "rotate": 0,
+        "rotateX": 0,
+        "rotateY": 0,
+        "scale": 1,
+        "skewX": 0,
+        "skewY": 0,
+        "x": 0,
+        "y": 12
+      },
+      "animate": {
+        "transition": {
+          "delay": 0.6,
+          "duration": 0.4,
+          "ease": [
+            0.12,
+            0.23,
+            0.5,
+            1
+          ],
+          "type": "tween"
+        }
+      },
+      "trigger": "inView",
+      "threshold": 0.5,
+      "source": "zzOlbkMhU3zxaX-0UfMQzxtxL9H4dJQl-Ut9zLq0E9Y.aKGF5We7.mjs"
+    },
+    "framer-168rphz": {
+      "enter": {
+        "opacity": 0,
+        "rotate": 0,
+        "rotateX": 0,
+        "rotateY": 0,
+        "scale": 1,
+        "skewX": 0,
+        "skewY": 0,
+        "x": 0,
+        "y": 12
+      },
+      "animate": {
+        "transition": {
+          "delay": 0.8,
+          "duration": 0.4,
+          "ease": [
+            0.12,
+            0.23,
+            0.5,
+            1
+          ],
+          "type": "tween"
+        }
+      },
+      "trigger": "inView",
+      "threshold": 0.5,
+      "source": "zzOlbkMhU3zxaX-0UfMQzxtxL9H4dJQl-Ut9zLq0E9Y.aKGF5We7.mjs"
+    }
+  },
+  "text": {
+    "framer-kq336": {
+      "effect": {
+        "effect": {
+          "filter": "blur(2px)",
+          "opacity": 0.001,
+          "rotate": 0,
+          "scale": 1,
+          "skewX": 0,
+          "skewY": 0,
+          "x": 0,
+          "y": 10
+        },
+        "repeat": false,
+        "startDelay": 0.3,
+        "tokenization": "word",
+        "transition": {
+          "delay": 0.08,
+          "duration": 0.7,
+          "ease": [
+            0,
+            0,
+            0.58,
+            1
+          ],
+          "type": "tween"
+        },
+        "trigger": "onMount",
+        "type": "appear"
+      },
+      "source": "FqdwOJUfniIZY07NwTkDAojXo_vynECYtsNfpnhYhr8.BBrGTl06.mjs"
+    },
+    "framer-ud4pj4": {
+      "effect": {
+        "effect": {
+          "filter": "blur(2px)",
+          "opacity": 0.001,
+          "rotate": 0,
+          "scale": 1,
+          "skewX": 0,
+          "skewY": 0,
+          "x": 0,
+          "y": 10
+        },
+        "repeat": false,
+        "startDelay": 0.3,
+        "threshold": 0.5,
+        "tokenization": "word",
+        "transition": {
+          "delay": 0.05,
+          "duration": 0.8,
+          "ease": [
+            0.12,
+            0.23,
+            0.5,
+            1
+          ],
+          "type": "tween"
+        },
+        "trigger": "onInView",
+        "type": "appear"
+      },
+      "source": "IOP5Dcq8mMFLVDLb9btCJNBP2E7kyrX-mM6FnKoc3SM.BS9XNN9s.mjs"
+    },
+    "framer-1l42t5u": {
+      "effect": {
+        "effect": {
+          "filter": "blur(2px)",
+          "opacity": 0.001,
+          "rotate": 0,
+          "scale": 1,
+          "skewX": 0,
+          "skewY": 0,
+          "x": 0,
+          "y": 10
+        },
+        "repeat": false,
+        "startDelay": 0.3,
+        "threshold": 0,
+        "tokenization": "word",
+        "transition": {
+          "delay": 0.05,
+          "duration": 0.8,
+          "ease": [
+            0.12,
+            0.23,
+            0.5,
+            1
+          ],
+          "type": "tween"
+        },
+        "trigger": "onInView",
+        "type": "appear"
+      },
+      "source": "PyfXlYfHPRYSfFzwwxKfbS5maJDr2yLgwWtO-Ylbd8I.DvvEx37N.mjs"
+    },
+    "framer-1dygo4": {
+      "effect": {
+        "effect": {
+          "filter": "blur(2px)",
+          "opacity": 0.001,
+          "rotate": 0,
+          "scale": 1,
+          "skewX": 0,
+          "skewY": 0,
+          "x": 0,
+          "y": 10
+        },
+        "repeat": false,
+        "startDelay": 0.3,
+        "tokenization": "word",
+        "transition": {
+          "delay": 0.08,
+          "duration": 0.7,
+          "ease": [
+            0,
+            0,
+            0.58,
+            1
+          ],
+          "type": "tween"
+        },
+        "trigger": "onMount",
+        "type": "appear"
+      },
+      "source": "Us1YyEKMIjCPdmBbrP6tgc0JSCAWmwaPlFgr0qvvtPE.DEgrRUOw.mjs"
+    },
+    "framer-1fyactv": {
+      "effect": {
+        "effect": {
+          "filter": "blur(2px)",
+          "opacity": 0.001,
+          "rotate": 0,
+          "scale": 1,
+          "skewX": 0,
+          "skewY": 0,
+          "x": 0,
+          "y": 10
+        },
+        "repeat": false,
+        "startDelay": 0.3,
+        "threshold": 0.5,
+        "tokenization": "word",
+        "transition": {
+          "delay": 0.05,
+          "duration": 0.8,
+          "ease": [
+            0.12,
+            0.23,
+            0.5,
+            1
+          ],
+          "type": "tween"
+        },
+        "trigger": "onInView",
+        "type": "appear"
+      },
+      "source": "dXxdjg8eYx8V68nf9P_0tGDSH57_uNNVx_ESCT5KX2M.C_5rJCuY.mjs"
+    },
+    "framer-80dmol-container": {
+      "text": "Hey Mark - Done—compiled 60 leads and emailed the list to you. Ready for your outreach!",
+      "effect": {
+        "opacity": 0,
+        "rotate": 0,
+        "rotateX": 0,
+        "rotateY": 0,
+        "scale": 1,
+        "x": 0,
+        "y": 100
+      },
+      "transition": {
+        "duration": 0,
+        "type": "tween"
+      },
+      "stagger": 0.03,
+      "perWord": false,
+      "type": "letter",
+      "source": "f5PNu4AeAMmCA8-uotaSYImqL5EewAToOSxqDoSTzG8.gBBiIDh1.mjs"
+    },
+    "framer-130jn63-container": {
+      "text": "That’s awesome, thanks!",
+      "effect": {
+        "opacity": 0,
+        "rotate": 0,
+        "rotateX": 0,
+        "rotateY": 0,
+        "scale": 1,
+        "x": 0,
+        "y": 100
+      },
+      "transition": {
+        "duration": 0,
+        "type": "tween"
+      },
+      "stagger": 0.03,
+      "perWord": false,
+      "type": "letter",
+      "source": "f5PNu4AeAMmCA8-uotaSYImqL5EewAToOSxqDoSTzG8.gBBiIDh1.mjs"
+    },
+    "framer-1w2rmw9-container": {
+      "text": "Want me to draft a quick template for your outreach?",
+      "effect": {
+        "opacity": 0,
+        "rotate": 0,
+        "rotateX": 0,
+        "rotateY": 0,
+        "scale": 1,
+        "x": 0,
+        "y": 100
+      },
+      "transition": {
+        "duration": 0,
+        "type": "tween"
+      },
+      "stagger": 0.03,
+      "perWord": false,
+      "type": "letter",
+      "source": "f5PNu4AeAMmCA8-uotaSYImqL5EewAToOSxqDoSTzG8.gBBiIDh1.mjs"
+    },
+    "framer-1yiy8hz-container": {
+      "text": "Yes please—that’d be a huge help!",
+      "effect": {
+        "opacity": 0,
+        "rotate": 0,
+        "rotateX": 0,
+        "rotateY": 0,
+        "scale": 1,
+        "x": 0,
+        "y": 100
+      },
+      "transition": {
+        "duration": 0,
+        "type": "tween"
+      },
+      "stagger": 0.03,
+      "perWord": false,
+      "type": "letter",
+      "source": "f5PNu4AeAMmCA8-uotaSYImqL5EewAToOSxqDoSTzG8.gBBiIDh1.mjs"
+    },
+    "framer-17j3uia": {
+      "effect": {
+        "effect": {
+          "filter": "blur(2px)",
+          "opacity": 0.001,
+          "rotate": 0,
+          "scale": 1,
+          "skewX": 0,
+          "skewY": 0,
+          "x": 0,
+          "y": 10
+        },
+        "repeat": false,
+        "startDelay": 0.2,
+        "tokenization": "word",
+        "transition": {
+          "delay": 0.08,
+          "duration": 0.7,
+          "ease": [
+            0,
+            0,
+            0.58,
+            1
+          ],
+          "type": "tween"
+        },
+        "trigger": "onMount",
+        "type": "appear"
+      },
+      "source": "f5PNu4AeAMmCA8-uotaSYImqL5EewAToOSxqDoSTzG8.gBBiIDh1.mjs"
+    },
+    "framer-xvmix7": {
+      "effect": {
+        "effect": {
+          "filter": "blur(2px)",
+          "opacity": 0.001,
+          "rotate": 0,
+          "scale": 1,
+          "skewX": 0,
+          "skewY": 0,
+          "x": 0,
+          "y": 10
+        },
+        "startDelay": 0.7,
+        "tokenization": "line",
+        "transition": {
+          "delay": 0.03,
+          "duration": 0.3,
+          "ease": [
+            0,
+            0,
+            0.58,
+            1
+          ],
+          "type": "tween"
+        },
+        "trigger": "onMount",
+        "type": "appear"
+      },
+      "source": "f5PNu4AeAMmCA8-uotaSYImqL5EewAToOSxqDoSTzG8.gBBiIDh1.mjs"
+    },
+    "framer-rnfgyg": {
+      "effect": {
+        "effect": {
+          "filter": "blur(2px)",
+          "opacity": 0.001,
+          "rotate": 0,
+          "scale": 1,
+          "skewX": 0,
+          "skewY": 0,
+          "x": 0,
+          "y": 10
+        },
+        "repeat": false,
+        "startDelay": 0.3,
+        "threshold": 0.5,
+        "tokenization": "word",
+        "transition": {
+          "delay": 0.05,
+          "duration": 0.8,
+          "ease": [
+            0.12,
+            0.23,
+            0.5,
+            1
+          ],
+          "type": "tween"
+        },
+        "trigger": "onInView",
+        "type": "appear"
+      },
+      "source": "mWjDLWNR8YuA0w9i32q2NmQ4t5FwrEw9lMeXvYU3duQ.qc_X6nPi.mjs"
+    },
+    "framer-166uurl": {
+      "effect": {
+        "effect": {
+          "filter": "blur(2px)",
+          "opacity": 0.001,
+          "rotate": 0,
+          "scale": 1,
+          "skewX": 0,
+          "skewY": 0,
+          "x": 0,
+          "y": 10
+        },
+        "repeat": false,
+        "startDelay": 0.2,
+        "tokenization": "word",
+        "transition": {
+          "damping": 100,
+          "delay": 0.05,
+          "mass": 3,
+          "stiffness": 400,
+          "type": "spring"
+        },
+        "trigger": "onMount",
+        "type": "appear"
+      },
+      "source": "nadK4gM4I467CMQqSlVXJCHDS_f_oCUAiqVP9EJHqG0.D83BTwXi.mjs"
+    },
+    "framer-7sje5z": {
+      "effect": {
+        "effect": {
+          "filter": "blur(2px)",
+          "opacity": 0.001,
+          "rotate": 0,
+          "scale": 1,
+          "skewX": 0,
+          "skewY": 0,
+          "x": 0,
+          "y": 10
+        },
+        "repeat": false,
+        "startDelay": 0.3,
+        "threshold": 0.5,
+        "tokenization": "word",
+        "transition": {
+          "delay": 0.05,
+          "duration": 0.8,
+          "ease": [
+            0.12,
+            0.23,
+            0.5,
+            1
+          ],
+          "type": "tween"
+        },
+        "trigger": "onInView",
+        "type": "appear"
+      },
+      "source": "p3Ux4EW9b8IUJ19u7Z8pvIimBnVqmVeqNx22G2Meqrs.B1f6mHBR.mjs"
+    },
+    "framer-bsy0sx": {
+      "effect": {
+        "effect": {
+          "filter": "blur(2px)",
+          "opacity": 0.001,
+          "rotate": 0,
+          "scale": 1,
+          "skewX": 0,
+          "skewY": 0,
+          "x": 0,
+          "y": 10
+        },
+        "repeat": false,
+        "startDelay": 0.3,
+        "threshold": 0.5,
+        "tokenization": "word",
+        "transition": {
+          "delay": 0.05,
+          "duration": 0.8,
+          "ease": [
+            0.12,
+            0.23,
+            0.5,
+            1
+          ],
+          "type": "tween"
+        },
+        "trigger": "onInView",
+        "type": "appear"
+      },
+      "source": "script_main.vrye40xo.mjs"
+    },
+    "framer-7vxbm8": {
+      "effect": {
+        "effect": {
+          "filter": "blur(2px)",
+          "opacity": 0.001,
+          "rotate": 0,
+          "scale": 1,
+          "skewX": 0,
+          "skewY": 0,
+          "x": 0,
+          "y": 10
+        },
+        "repeat": false,
+        "startDelay": 0.3,
+        "threshold": 0.5,
+        "tokenization": "word",
+        "transition": {
+          "delay": 0.05,
+          "duration": 0.8,
+          "ease": [
+            0.12,
+            0.23,
+            0.5,
+            1
+          ],
+          "type": "tween"
+        },
+        "trigger": "onInView",
+        "type": "appear"
+      },
+      "source": "ylv4MpBba9lJBcNpblQMxs5bHriHYLaClkdGtGVzwSc.DFdfAoJ-.mjs"
+    },
+    "framer-1o23pkp": {
+      "effect": {
+        "effect": {
+          "filter": "blur(2px)",
+          "opacity": 0.001,
+          "rotate": 0,
+          "scale": 1,
+          "skewX": 0,
+          "skewY": 0,
+          "x": 0,
+          "y": 10
+        },
+        "repeat": false,
+        "startDelay": 0.3,
+        "threshold": 0.5,
+        "tokenization": "word",
+        "transition": {
+          "delay": 0.05,
+          "duration": 0.8,
+          "ease": [
+            0.12,
+            0.23,
+            0.5,
+            1
+          ],
+          "type": "tween"
+        },
+        "trigger": "onInView",
+        "type": "appear"
+      },
+      "source": "zzOlbkMhU3zxaX-0UfMQzxtxL9H4dJQl-Ut9zLq0E9Y.aKGF5We7.mjs"
+    }
+  }
+}

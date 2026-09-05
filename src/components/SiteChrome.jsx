@@ -1,3 +1,6 @@
+import { Reveal } from './Interactions.jsx';
+import { TextReveal } from './EntranceMotion.jsx';
+
 export function CallToAction() {
   return (
     <section className={'framer-1qbnrtk'} data-framer-name={'CTA'}>
@@ -86,7 +89,7 @@ export function CallToAction() {
           >
             <div className={'framer-6q0abc'} data-framer-name={'Text'}>
               <div className={'ssr-variant hidden-u81ilo'}>
-                <div
+                <TextReveal
                   className={'framer-bsy0sx'}
                   data-framer-name={'Title Text'}
                   data-framer-component-type={'RichTextContainer'}
@@ -106,10 +109,10 @@ export function CallToAction() {
                     <span style={{ display: 'inline-block' }}>{'Journey'}</span>{' '}
                     <span style={{ display: 'inline-block' }}>{'Today'}</span>
                   </h2>
-                </div>
+                </TextReveal>
               </div>
               <div className={'ssr-variant hidden-1hmmxt8 hidden-wmf85w'}>
-                <div
+                <TextReveal
                   className={'framer-bsy0sx'}
                   data-framer-name={'Title Text'}
                   data-framer-component-type={'RichTextContainer'}
@@ -122,10 +125,11 @@ export function CallToAction() {
                   >
                     {'Start Your AI Automation Journey Today'}
                   </h2>
-                </div>
+                </TextReveal>
               </div>
               <div className={'ssr-variant hidden-u81ilo'}>
-                <div
+                <Reveal
+                  as={'div'}
                   className={'framer-ay2mc7'}
                   data-framer-name={'Header Description'}
                   data-framer-component-type={'RichTextContainer'}
@@ -140,10 +144,11 @@ export function CallToAction() {
                       ' Sign up for Fusion AI and let AI handle your routine tasks—no credit card needed.'
                     }
                   </p>
-                </div>
+                </Reveal>
               </div>
               <div className={'ssr-variant hidden-1hmmxt8 hidden-wmf85w'}>
-                <div
+                <Reveal
+                  as={'div'}
                   className={'framer-ay2mc7'}
                   data-framer-name={'Header Description'}
                   data-framer-component-type={'RichTextContainer'}
@@ -158,13 +163,17 @@ export function CallToAction() {
                       ' Sign up for Fusion AI and let AI handle your routine tasks—no credit card needed.'
                     }
                   </p>
-                </div>
+                </Reveal>
               </div>
             </div>
             <div className={'framer-chjkhk'} data-framer-name={'CTA Wrapper'}>
               <div className={'framer-19n3k2a'} data-framer-name={'CTA'}>
                 <div className={'ssr-variant hidden-u81ilo'}>
-                  <div className={'framer-v6yo73-container'} style={{}}>
+                  <Reveal
+                    as={'div'}
+                    className={'framer-v6yo73-container'}
+                    style={{}}
+                  >
                     <a
                       aria-label={'Get Started - Free'}
                       className={
@@ -273,10 +282,11 @@ export function CallToAction() {
                         </div>
                       </div>
                     </a>
-                  </div>
+                  </Reveal>
                 </div>
                 <div className={'ssr-variant hidden-1hmmxt8 hidden-wmf85w'}>
-                  <div
+                  <Reveal
+                    as={'div'}
                     className={'framer-v6yo73-container'}
                     style={{ opacity: '1', transform: 'none' }}
                   >
@@ -389,10 +399,14 @@ export function CallToAction() {
                         </div>
                       </div>
                     </a>
-                  </div>
+                  </Reveal>
                 </div>
                 <div className={'ssr-variant hidden-u81ilo'}>
-                  <div className={'framer-11ocbob-container'} style={{}}>
+                  <Reveal
+                    as={'div'}
+                    className={'framer-11ocbob-container'}
+                    style={{}}
+                  >
                     <a
                       aria-label={'View Pricing'}
                       className={
@@ -467,10 +481,11 @@ export function CallToAction() {
                         </div>
                       </div>
                     </a>
-                  </div>
+                  </Reveal>
                 </div>
                 <div className={'ssr-variant hidden-1hmmxt8 hidden-wmf85w'}>
-                  <div
+                  <Reveal
+                    as={'div'}
                     className={'framer-11ocbob-container'}
                     style={{ opacity: '1', transform: 'none' }}
                   >
@@ -549,7 +564,7 @@ export function CallToAction() {
                         </div>
                       </div>
                     </a>
-                  </div>
+                  </Reveal>
                 </div>
               </div>
             </div>

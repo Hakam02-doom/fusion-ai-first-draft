@@ -6,6 +6,8 @@ import {
 } from '../components/Interactions.jsx';
 import { Footer, CallToAction } from '../components/SiteChrome.jsx';
 
+import { TextReveal } from '../components/EntranceMotion.jsx';
+
 export default function BlogSiteOptimizationTechniquesToBoostConversions() {
   return (
     <BillingProvider>
@@ -799,7 +801,7 @@ function BlogSiteOptimizationTechniquesToBoostConversionsBlogSingle() {
                 </p>
               </div>
             </div>
-            <div
+            <TextReveal
               className={'framer-166uurl'}
               data-framer-name={'Title Text'}
               data-framer-component-type={'RichTextContainer'}
@@ -819,7 +821,7 @@ function BlogSiteOptimizationTechniquesToBoostConversionsBlogSingle() {
                 <span style={{ display: 'inline-block' }}>{'Boost'}</span>{' '}
                 <span style={{ display: 'inline-block' }}>{'Conversions'}</span>
               </h1>
-            </div>
+            </TextReveal>
           </div>
           <div className={'framer-duubtm'} data-framer-name={'Image'}>
             <div className={'ssr-variant'}>

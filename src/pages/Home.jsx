@@ -11,6 +11,8 @@ import {
 import { Footer, CallToAction } from '../components/SiteChrome.jsx';
 import { ShaderCanvas, AmbientVideo } from '../components/ReferenceMotion.jsx';
 import ChatSequence from '../components/ChatSequence.jsx';
+import ProductShowcase from '../components/ProductShowcase.jsx';
+import { TextReveal } from '../components/EntranceMotion.jsx';
 
 export default function Home() {
   return (
@@ -6741,7 +6743,7 @@ function HomeHero() {
                 </div>
               </div>
               <div className={'ssr-variant hidden-1x7kjf3'}>
-                <div
+                <TextReveal
                   className={'framer-17j3uia'}
                   data-framer-name={'Title Text'}
                   data-framer-component-type={'RichTextContainer'}
@@ -6764,10 +6766,10 @@ function HomeHero() {
                     <span style={{ display: 'inline-block' }}>{'AI'}</span>{' '}
                     <span style={{ display: 'inline-block' }}>{'Agent'}</span>
                   </h1>
-                </div>
+                </TextReveal>
               </div>
               <div className={'ssr-variant hidden-1i4kwtr hidden-72rtr7'}>
-                <div
+                <TextReveal
                   className={'framer-17j3uia'}
                   data-framer-name={'Title Text'}
                   data-framer-component-type={'RichTextContainer'}
@@ -6780,11 +6782,11 @@ function HomeHero() {
                   >
                     {'Automate Your AI Workflows with AI Agent'}
                   </h1>
-                </div>
+                </TextReveal>
               </div>
             </div>
             <div className={'ssr-variant hidden-1x7kjf3'}>
-              <div
+              <TextReveal
                 className={'framer-xvmix7'}
                 data-framer-name={'Header Description'}
                 data-framer-component-type={'RichTextContainer'}
@@ -6942,10 +6944,10 @@ function HomeHero() {
                     <span style={{ display: 'inline-block' }}>{'.'}</span>
                   </span>
                 </p>
-              </div>
+              </TextReveal>
             </div>
             <div className={'ssr-variant hidden-1i4kwtr hidden-72rtr7'}>
-              <div
+              <TextReveal
                 className={'framer-xvmix7'}
                 data-framer-name={'Header Description'}
                 data-framer-component-type={'RichTextContainer'}
@@ -6961,7 +6963,7 @@ function HomeHero() {
                     'Connect your favorite apps, set triggers and watch AI handle the rest - no coding required. Get up and running in minutes.'
                   }
                 </p>
-              </div>
+              </TextReveal>
             </div>
           </div>
           <div className={'framer-nb90jq'} data-framer-name={'CTA Wrapper'}>
@@ -7570,7 +7572,8 @@ function HomeBento() {
         <div className={'framer-1rygu48'} data-framer-name={'Bento Grid'}>
           <div className={'framer-1gs72ji'} data-framer-name={'Row'}>
             <div className={'ssr-variant hidden-1x7kjf3'}>
-              <div
+              <Reveal
+                as={'div'}
                 className={'framer-1uwtv9a'}
                 data-framer-name={'Item'}
                 style={{}}
@@ -7659,10 +7662,11 @@ function HomeBento() {
                     </div>
                   </div>
                 </div>
-              </div>
+              </Reveal>
             </div>
             <div className={'ssr-variant hidden-1i4kwtr hidden-72rtr7'}>
-              <div
+              <Reveal
+                as={'div'}
                 className={'framer-1uwtv9a'}
                 data-framer-name={'Item'}
                 style={{ opacity: '1', transform: 'none' }}
@@ -7749,10 +7753,11 @@ function HomeBento() {
                     </div>
                   </div>
                 </div>
-              </div>
+              </Reveal>
             </div>
             <div className={'ssr-variant hidden-1x7kjf3'}>
-              <div
+              <Reveal
+                as={'div'}
                 className={'framer-5vak5l'}
                 data-framer-name={'Item'}
                 style={{}}
@@ -7841,10 +7846,11 @@ function HomeBento() {
                     </div>
                   </div>
                 </div>
-              </div>
+              </Reveal>
             </div>
             <div className={'ssr-variant hidden-1i4kwtr hidden-72rtr7'}>
-              <div
+              <Reveal
+                as={'div'}
                 className={'framer-5vak5l'}
                 data-framer-name={'Item'}
                 style={{ opacity: '1', transform: 'none' }}
@@ -7931,12 +7937,13 @@ function HomeBento() {
                     </div>
                   </div>
                 </div>
-              </div>
+              </Reveal>
             </div>
           </div>
           <div className={'framer-qgovbc'} data-framer-name={'Row'}>
             <div className={'ssr-variant hidden-1x7kjf3'}>
-              <div
+              <Reveal
+                as={'div'}
                 className={'framer-ycqm8b'}
                 data-framer-name={'Item'}
                 style={{}}
@@ -8025,10 +8032,11 @@ function HomeBento() {
                     </div>
                   </div>
                 </div>
-              </div>
+              </Reveal>
             </div>
             <div className={'ssr-variant hidden-1i4kwtr hidden-72rtr7'}>
-              <div
+              <Reveal
+                as={'div'}
                 className={'framer-ycqm8b'}
                 data-framer-name={'Item'}
                 style={{ opacity: '1', transform: 'none' }}
@@ -8115,10 +8123,11 @@ function HomeBento() {
                     </div>
                   </div>
                 </div>
-              </div>
+              </Reveal>
             </div>
             <div className={'ssr-variant hidden-1x7kjf3'}>
-              <div
+              <Reveal
+                as={'div'}
                 className={'framer-1w197o0'}
                 data-framer-name={'Item'}
                 style={{}}
@@ -8204,10 +8213,11 @@ function HomeBento() {
                     </div>
                   </div>
                 </div>
-              </div>
+              </Reveal>
             </div>
             <div className={'ssr-variant hidden-1i4kwtr hidden-72rtr7'}>
-              <div
+              <Reveal
+                as={'div'}
                 className={'framer-1w197o0'}
                 data-framer-name={'Item'}
                 style={{ opacity: '1', transform: 'none' }}
@@ -8291,7 +8301,7 @@ function HomeBento() {
                     </div>
                   </div>
                 </div>
-              </div>
+              </Reveal>
             </div>
           </div>
         </div>
@@ -13296,986 +13306,35 @@ function HomeFeature3() {
         </div>
         <div className={'ssr-variant hidden-1i4kwtr hidden-1x7kjf3'}>
           <div className={'framer-zjn60w-container'}>
-            <div
+            <ProductShowcase
               className={
                 'framer-v0BV7 framer-KYDPx framer-9qnai4 framer-v-1tjgci9'
               }
               data-framer-name={'Desktop Static'}
               style={{ width: '100%' }}
-            >
-              <div
-                className={'framer-9bqe4j'}
-                data-framer-name={'Images Wrapper'}
-              >
-                <div
-                  className={'framer-12l2tza'}
-                  data-border={'true'}
-                  data-framer-name={'Image One'}
-                  style={{
-                    '--border-bottom-width': '1px',
-                    '--border-color': 'rgba(255, 255, 255, 0.1)',
-                    '--border-left-width': '1px',
-                    '--border-right-width': '1px',
-                    '--border-style': 'solid',
-                    '--border-top-width': '1px',
-                    borderBottomLeftRadius: '20px',
-                    borderBottomRightRadius: '20px',
-                    borderTopLeftRadius: '20px',
-                    borderTopRightRadius: '20px',
-                    opacity: '1',
-                  }}
-                >
-                  <div className={'framer-u2e16b'}>
-                    <div
-                      style={{
-                        position: 'absolute',
-                        borderRadius: 'inherit',
-                        cornerShape: 'inherit',
-                        top: '0',
-                        right: '0',
-                        bottom: '0',
-                        left: '0',
-                      }}
-                      data-framer-background-image-wrapper={'true'}
-                    >
-                      <img
-                        decoding={'async'}
-                        width={'2280'}
-                        height={'1310'}
-                        sizes={
-                          '(min-width: 1200px) max(min(max(100vw - 80px, 1px), 1240px), 1px), (min-width: 810px) and (max-width: 1199.98px) max(min(max(100vw - 60px, 1px), 800px), 1px), (max-width: 809.98px) max(min(max(min(100vw, 500px) - 32px, 1px), 500px), 1px)'
-                        }
-                        srcSet={
-                          '/vendor/framer/images/Isd9yuBo2aIVNcH4tmm2FjtSCc.png?scale-down-to=512&width=2280&height=1310 512w,/vendor/framer/images/Isd9yuBo2aIVNcH4tmm2FjtSCc.png?scale-down-to=1024&width=2280&height=1310 1024w,/vendor/framer/images/Isd9yuBo2aIVNcH4tmm2FjtSCc.png?scale-down-to=2048&width=2280&height=1310 2048w,/vendor/framer/images/Isd9yuBo2aIVNcH4tmm2FjtSCc.png?width=2280&height=1310 2280w'
-                        }
-                        src={
-                          '/vendor/framer/images/Isd9yuBo2aIVNcH4tmm2FjtSCc.png?width=2280&height=1310'
-                        }
-                        alt={'Product feature preview'}
-                        style={{
-                          display: 'block',
-                          width: '100%',
-                          height: '100%',
-                          borderRadius: 'inherit',
-                          cornerShape: 'inherit',
-                          objectPosition: 'center',
-                          objectFit: 'cover',
-                        }}
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div
-                  className={'framer-sghvb8'}
-                  data-border={'true'}
-                  data-framer-name={'Image Two'}
-                  style={{
-                    '--border-bottom-width': '1px',
-                    '--border-color': 'rgba(255, 255, 255, 0.1)',
-                    '--border-left-width': '1px',
-                    '--border-right-width': '1px',
-                    '--border-style': 'solid',
-                    '--border-top-width': '1px',
-                    borderBottomLeftRadius: '20px',
-                    borderBottomRightRadius: '20px',
-                    borderTopLeftRadius: '20px',
-                    borderTopRightRadius: '20px',
-                  }}
-                >
-                  <div className={'framer-1r0s6mx'}>
-                    <div
-                      style={{
-                        position: 'absolute',
-                        borderRadius: 'inherit',
-                        cornerShape: 'inherit',
-                        top: '0',
-                        right: '0',
-                        bottom: '0',
-                        left: '0',
-                      }}
-                      data-framer-background-image-wrapper={'true'}
-                    >
-                      <img
-                        decoding={'async'}
-                        width={'2280'}
-                        height={'1310'}
-                        sizes={
-                          '(min-width: 1200px) max(min(max(100vw - 80px, 1px), 1240px), 1px), (min-width: 810px) and (max-width: 1199.98px) max(min(max(100vw - 60px, 1px), 800px), 1px), (max-width: 809.98px) max(min(max(min(100vw, 500px) - 32px, 1px), 500px), 1px)'
-                        }
-                        srcSet={
-                          '/vendor/framer/images/tRymLem0RJveQ8v95qGTUdus0.png?scale-down-to=512&width=2280&height=1310 512w,/vendor/framer/images/tRymLem0RJveQ8v95qGTUdus0.png?scale-down-to=1024&width=2280&height=1310 1024w,/vendor/framer/images/tRymLem0RJveQ8v95qGTUdus0.png?scale-down-to=2048&width=2280&height=1310 2048w,/vendor/framer/images/tRymLem0RJveQ8v95qGTUdus0.png?width=2280&height=1310 2280w'
-                        }
-                        src={
-                          '/vendor/framer/images/tRymLem0RJveQ8v95qGTUdus0.png?width=2280&height=1310'
-                        }
-                        alt={'Product feature preview'}
-                        style={{
-                          display: 'block',
-                          width: '100%',
-                          height: '100%',
-                          borderRadius: 'inherit',
-                          cornerShape: 'inherit',
-                          objectPosition: 'center',
-                          objectFit: 'cover',
-                        }}
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div
-                  className={'framer-1f9lc07'}
-                  data-border={'true'}
-                  data-framer-name={'Image Three'}
-                  style={{
-                    '--border-bottom-width': '1px',
-                    '--border-color': 'rgba(255, 255, 255, 0.1)',
-                    '--border-left-width': '1px',
-                    '--border-right-width': '1px',
-                    '--border-style': 'solid',
-                    '--border-top-width': '1px',
-                    borderBottomLeftRadius: '20px',
-                    borderBottomRightRadius: '20px',
-                    borderTopLeftRadius: '20px',
-                    borderTopRightRadius: '20px',
-                  }}
-                >
-                  <div className={'framer-s9cy8x'}>
-                    <div
-                      style={{
-                        position: 'absolute',
-                        borderRadius: 'inherit',
-                        cornerShape: 'inherit',
-                        top: '0',
-                        right: '0',
-                        bottom: '0',
-                        left: '0',
-                      }}
-                      data-framer-background-image-wrapper={'true'}
-                    >
-                      <img
-                        decoding={'async'}
-                        width={'2280'}
-                        height={'1310'}
-                        sizes={
-                          '(min-width: 1200px) max(min(max(100vw - 80px, 1px), 1240px), 1px), (min-width: 810px) and (max-width: 1199.98px) max(min(max(100vw - 60px, 1px), 800px), 1px), (max-width: 809.98px) max(min(max(min(100vw, 500px) - 32px, 1px), 500px), 1px)'
-                        }
-                        srcSet={
-                          '/vendor/framer/images/ehwJVX0AOW0Ns86sjH5bO7LNM.png?scale-down-to=512&width=2280&height=1310 512w,/vendor/framer/images/ehwJVX0AOW0Ns86sjH5bO7LNM.png?scale-down-to=1024&width=2280&height=1310 1024w,/vendor/framer/images/ehwJVX0AOW0Ns86sjH5bO7LNM.png?scale-down-to=2048&width=2280&height=1310 2048w,/vendor/framer/images/ehwJVX0AOW0Ns86sjH5bO7LNM.png?width=2280&height=1310 2280w'
-                        }
-                        src={
-                          '/vendor/framer/images/ehwJVX0AOW0Ns86sjH5bO7LNM.png?width=2280&height=1310'
-                        }
-                        alt={'Product feature preview'}
-                        style={{
-                          display: 'block',
-                          width: '100%',
-                          height: '100%',
-                          borderRadius: 'inherit',
-                          cornerShape: 'inherit',
-                          objectPosition: 'center',
-                          objectFit: 'cover',
-                        }}
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div
-                className={'framer-cgrhdk'}
-                data-framer-name={'Progress Bar Wrapper'}
-              >
-                <div className={'framer-2sojae-container'}>
-                  <div
-                    className={'framer-5R5iA framer-x13350 framer-v-x13350'}
-                    data-framer-name={'Default'}
-                    style={{
-                      backgroundColor: 'rgba(218, 78, 36, 0.2)',
-                      borderBottomLeftRadius: '9999px',
-                      borderBottomRightRadius: '9999px',
-                      borderTopLeftRadius: '9999px',
-                      borderTopRightRadius: '9999px',
-                    }}
-                  >
-                    <Reveal
-                      as={'div'}
-                      className={'framer-a6n4m6'}
-                      data-framer-name={'Background'}
-                      style={{
-                        backgroundColor: 'rgba(218, 78, 36, 0.2)',
-                        WebkitFilter: 'blur(0.5px)',
-                      }}
-                    ></Reveal>
-                  </div>
-                </div>
-                <div className={'framer-1nkxs6x-container'}>
-                  <div
-                    className={'framer-5R5iA framer-x13350 framer-v-x13350'}
-                    data-framer-name={'Default'}
-                    style={{
-                      backgroundColor: 'rgba(218, 78, 36, 0.2)',
-                      borderBottomLeftRadius: '9999px',
-                      borderBottomRightRadius: '9999px',
-                      borderTopLeftRadius: '9999px',
-                      borderTopRightRadius: '9999px',
-                    }}
-                  >
-                    <Reveal
-                      as={'div'}
-                      className={'framer-a6n4m6'}
-                      data-framer-name={'Background'}
-                      style={{
-                        backgroundColor: 'rgba(218, 78, 36, 0.2)',
-                        WebkitFilter: 'blur(0.5px)',
-                      }}
-                    ></Reveal>
-                  </div>
-                </div>
-                <div className={'framer-igfxly-container'}>
-                  <div
-                    className={'framer-5R5iA framer-x13350 framer-v-x13350'}
-                    data-framer-name={'Default'}
-                    style={{
-                      backgroundColor: 'rgba(218, 78, 36, 0.2)',
-                      borderBottomLeftRadius: '9999px',
-                      borderBottomRightRadius: '9999px',
-                      borderTopLeftRadius: '9999px',
-                      borderTopRightRadius: '9999px',
-                    }}
-                  >
-                    <Reveal
-                      as={'div'}
-                      className={'framer-a6n4m6'}
-                      data-framer-name={'Background'}
-                      style={{
-                        backgroundColor: 'rgba(218, 78, 36, 0.2)',
-                        WebkitFilter: 'blur(0.5px)',
-                      }}
-                    ></Reveal>
-                  </div>
-                </div>
-              </div>
-              <div
-                className={'framer-aa7mnq'}
-                data-framer-name={'Text Wrapper'}
-              >
-                <div
-                  className={'framer-rciabq'}
-                  data-framer-name={'Description'}
-                  data-framer-component-type={'RichTextContainer'}
-                  style={{
-                    '--framer-paragraph-spacing': '0px',
-                    opacity: '1',
-                    transform: 'none',
-                  }}
-                >
-                  <p
-                    className={'framer-text framer-styles-preset-1e7rr0f'}
-                    data-styles-preset={'MigD80yic'}
-                  >
-                    <strong className={'framer-text'}>{'Workflow:'}</strong>
-                    {
-                      ' Drag-and-drop multi-step automations with triggers, AI actions, and rules—built visually in minutes.'
-                    }
-                  </p>
-                </div>
-                <div
-                  className={'framer-148v3tm'}
-                  data-framer-name={'Description'}
-                  data-framer-component-type={'RichTextContainer'}
-                  style={{
-                    '--framer-paragraph-spacing': '0px',
-                    opacity: '0.5',
-                    transform: 'none',
-                  }}
-                >
-                  <p
-                    className={'framer-text framer-styles-preset-1e7rr0f'}
-                    data-styles-preset={'MigD80yic'}
-                  >
-                    <strong className={'framer-text'}>{'Analytics:'}</strong>
-                    {
-                      ' Real-time dashboards surface trends, bottlenecks, and ROI at a glance—for faster decisions.'
-                    }
-                  </p>
-                </div>
-                <div
-                  className={'framer-1m8swkv'}
-                  data-framer-name={'Description'}
-                  data-framer-component-type={'RichTextContainer'}
-                  style={{
-                    '--framer-paragraph-spacing': '0px',
-                    opacity: '0.5',
-                    transform: 'none',
-                  }}
-                >
-                  <p
-                    className={'framer-text framer-styles-preset-1e7rr0f'}
-                    data-styles-preset={'MigD80yic'}
-                  >
-                    <strong className={'framer-text'}>{'Integration:'}</strong>
-                    {
-                      ' One-click connectors and an open API sync CRM, chat, calendar, and more—everything stays in sync.'
-                    }
-                  </p>
-                </div>
-              </div>
-            </div>
+            />
           </div>
         </div>
         <div className={'ssr-variant hidden-72rtr7 hidden-1x7kjf3'}>
           <div className={'framer-zjn60w-container'}>
-            <div
+            <ProductShowcase
               className={
                 'framer-v0BV7 framer-KYDPx framer-9qnai4 framer-v-1t6g2jd'
               }
               data-framer-name={'Tablet Static'}
               style={{ width: '100%' }}
-            >
-              <div
-                className={'framer-9bqe4j'}
-                data-framer-name={'Images Wrapper'}
-              >
-                <div
-                  className={'framer-12l2tza'}
-                  data-border={'true'}
-                  data-framer-name={'Image One'}
-                  style={{
-                    '--border-bottom-width': '1px',
-                    '--border-color': 'rgba(255, 255, 255, 0.1)',
-                    '--border-left-width': '1px',
-                    '--border-right-width': '1px',
-                    '--border-style': 'solid',
-                    '--border-top-width': '1px',
-                    borderBottomLeftRadius: '12px',
-                    borderBottomRightRadius: '12px',
-                    borderTopLeftRadius: '12px',
-                    borderTopRightRadius: '12px',
-                    opacity: '1',
-                  }}
-                >
-                  <div className={'framer-u2e16b'}>
-                    <div
-                      style={{
-                        position: 'absolute',
-                        borderRadius: 'inherit',
-                        cornerShape: 'inherit',
-                        top: '0',
-                        right: '0',
-                        bottom: '0',
-                        left: '0',
-                      }}
-                      data-framer-background-image-wrapper={'true'}
-                    >
-                      <img
-                        decoding={'async'}
-                        width={'2280'}
-                        height={'1310'}
-                        sizes={
-                          '(min-width: 1200px) max(min(max(100vw - 80px, 1px), 1240px), 1px), (min-width: 810px) and (max-width: 1199.98px) max(min(max(100vw - 60px, 1px), 800px), 1px), (max-width: 809.98px) max(min(max(min(100vw, 500px) - 32px, 1px), 500px), 1px)'
-                        }
-                        srcSet={
-                          '/vendor/framer/images/Isd9yuBo2aIVNcH4tmm2FjtSCc.png?scale-down-to=512&width=2280&height=1310 512w,/vendor/framer/images/Isd9yuBo2aIVNcH4tmm2FjtSCc.png?scale-down-to=1024&width=2280&height=1310 1024w,/vendor/framer/images/Isd9yuBo2aIVNcH4tmm2FjtSCc.png?scale-down-to=2048&width=2280&height=1310 2048w,/vendor/framer/images/Isd9yuBo2aIVNcH4tmm2FjtSCc.png?width=2280&height=1310 2280w'
-                        }
-                        src={
-                          '/vendor/framer/images/Isd9yuBo2aIVNcH4tmm2FjtSCc.png?width=2280&height=1310'
-                        }
-                        alt={'Product feature preview'}
-                        style={{
-                          display: 'block',
-                          width: '100%',
-                          height: '100%',
-                          borderRadius: 'inherit',
-                          cornerShape: 'inherit',
-                          objectPosition: 'center',
-                          objectFit: 'cover',
-                        }}
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div
-                  className={'framer-sghvb8'}
-                  data-border={'true'}
-                  data-framer-name={'Image Two'}
-                  style={{
-                    '--border-bottom-width': '1px',
-                    '--border-color': 'rgba(255, 255, 255, 0.1)',
-                    '--border-left-width': '1px',
-                    '--border-right-width': '1px',
-                    '--border-style': 'solid',
-                    '--border-top-width': '1px',
-                    borderBottomLeftRadius: '12px',
-                    borderBottomRightRadius: '12px',
-                    borderTopLeftRadius: '12px',
-                    borderTopRightRadius: '12px',
-                  }}
-                >
-                  <div className={'framer-1r0s6mx'}>
-                    <div
-                      style={{
-                        position: 'absolute',
-                        borderRadius: 'inherit',
-                        cornerShape: 'inherit',
-                        top: '0',
-                        right: '0',
-                        bottom: '0',
-                        left: '0',
-                      }}
-                      data-framer-background-image-wrapper={'true'}
-                    >
-                      <img
-                        decoding={'async'}
-                        width={'2280'}
-                        height={'1310'}
-                        sizes={
-                          '(min-width: 1200px) max(min(max(100vw - 80px, 1px), 1240px), 1px), (min-width: 810px) and (max-width: 1199.98px) max(min(max(100vw - 60px, 1px), 800px), 1px), (max-width: 809.98px) max(min(max(min(100vw, 500px) - 32px, 1px), 500px), 1px)'
-                        }
-                        srcSet={
-                          '/vendor/framer/images/tRymLem0RJveQ8v95qGTUdus0.png?scale-down-to=512&width=2280&height=1310 512w,/vendor/framer/images/tRymLem0RJveQ8v95qGTUdus0.png?scale-down-to=1024&width=2280&height=1310 1024w,/vendor/framer/images/tRymLem0RJveQ8v95qGTUdus0.png?scale-down-to=2048&width=2280&height=1310 2048w,/vendor/framer/images/tRymLem0RJveQ8v95qGTUdus0.png?width=2280&height=1310 2280w'
-                        }
-                        src={
-                          '/vendor/framer/images/tRymLem0RJveQ8v95qGTUdus0.png?width=2280&height=1310'
-                        }
-                        alt={'Product feature preview'}
-                        style={{
-                          display: 'block',
-                          width: '100%',
-                          height: '100%',
-                          borderRadius: 'inherit',
-                          cornerShape: 'inherit',
-                          objectPosition: 'center',
-                          objectFit: 'cover',
-                        }}
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div
-                  className={'framer-1f9lc07'}
-                  data-border={'true'}
-                  data-framer-name={'Image Three'}
-                  style={{
-                    '--border-bottom-width': '1px',
-                    '--border-color': 'rgba(255, 255, 255, 0.1)',
-                    '--border-left-width': '1px',
-                    '--border-right-width': '1px',
-                    '--border-style': 'solid',
-                    '--border-top-width': '1px',
-                    borderBottomLeftRadius: '12px',
-                    borderBottomRightRadius: '12px',
-                    borderTopLeftRadius: '12px',
-                    borderTopRightRadius: '12px',
-                  }}
-                >
-                  <div className={'framer-s9cy8x'}>
-                    <div
-                      style={{
-                        position: 'absolute',
-                        borderRadius: 'inherit',
-                        cornerShape: 'inherit',
-                        top: '0',
-                        right: '0',
-                        bottom: '0',
-                        left: '0',
-                      }}
-                      data-framer-background-image-wrapper={'true'}
-                    >
-                      <img
-                        decoding={'async'}
-                        width={'2280'}
-                        height={'1310'}
-                        sizes={
-                          '(min-width: 1200px) max(min(max(100vw - 80px, 1px), 1240px), 1px), (min-width: 810px) and (max-width: 1199.98px) max(min(max(100vw - 60px, 1px), 800px), 1px), (max-width: 809.98px) max(min(max(min(100vw, 500px) - 32px, 1px), 500px), 1px)'
-                        }
-                        srcSet={
-                          '/vendor/framer/images/ehwJVX0AOW0Ns86sjH5bO7LNM.png?scale-down-to=512&width=2280&height=1310 512w,/vendor/framer/images/ehwJVX0AOW0Ns86sjH5bO7LNM.png?scale-down-to=1024&width=2280&height=1310 1024w,/vendor/framer/images/ehwJVX0AOW0Ns86sjH5bO7LNM.png?scale-down-to=2048&width=2280&height=1310 2048w,/vendor/framer/images/ehwJVX0AOW0Ns86sjH5bO7LNM.png?width=2280&height=1310 2280w'
-                        }
-                        src={
-                          '/vendor/framer/images/ehwJVX0AOW0Ns86sjH5bO7LNM.png?width=2280&height=1310'
-                        }
-                        alt={'Product feature preview'}
-                        style={{
-                          display: 'block',
-                          width: '100%',
-                          height: '100%',
-                          borderRadius: 'inherit',
-                          cornerShape: 'inherit',
-                          objectPosition: 'center',
-                          objectFit: 'cover',
-                        }}
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div
-                className={'framer-cgrhdk'}
-                data-framer-name={'Progress Bar Wrapper'}
-              >
-                <div className={'framer-2sojae-container'}>
-                  <div
-                    className={'framer-5R5iA framer-x13350 framer-v-x13350'}
-                    data-framer-name={'Default'}
-                    style={{
-                      backgroundColor: 'rgba(218, 78, 36, 0.2)',
-                      borderBottomLeftRadius: '9999px',
-                      borderBottomRightRadius: '9999px',
-                      borderTopLeftRadius: '9999px',
-                      borderTopRightRadius: '9999px',
-                    }}
-                  >
-                    <Reveal
-                      as={'div'}
-                      className={'framer-a6n4m6'}
-                      data-framer-name={'Background'}
-                      style={{
-                        backgroundColor: 'rgba(218, 78, 36, 0.2)',
-                        WebkitFilter: 'blur(0.5px)',
-                      }}
-                    ></Reveal>
-                  </div>
-                </div>
-                <div className={'framer-1nkxs6x-container'}>
-                  <div
-                    className={'framer-5R5iA framer-x13350 framer-v-x13350'}
-                    data-framer-name={'Default'}
-                    style={{
-                      backgroundColor: 'rgba(218, 78, 36, 0.2)',
-                      borderBottomLeftRadius: '9999px',
-                      borderBottomRightRadius: '9999px',
-                      borderTopLeftRadius: '9999px',
-                      borderTopRightRadius: '9999px',
-                    }}
-                  >
-                    <Reveal
-                      as={'div'}
-                      className={'framer-a6n4m6'}
-                      data-framer-name={'Background'}
-                      style={{
-                        backgroundColor: 'rgba(218, 78, 36, 0.2)',
-                        WebkitFilter: 'blur(0.5px)',
-                      }}
-                    ></Reveal>
-                  </div>
-                </div>
-                <div className={'framer-igfxly-container'}>
-                  <div
-                    className={'framer-5R5iA framer-x13350 framer-v-x13350'}
-                    data-framer-name={'Default'}
-                    style={{
-                      backgroundColor: 'rgba(218, 78, 36, 0.2)',
-                      borderBottomLeftRadius: '9999px',
-                      borderBottomRightRadius: '9999px',
-                      borderTopLeftRadius: '9999px',
-                      borderTopRightRadius: '9999px',
-                    }}
-                  >
-                    <Reveal
-                      as={'div'}
-                      className={'framer-a6n4m6'}
-                      data-framer-name={'Background'}
-                      style={{
-                        backgroundColor: 'rgba(218, 78, 36, 0.2)',
-                        WebkitFilter: 'blur(0.5px)',
-                      }}
-                    ></Reveal>
-                  </div>
-                </div>
-              </div>
-              <div
-                className={'framer-aa7mnq'}
-                data-framer-name={'Text Wrapper'}
-              >
-                <div
-                  className={'framer-rciabq'}
-                  data-framer-name={'Description'}
-                  data-framer-component-type={'RichTextContainer'}
-                  style={{
-                    '--framer-paragraph-spacing': '0px',
-                    opacity: '1',
-                    transform: 'none',
-                  }}
-                >
-                  <p
-                    className={'framer-text framer-styles-preset-1e7rr0f'}
-                    data-styles-preset={'MigD80yic'}
-                  >
-                    <strong className={'framer-text'}>{'Workflow:'}</strong>
-                    {
-                      ' Drag-and-drop multi-step automations with triggers, AI actions, and rules—built visually in minutes.'
-                    }
-                  </p>
-                </div>
-                <div
-                  className={'framer-148v3tm'}
-                  data-framer-name={'Description'}
-                  data-framer-component-type={'RichTextContainer'}
-                  style={{
-                    '--framer-paragraph-spacing': '0px',
-                    opacity: '0.5',
-                    transform: 'none',
-                  }}
-                >
-                  <p
-                    className={'framer-text framer-styles-preset-1e7rr0f'}
-                    data-styles-preset={'MigD80yic'}
-                  >
-                    <strong className={'framer-text'}>{'Analytics:'}</strong>
-                    {
-                      ' Real-time dashboards surface trends, bottlenecks, and ROI at a glance—for faster decisions.'
-                    }
-                  </p>
-                </div>
-                <div
-                  className={'framer-1m8swkv'}
-                  data-framer-name={'Description'}
-                  data-framer-component-type={'RichTextContainer'}
-                  style={{
-                    '--framer-paragraph-spacing': '0px',
-                    opacity: '0.5',
-                    transform: 'none',
-                  }}
-                >
-                  <p
-                    className={'framer-text framer-styles-preset-1e7rr0f'}
-                    data-styles-preset={'MigD80yic'}
-                  >
-                    <strong className={'framer-text'}>{'Integration:'}</strong>
-                    {
-                      ' One-click connectors and an open API sync CRM, chat, calendar, and more—everything stays in sync.'
-                    }
-                  </p>
-                </div>
-              </div>
-            </div>
+            />
           </div>
         </div>
         <div className={'ssr-variant hidden-1i4kwtr hidden-72rtr7'}>
           <div className={'framer-zjn60w-container'}>
-            <div
+            <ProductShowcase
               className={
                 'framer-v0BV7 framer-KYDPx framer-9qnai4 framer-v-kfqgma'
               }
               data-framer-name={'Phone Static'}
               style={{ width: '100%' }}
-            >
-              <div
-                className={'framer-9bqe4j'}
-                data-framer-name={'Images Wrapper'}
-              >
-                <div
-                  className={'framer-12l2tza'}
-                  data-border={'true'}
-                  data-framer-name={'Image One'}
-                  style={{
-                    '--border-bottom-width': '1px',
-                    '--border-color': 'rgba(255, 255, 255, 0.1)',
-                    '--border-left-width': '1px',
-                    '--border-right-width': '1px',
-                    '--border-style': 'solid',
-                    '--border-top-width': '1px',
-                    borderBottomLeftRadius: '12px',
-                    borderBottomRightRadius: '12px',
-                    borderTopLeftRadius: '12px',
-                    borderTopRightRadius: '12px',
-                    opacity: '1',
-                  }}
-                >
-                  <div className={'framer-u2e16b'}>
-                    <div
-                      style={{
-                        position: 'absolute',
-                        borderRadius: 'inherit',
-                        cornerShape: 'inherit',
-                        top: '0',
-                        right: '0',
-                        bottom: '0',
-                        left: '0',
-                      }}
-                      data-framer-background-image-wrapper={'true'}
-                    >
-                      <img
-                        decoding={'async'}
-                        width={'2280'}
-                        height={'1310'}
-                        sizes={
-                          '(min-width: 1200px) max(min(max(100vw - 80px, 1px), 1240px), 1px), (min-width: 810px) and (max-width: 1199.98px) max(min(max(100vw - 60px, 1px), 800px), 1px), (max-width: 809.98px) max(min(max(min(100vw, 500px) - 32px, 1px), 500px), 1px)'
-                        }
-                        srcSet={
-                          '/vendor/framer/images/Isd9yuBo2aIVNcH4tmm2FjtSCc.png?scale-down-to=512&width=2280&height=1310 512w,/vendor/framer/images/Isd9yuBo2aIVNcH4tmm2FjtSCc.png?scale-down-to=1024&width=2280&height=1310 1024w,/vendor/framer/images/Isd9yuBo2aIVNcH4tmm2FjtSCc.png?scale-down-to=2048&width=2280&height=1310 2048w,/vendor/framer/images/Isd9yuBo2aIVNcH4tmm2FjtSCc.png?width=2280&height=1310 2280w'
-                        }
-                        src={
-                          '/vendor/framer/images/Isd9yuBo2aIVNcH4tmm2FjtSCc.png?width=2280&height=1310'
-                        }
-                        alt={'Product feature preview'}
-                        style={{
-                          display: 'block',
-                          width: '100%',
-                          height: '100%',
-                          borderRadius: 'inherit',
-                          cornerShape: 'inherit',
-                          objectPosition: 'center',
-                          objectFit: 'cover',
-                        }}
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div
-                  className={'framer-sghvb8'}
-                  data-border={'true'}
-                  data-framer-name={'Image Two'}
-                  style={{
-                    '--border-bottom-width': '1px',
-                    '--border-color': 'rgba(255, 255, 255, 0.1)',
-                    '--border-left-width': '1px',
-                    '--border-right-width': '1px',
-                    '--border-style': 'solid',
-                    '--border-top-width': '1px',
-                    borderBottomLeftRadius: '12px',
-                    borderBottomRightRadius: '12px',
-                    borderTopLeftRadius: '12px',
-                    borderTopRightRadius: '12px',
-                  }}
-                >
-                  <div className={'framer-1r0s6mx'}>
-                    <div
-                      style={{
-                        position: 'absolute',
-                        borderRadius: 'inherit',
-                        cornerShape: 'inherit',
-                        top: '0',
-                        right: '0',
-                        bottom: '0',
-                        left: '0',
-                      }}
-                      data-framer-background-image-wrapper={'true'}
-                    >
-                      <img
-                        decoding={'async'}
-                        width={'2280'}
-                        height={'1310'}
-                        sizes={
-                          '(min-width: 1200px) max(min(max(100vw - 80px, 1px), 1240px), 1px), (min-width: 810px) and (max-width: 1199.98px) max(min(max(100vw - 60px, 1px), 800px), 1px), (max-width: 809.98px) max(min(max(min(100vw, 500px) - 32px, 1px), 500px), 1px)'
-                        }
-                        srcSet={
-                          '/vendor/framer/images/tRymLem0RJveQ8v95qGTUdus0.png?scale-down-to=512&width=2280&height=1310 512w,/vendor/framer/images/tRymLem0RJveQ8v95qGTUdus0.png?scale-down-to=1024&width=2280&height=1310 1024w,/vendor/framer/images/tRymLem0RJveQ8v95qGTUdus0.png?scale-down-to=2048&width=2280&height=1310 2048w,/vendor/framer/images/tRymLem0RJveQ8v95qGTUdus0.png?width=2280&height=1310 2280w'
-                        }
-                        src={
-                          '/vendor/framer/images/tRymLem0RJveQ8v95qGTUdus0.png?width=2280&height=1310'
-                        }
-                        alt={'Product feature preview'}
-                        style={{
-                          display: 'block',
-                          width: '100%',
-                          height: '100%',
-                          borderRadius: 'inherit',
-                          cornerShape: 'inherit',
-                          objectPosition: 'center',
-                          objectFit: 'cover',
-                        }}
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div
-                  className={'framer-1f9lc07'}
-                  data-border={'true'}
-                  data-framer-name={'Image Three'}
-                  style={{
-                    '--border-bottom-width': '1px',
-                    '--border-color': 'rgba(255, 255, 255, 0.1)',
-                    '--border-left-width': '1px',
-                    '--border-right-width': '1px',
-                    '--border-style': 'solid',
-                    '--border-top-width': '1px',
-                    borderBottomLeftRadius: '12px',
-                    borderBottomRightRadius: '12px',
-                    borderTopLeftRadius: '12px',
-                    borderTopRightRadius: '12px',
-                  }}
-                >
-                  <div className={'framer-s9cy8x'}>
-                    <div
-                      style={{
-                        position: 'absolute',
-                        borderRadius: 'inherit',
-                        cornerShape: 'inherit',
-                        top: '0',
-                        right: '0',
-                        bottom: '0',
-                        left: '0',
-                      }}
-                      data-framer-background-image-wrapper={'true'}
-                    >
-                      <img
-                        decoding={'async'}
-                        width={'2280'}
-                        height={'1310'}
-                        sizes={
-                          '(min-width: 1200px) max(min(max(100vw - 80px, 1px), 1240px), 1px), (min-width: 810px) and (max-width: 1199.98px) max(min(max(100vw - 60px, 1px), 800px), 1px), (max-width: 809.98px) max(min(max(min(100vw, 500px) - 32px, 1px), 500px), 1px)'
-                        }
-                        srcSet={
-                          '/vendor/framer/images/ehwJVX0AOW0Ns86sjH5bO7LNM.png?scale-down-to=512&width=2280&height=1310 512w,/vendor/framer/images/ehwJVX0AOW0Ns86sjH5bO7LNM.png?scale-down-to=1024&width=2280&height=1310 1024w,/vendor/framer/images/ehwJVX0AOW0Ns86sjH5bO7LNM.png?scale-down-to=2048&width=2280&height=1310 2048w,/vendor/framer/images/ehwJVX0AOW0Ns86sjH5bO7LNM.png?width=2280&height=1310 2280w'
-                        }
-                        src={
-                          '/vendor/framer/images/ehwJVX0AOW0Ns86sjH5bO7LNM.png?width=2280&height=1310'
-                        }
-                        alt={'Product feature preview'}
-                        style={{
-                          display: 'block',
-                          width: '100%',
-                          height: '100%',
-                          borderRadius: 'inherit',
-                          cornerShape: 'inherit',
-                          objectPosition: 'center',
-                          objectFit: 'cover',
-                        }}
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div
-                className={'framer-cgrhdk'}
-                data-framer-name={'Progress Bar Wrapper'}
-              >
-                <div className={'framer-2sojae-container'}>
-                  <div
-                    className={'framer-5R5iA framer-x13350 framer-v-x13350'}
-                    data-framer-name={'Default'}
-                    style={{
-                      backgroundColor: 'rgba(218, 78, 36, 0.2)',
-                      borderBottomLeftRadius: '9999px',
-                      borderBottomRightRadius: '9999px',
-                      borderTopLeftRadius: '9999px',
-                      borderTopRightRadius: '9999px',
-                    }}
-                  >
-                    <Reveal
-                      as={'div'}
-                      className={'framer-a6n4m6'}
-                      data-framer-name={'Background'}
-                      style={{
-                        backgroundColor: 'rgba(218, 78, 36, 0.2)',
-                        WebkitFilter: 'blur(0.5px)',
-                      }}
-                    ></Reveal>
-                  </div>
-                </div>
-                <div className={'framer-1nkxs6x-container'}>
-                  <div
-                    className={'framer-5R5iA framer-x13350 framer-v-x13350'}
-                    data-framer-name={'Default'}
-                    style={{
-                      backgroundColor: 'rgba(218, 78, 36, 0.2)',
-                      borderBottomLeftRadius: '9999px',
-                      borderBottomRightRadius: '9999px',
-                      borderTopLeftRadius: '9999px',
-                      borderTopRightRadius: '9999px',
-                    }}
-                  >
-                    <Reveal
-                      as={'div'}
-                      className={'framer-a6n4m6'}
-                      data-framer-name={'Background'}
-                      style={{
-                        backgroundColor: 'rgba(218, 78, 36, 0.2)',
-                        WebkitFilter: 'blur(0.5px)',
-                      }}
-                    ></Reveal>
-                  </div>
-                </div>
-                <div className={'framer-igfxly-container'}>
-                  <div
-                    className={'framer-5R5iA framer-x13350 framer-v-x13350'}
-                    data-framer-name={'Default'}
-                    style={{
-                      backgroundColor: 'rgba(218, 78, 36, 0.2)',
-                      borderBottomLeftRadius: '9999px',
-                      borderBottomRightRadius: '9999px',
-                      borderTopLeftRadius: '9999px',
-                      borderTopRightRadius: '9999px',
-                    }}
-                  >
-                    <Reveal
-                      as={'div'}
-                      className={'framer-a6n4m6'}
-                      data-framer-name={'Background'}
-                      style={{
-                        backgroundColor: 'rgba(218, 78, 36, 0.2)',
-                        WebkitFilter: 'blur(0.5px)',
-                      }}
-                    ></Reveal>
-                  </div>
-                </div>
-              </div>
-              <div
-                className={'framer-aa7mnq'}
-                data-framer-name={'Text Wrapper'}
-              >
-                <div
-                  className={'framer-rciabq'}
-                  data-framer-name={'Description'}
-                  data-framer-component-type={'RichTextContainer'}
-                  style={{
-                    '--framer-paragraph-spacing': '0px',
-                    opacity: '1',
-                    transform: 'none',
-                  }}
-                >
-                  <p
-                    className={'framer-text framer-styles-preset-1e7rr0f'}
-                    data-styles-preset={'MigD80yic'}
-                  >
-                    <strong className={'framer-text'}>{'Workflow:'}</strong>
-                    {
-                      ' Drag-and-drop multi-step automations with triggers, AI actions, and rules—built visually in minutes.'
-                    }
-                  </p>
-                </div>
-                <div
-                  className={'framer-148v3tm'}
-                  data-framer-name={'Description'}
-                  data-framer-component-type={'RichTextContainer'}
-                  style={{
-                    '--framer-paragraph-spacing': '0px',
-                    opacity: '0.5',
-                    transform: 'none',
-                  }}
-                >
-                  <p
-                    className={'framer-text framer-styles-preset-1e7rr0f'}
-                    data-styles-preset={'MigD80yic'}
-                  >
-                    <strong className={'framer-text'}>{'Analytics:'}</strong>
-                    {
-                      ' Real-time dashboards surface trends, bottlenecks, and ROI at a glance—for faster decisions.'
-                    }
-                  </p>
-                </div>
-                <div
-                  className={'framer-1m8swkv'}
-                  data-framer-name={'Description'}
-                  data-framer-component-type={'RichTextContainer'}
-                  style={{
-                    '--framer-paragraph-spacing': '0px',
-                    opacity: '0.5',
-                    transform: 'none',
-                  }}
-                >
-                  <p
-                    className={'framer-text framer-styles-preset-1e7rr0f'}
-                    data-styles-preset={'MigD80yic'}
-                  >
-                    <strong className={'framer-text'}>{'Integration:'}</strong>
-                    {
-                      ' One-click connectors and an open API sync CRM, chat, calendar, and more—everything stays in sync.'
-                    }
-                  </p>
-                </div>
-              </div>
-            </div>
+            />
           </div>
         </div>
       </div>
@@ -17235,7 +16294,8 @@ function HomeHowItWorks() {
         </div>
         <div className={'framer-1yxiqkr'} data-framer-name={'Item Wrapper'}>
           <div className={'ssr-variant hidden-1x7kjf3'}>
-            <div
+            <Reveal
+              as={'div'}
               className={'framer-1xvqcci'}
               data-border={'true'}
               data-framer-name={'Item'}
@@ -17320,10 +16380,11 @@ function HomeHowItWorks() {
                   </p>
                 </div>
               </div>
-            </div>
+            </Reveal>
           </div>
           <div className={'ssr-variant hidden-1i4kwtr hidden-72rtr7'}>
-            <div
+            <Reveal
+              as={'div'}
               className={'framer-1xvqcci'}
               data-border={'true'}
               data-framer-name={'Item'}
@@ -17406,10 +16467,11 @@ function HomeHowItWorks() {
                   </p>
                 </div>
               </div>
-            </div>
+            </Reveal>
           </div>
           <div className={'ssr-variant hidden-1x7kjf3'}>
-            <div
+            <Reveal
+              as={'div'}
               className={'framer-28tpbi'}
               data-border={'true'}
               data-framer-name={'Item'}
@@ -18366,10 +17428,11 @@ function HomeHowItWorks() {
                   </p>
                 </div>
               </div>
-            </div>
+            </Reveal>
           </div>
           <div className={'ssr-variant hidden-1i4kwtr hidden-72rtr7'}>
-            <div
+            <Reveal
+              as={'div'}
               className={'framer-28tpbi'}
               data-border={'true'}
               data-framer-name={'Item'}
@@ -19324,10 +18387,11 @@ function HomeHowItWorks() {
                   </p>
                 </div>
               </div>
-            </div>
+            </Reveal>
           </div>
           <div className={'ssr-variant hidden-1x7kjf3'}>
-            <div
+            <Reveal
+              as={'div'}
               className={'framer-mo9pza'}
               data-border={'true'}
               data-framer-name={'Item'}
@@ -19413,10 +18477,11 @@ function HomeHowItWorks() {
                   </p>
                 </div>
               </div>
-            </div>
+            </Reveal>
           </div>
           <div className={'ssr-variant hidden-1i4kwtr hidden-72rtr7'}>
-            <div
+            <Reveal
+              as={'div'}
               className={'framer-mo9pza'}
               data-border={'true'}
               data-framer-name={'Item'}
@@ -19500,7 +18565,7 @@ function HomeHowItWorks() {
                   </p>
                 </div>
               </div>
-            </div>
+            </Reveal>
           </div>
         </div>
       </div>

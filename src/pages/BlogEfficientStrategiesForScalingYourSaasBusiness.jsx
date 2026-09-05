@@ -6,6 +6,8 @@ import {
 } from '../components/Interactions.jsx';
 import { Footer, CallToAction } from '../components/SiteChrome.jsx';
 
+import { TextReveal } from '../components/EntranceMotion.jsx';
+
 export default function BlogEfficientStrategiesForScalingYourSaasBusiness() {
   return (
     <BillingProvider>
@@ -799,7 +801,7 @@ function BlogEfficientStrategiesForScalingYourSaasBusinessBlogSingle() {
                 </p>
               </div>
             </div>
-            <div
+            <TextReveal
               className={'framer-166uurl'}
               data-framer-name={'Title Text'}
               data-framer-component-type={'RichTextContainer'}
@@ -818,7 +820,7 @@ function BlogEfficientStrategiesForScalingYourSaasBusinessBlogSingle() {
                 <span style={{ display: 'inline-block' }}>{'SaaS'}</span>{' '}
                 <span style={{ display: 'inline-block' }}>{'Business'}</span>
               </h1>
-            </div>
+            </TextReveal>
           </div>
           <div className={'framer-duubtm'} data-framer-name={'Image'}>
             <div className={'ssr-variant'}>

@@ -1,7 +1,7 @@
 export default function NavButton() {
   return (
     <a
-      aria-label={'Get Started Get Started'}
+      aria-label={'Get Started'}
       className={
         'framer-HQetX framer-6O6de framer-1jf35qu framer-v-1u0a8ak framer-1pv4xz5'
       }

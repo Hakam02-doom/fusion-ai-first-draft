@@ -7,6 +7,8 @@ import {
 } from '../components/Interactions.jsx';
 import { Footer } from '../components/SiteChrome.jsx';
 
+import { TextReveal } from '../components/EntranceMotion.jsx';
+
 export default function Waitlist() {
   return (
     <BillingProvider>
@@ -625,7 +627,7 @@ function WaitlistMain() {
                   </div>
                 </div>
               </div>
-              <div
+              <TextReveal
                 className={'framer-7vxbm8'}
                 data-framer-name={'Title Text'}
                 data-framer-component-type={'RichTextContainer'}
@@ -641,7 +643,7 @@ function WaitlistMain() {
                   <span style={{ display: 'inline-block' }}>{'the'}</span>{' '}
                   <span style={{ display: 'inline-block' }}>{'Waitlist'}</span>
                 </h1>
-              </div>
+              </TextReveal>
             </div>
             <div
               className={'framer-10kag5a'}

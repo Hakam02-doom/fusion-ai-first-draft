@@ -6,6 +6,8 @@ import {
 } from '../components/Interactions.jsx';
 import { Footer, CallToAction } from '../components/SiteChrome.jsx';
 
+import { TextReveal } from '../components/EntranceMotion.jsx';
+
 export default function Privacy() {
   return (
     <BillingProvider>
@@ -710,7 +712,7 @@ function PrivacyPrivacyPolicy() {
                 </div>
               </div>
             </div>
-            <div
+            <TextReveal
               className={'framer-ud4pj4'}
               data-framer-name={'Title Text'}
               data-framer-component-type={'RichTextContainer'}
@@ -724,7 +726,7 @@ function PrivacyPrivacyPolicy() {
                 <span style={{ display: 'inline-block' }}>{'Privacy'}</span>{' '}
                 <span style={{ display: 'inline-block' }}>{'Policy'}</span>
               </h1>
-            </div>
+            </TextReveal>
           </div>
           <div
             className={'framer-11p079y'}

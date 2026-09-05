@@ -6,6 +6,8 @@ import {
 } from '../components/Interactions.jsx';
 import { Footer, CallToAction } from '../components/SiteChrome.jsx';
 
+import { TextReveal } from '../components/EntranceMotion.jsx';
+
 export default function Changelog() {
   return (
     <BillingProvider>
@@ -662,7 +664,7 @@ function ChangelogMain() {
               </div>
             </div>
           </div>
-          <div
+          <TextReveal
             className={'framer-7sje5z'}
             data-framer-name={'Title Text'}
             data-framer-component-type={'RichTextContainer'}
@@ -675,7 +677,7 @@ function ChangelogMain() {
             >
               <span style={{ display: 'inline-block' }}>{'Changelog'}</span>
             </h1>
-          </div>
+          </TextReveal>
         </div>
         <div className={'framer-1pjs2g1'} data-framer-name={'Row Wrapper'}>
           <div className={'framer-skxa0i'} data-framer-name={'Row'}>

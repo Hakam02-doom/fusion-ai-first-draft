@@ -129,8 +129,11 @@ button {
   flex-shrink: 0;
   transition: transform 200ms ease;
 }
-.faq-item svg.expanded {
-  transform: rotate(45deg);
+.faq-item svg path {
+  transition: opacity 0.2s ease;
+}
+.faq-item svg.expanded path:nth-of-type(2) {
+  opacity: 0;
 }
 .faq-answer p {
   margin: 14px 0 0;
@@ -503,8 +506,113 @@ button {
   animation-play-state: paused;
 }
 
-.reference-chat-message { animation: chat-message-in .4s cubic-bezier(.22,1,.36,1) backwards; }
-.reference-chat-letter { animation: chat-letter-in 1ms both; }
-@keyframes chat-message-in { from { opacity: .001; translate: 0 30px; } to { opacity: 1; translate: 0 0; } }
-@keyframes chat-letter-in { from { opacity: 0; } to { opacity: 1; } }
-@media (prefers-reduced-motion: reduce) { .reference-chat-message, .reference-chat-letter { animation: none; } }
+.reference-chat-letter {
+  animation: chat-letter-in 1ms both;
+}
+@keyframes chat-letter-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .reference-chat-message,
+  .reference-chat-letter {
+    animation: none;
+  }
+}
+
+/* Recorded product preview: 7s per screen; 100px active and 60px idle bars. */
+[data-reference-showcase] .framer-9bqe4j > div {
+  opacity: 0;
+  transition: opacity 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  border-radius: 20px;
+  outline: 1px solid #ffffff1a;
+  outline-offset: -1px;
+}
+[data-reference-showcase] .framer-9bqe4j > [data-active='true'] {
+  opacity: 1;
+  z-index: 2;
+}
+[data-reference-showcase] .framer-aa7mnq > button {
+  padding: 0;
+  margin: 0;
+  border: 0;
+  background: none;
+  color: white;
+  text-align: left;
+  opacity: 0.5;
+  cursor: pointer !important;
+  transition: opacity 0.4s ease;
+}
+[data-reference-showcase] .framer-aa7mnq > [data-active='true'] {
+  opacity: 1;
+}
+.showcase-progress {
+  display: block;
+  flex: none;
+  position: relative;
+  width: 60px;
+  height: 3px;
+  padding: 0;
+  border: 0;
+  border-radius: 9999px;
+  background: rgba(218, 78, 36, 0.2);
+  transition: width 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.showcase-progress::before {
+  content: '';
+  position: absolute;
+  inset: -10px 0;
+}
+.showcase-progress[data-active='true'] {
+  width: 100px;
+}
+.showcase-progress > span {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  background: rgb(217, 79, 37);
+  filter: blur(0.5px);
+  transform-origin: left;
+  scale: 0 1;
+}
+[data-reference-showcase] .framer-cgrhdk {
+  overflow: visible;
+}
+@media (max-width: 1199.98px) {
+  [data-reference-showcase] .framer-9bqe4j > div {
+    border-radius: 12px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-reference-showcase] [data-active='true'] > span {
+    scale: 1;
+  }
+}
+
+.faq-answer {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition:
+    grid-template-rows 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.3s ease;
+}
+.faq-answer.is-open {
+  grid-template-rows: 1fr;
+  opacity: 1;
+}
+.faq-answer-inner {
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* Keep the revolving border clipped without creating an internal scroll area. */
+.framer-i5Uk4 .framer-1uwtv9a,
+.framer-i5Uk4 .framer-1w197o0 {
+  overflow: clip;
+}

@@ -5,6 +5,9 @@ import { readFile, readdir, mkdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
 const source = 'reference/pages';
+const motion = JSON.parse(
+  await readFile('src/data/reference-motion.json', 'utf8'),
+);
 const attr = (node, name) => node.attrs?.find((a) => a.name === name)?.value;
 const text = (node) =>
   node.nodeName === '#text'
@@ -143,6 +146,7 @@ function props(node) {
     !attr(node, 'aria-label')
   ) {
     let label = text(node).replace(/\s+/g, ' ').trim();
+    label = label.replace(/^(.+) \1$/, '$1');
     if (
       label.length % 2 === 0 &&
       label.slice(0, label.length / 2) === label.slice(label.length / 2)
@@ -270,6 +274,8 @@ function render(node, allowSection = true, shared = false) {
       .map((n) => render(n))
       .join('\n')}</Slideshow>`;
   }
+  if (cls.split(' ').includes('framer-v0BV7'))
+    return `<ProductShowcase ${props(node)} />`;
   if (cls.split(' ').includes('framer-8LnrN')) return '<ChatSequence />';
   if (cls.split(' ').includes('framer-db5EB'))
     return `<FAQList ${props(node)} />`;
@@ -335,7 +341,7 @@ function render(node, allowSection = true, shared = false) {
   )
     tag = 'Ticker';
   if (
-    attr(node, 'data-framer-appear-id') &&
+    (attr(node, 'data-framer-appear-id') || motion.appear[cls]) &&
     ![
       'svg',
       'path',
@@ -348,6 +354,10 @@ function render(node, allowSection = true, shared = false) {
   ) {
     extra = ` as={${quote(tag)}}`;
     tag = 'Reveal';
+  }
+  if (motion.text[cls]?.effect?.tokenization) {
+    tag = 'TextReveal';
+    extra = '';
   }
   const attributes =
     props(node) +
@@ -398,7 +408,7 @@ for (const file of files) {
   for (const sheet of css) sharedStyles.add(sheet);
   await writeFile(
     `src/pages/${currentName}.jsx`,
-    `import { Navigation, FAQList, BillingProvider, BillingToggle, PlanPrice, PreviewForm, PromptDemo, Reveal, Ticker, Slideshow, PromoCard } from '../components/Interactions.jsx';\nimport { Footer, CallToAction } from '../components/SiteChrome.jsx';\nimport { ShaderCanvas, AmbientVideo } from '../components/ReferenceMotion.jsx';\nimport ChatSequence from '../components/ChatSequence.jsx';\n\nexport default function ${currentName}() {\n  return (<BillingProvider><>${jsx}</></BillingProvider>);\n}\n\n${sections.join('\n\n')}\n`,
+    `import { Navigation, FAQList, BillingProvider, BillingToggle, PlanPrice, PreviewForm, PromptDemo, Reveal, Ticker, Slideshow, PromoCard } from '../components/Interactions.jsx';\nimport { Footer, CallToAction } from '../components/SiteChrome.jsx';\nimport { ShaderCanvas, AmbientVideo } from '../components/ReferenceMotion.jsx';\nimport ChatSequence from '../components/ChatSequence.jsx';\nimport ProductShowcase from '../components/ProductShowcase.jsx';\nimport { TextReveal } from '../components/EntranceMotion.jsx';\n\nexport default function ${currentName}() {\n  return (<BillingProvider><>${jsx}</></BillingProvider>);\n}\n\n${sections.join('\n\n')}\n`,
   );
   routes.push({ path: route, component: currentName, title, description });
 }
@@ -408,7 +418,9 @@ sections = [];
 used = new Set();
 await writeFile(
   'src/components/SiteChrome.jsx',
-  `import { Reveal } from './Interactions.jsx';\n\n${Object.entries(sharedNodes)
+  `import { Reveal } from './Interactions.jsx';\nimport { TextReveal } from './EntranceMotion.jsx';\n\n${Object.entries(
+    sharedNodes,
+  )
     .map(
       ([name, node]) =>
         `export function ${name}() { return (${render(node, false, true)}); }`,
@@ -437,6 +449,8 @@ for (const file of [
   'src/components/SiteChrome.jsx',
 ]) {
   let code = await readFile(file, 'utf8');
+  if (!code.includes('<ProductShowcase'))
+    code = code.replace(/import ProductShowcase[^;]+;\n/, '');
   if (!code.includes('<ChatSequence'))
     code = code.replace(/import ChatSequence[^;]+;\n/, '');
   code = code.replace(

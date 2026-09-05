@@ -11,6 +11,8 @@ import {
 } from '../components/Interactions.jsx';
 import { Footer, CallToAction } from '../components/SiteChrome.jsx';
 
+import { TextReveal } from '../components/EntranceMotion.jsx';
+
 export default function Pricing() {
   return (
     <BillingProvider>
@@ -5582,7 +5584,7 @@ function PricingPricing() {
                         </div>
                       </div>
                     </div>
-                    <div
+                    <TextReveal
                       className={'framer-1dygo4'}
                       data-framer-name={'Title Text'}
                       data-framer-component-type={'RichTextContainer'}
@@ -5613,15 +5615,23 @@ function PricingPricing() {
                         <span style={{ display: 'inline-block' }}>{'for'}</span>{' '}
                         <span style={{ display: 'inline-block' }}>{'You'}</span>
                       </h1>
-                    </div>
+                    </TextReveal>
                   </div>
                 </div>
-                <div className={'framer-16903z1-container'} style={{}}>
+                <Reveal
+                  as={'div'}
+                  className={'framer-16903z1-container'}
+                  style={{}}
+                >
                   <BillingToggle />
-                </div>
+                </Reveal>
               </div>
               <div className={'framer-mmyyb4'} data-framer-name={'Container'}>
-                <div className={'framer-1teo1c9-container'} style={{}}>
+                <Reveal
+                  as={'div'}
+                  className={'framer-1teo1c9-container'}
+                  style={{}}
+                >
                   <div
                     className={
                       'framer-Dz4bu framer-yrDLW framer-BtD5r framer-KYDPx framer-6O6de framer-11sstj2 framer-v-11sstj2'
@@ -6181,8 +6191,12 @@ function PricingPricing() {
                       </div>
                     </div>
                   </div>
-                </div>
-                <div className={'framer-16g9qf0-container'} style={{}}>
+                </Reveal>
+                <Reveal
+                  as={'div'}
+                  className={'framer-16g9qf0-container'}
+                  style={{}}
+                >
                   <div
                     className={
                       'framer-Dz4bu framer-yrDLW framer-BtD5r framer-KYDPx framer-6O6de framer-11sstj2 framer-v-1pmr2ob'
@@ -6841,8 +6855,12 @@ function PricingPricing() {
                       </div>
                     </div>
                   </div>
-                </div>
-                <div className={'framer-16xssgr-container'} style={{}}>
+                </Reveal>
+                <Reveal
+                  as={'div'}
+                  className={'framer-16xssgr-container'}
+                  style={{}}
+                >
                   <div
                     className={
                       'framer-Dz4bu framer-yrDLW framer-BtD5r framer-KYDPx framer-6O6de framer-11sstj2 framer-v-1xc9dwz'
@@ -7493,7 +7511,7 @@ function PricingPricing() {
                       </div>
                     </div>
                   </div>
-                </div>
+                </Reveal>
               </div>
             </div>
           </div>
@@ -7567,7 +7585,7 @@ function PricingPricing() {
                         </div>
                       </div>
                     </div>
-                    <div
+                    <TextReveal
                       className={'framer-1dygo4'}
                       data-framer-name={'Title Text'}
                       data-framer-component-type={'RichTextContainer'}
@@ -7598,15 +7616,23 @@ function PricingPricing() {
                         <span style={{ display: 'inline-block' }}>{'for'}</span>{' '}
                         <span style={{ display: 'inline-block' }}>{'You'}</span>
                       </h1>
-                    </div>
+                    </TextReveal>
                   </div>
                 </div>
-                <div className={'framer-16903z1-container'} style={{}}>
+                <Reveal
+                  as={'div'}
+                  className={'framer-16903z1-container'}
+                  style={{}}
+                >
                   <BillingToggle />
-                </div>
+                </Reveal>
               </div>
               <div className={'framer-mmyyb4'} data-framer-name={'Container'}>
-                <div className={'framer-1teo1c9-container'} style={{}}>
+                <Reveal
+                  as={'div'}
+                  className={'framer-1teo1c9-container'}
+                  style={{}}
+                >
                   <div
                     className={
                       'framer-Dz4bu framer-yrDLW framer-BtD5r framer-KYDPx framer-6O6de framer-11sstj2 framer-v-11sstj2'
@@ -8165,8 +8191,12 @@ function PricingPricing() {
                       </div>
                     </div>
                   </div>
-                </div>
-                <div className={'framer-16g9qf0-container'} style={{}}>
+                </Reveal>
+                <Reveal
+                  as={'div'}
+                  className={'framer-16g9qf0-container'}
+                  style={{}}
+                >
                   <div
                     className={
                       'framer-Dz4bu framer-yrDLW framer-BtD5r framer-KYDPx framer-6O6de framer-11sstj2 framer-v-1pmr2ob'
@@ -8824,8 +8854,12 @@ function PricingPricing() {
                       </div>
                     </div>
                   </div>
-                </div>
-                <div className={'framer-16xssgr-container'} style={{}}>
+                </Reveal>
+                <Reveal
+                  as={'div'}
+                  className={'framer-16xssgr-container'}
+                  style={{}}
+                >
                   <div
                     className={
                       'framer-Dz4bu framer-yrDLW framer-BtD5r framer-KYDPx framer-6O6de framer-11sstj2 framer-v-1xc9dwz'
@@ -9476,7 +9510,7 @@ function PricingPricing() {
                       </div>
                     </div>
                   </div>
-                </div>
+                </Reveal>
               </div>
             </div>
           </div>
@@ -9550,7 +9584,7 @@ function PricingPricing() {
                         </div>
                       </div>
                     </div>
-                    <div
+                    <TextReveal
                       className={'framer-1dygo4'}
                       data-framer-name={'Title Text'}
                       data-framer-component-type={'RichTextContainer'}
@@ -9581,15 +9615,23 @@ function PricingPricing() {
                         <span style={{ display: 'inline-block' }}>{'for'}</span>{' '}
                         <span style={{ display: 'inline-block' }}>{'You'}</span>
                       </h1>
-                    </div>
+                    </TextReveal>
                   </div>
                 </div>
-                <div className={'framer-16903z1-container'} style={{}}>
+                <Reveal
+                  as={'div'}
+                  className={'framer-16903z1-container'}
+                  style={{}}
+                >
                   <BillingToggle />
-                </div>
+                </Reveal>
               </div>
               <div className={'framer-mmyyb4'} data-framer-name={'Container'}>
-                <div className={'framer-1teo1c9-container'} style={{}}>
+                <Reveal
+                  as={'div'}
+                  className={'framer-1teo1c9-container'}
+                  style={{}}
+                >
                   <div
                     className={
                       'framer-Dz4bu framer-yrDLW framer-BtD5r framer-KYDPx framer-6O6de framer-11sstj2 framer-v-11sstj2'
@@ -10149,8 +10191,12 @@ function PricingPricing() {
                       </div>
                     </div>
                   </div>
-                </div>
-                <div className={'framer-16g9qf0-container'} style={{}}>
+                </Reveal>
+                <Reveal
+                  as={'div'}
+                  className={'framer-16g9qf0-container'}
+                  style={{}}
+                >
                   <div
                     className={
                       'framer-Dz4bu framer-yrDLW framer-BtD5r framer-KYDPx framer-6O6de framer-11sstj2 framer-v-1pmr2ob'
@@ -10809,8 +10855,12 @@ function PricingPricing() {
                       </div>
                     </div>
                   </div>
-                </div>
-                <div className={'framer-16xssgr-container'} style={{}}>
+                </Reveal>
+                <Reveal
+                  as={'div'}
+                  className={'framer-16xssgr-container'}
+                  style={{}}
+                >
                   <div
                     className={
                       'framer-Dz4bu framer-yrDLW framer-BtD5r framer-KYDPx framer-6O6de framer-11sstj2 framer-v-1xc9dwz'
@@ -11462,7 +11512,7 @@ function PricingPricing() {
                       </div>
                     </div>
                   </div>
-                </div>
+                </Reveal>
               </div>
             </div>
           </div>

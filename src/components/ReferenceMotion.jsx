@@ -436,70 +436,101 @@ export function useReferenceLoops() {
 export function useReferenceScroll() {
   useEffect(() => {
     const preference = matchMedia('(prefers-reduced-motion: reduce)');
-    const title = document.querySelector('.framer-e8yuf3');
-    const first = document.querySelector('.framer-vlwtxv-container');
-    const second = document.querySelector('.framer-1uxps4w-container');
-    const third = document.querySelector('.framer-1uvu7qf-container');
-    const nodes = [title, first, second].filter(Boolean);
-    let frame = 0;
+    const groups = {
+      title: [...document.querySelectorAll('.framer-e8yuf3')],
+      first: [...document.querySelectorAll('.framer-vlwtxv-container')],
+      second: [...document.querySelectorAll('.framer-1uxps4w-container')],
+      third: [...document.querySelectorAll('.framer-1uvu7qf-container')],
+    };
+    const states = new Map(
+      [...groups.first, ...groups.second].map((node) => [
+        node,
+        { value: 1, velocity: 0 },
+      ]),
+    );
+    let frame = 0,
+      last = 0;
+    const visible = (nodes) => nodes.find((node) => node.offsetWidth > 0);
     const clamp = (value) => Math.max(0, Math.min(1, value));
-    function draw() {
+    const unscaledTop = (node) =>
+      node.getBoundingClientRect().top -
+      (node.offsetHeight * (1 - (states.get(node)?.value ?? 1))) / 2;
+    function draw(now) {
       frame = 0;
+      if (document.hidden) return;
+      const dt = Math.min((now - (last || now - 16.67)) / 1000, 0.032);
+      last = now;
       if (preference.matches) {
-        for (const node of nodes) {
+        for (const node of [...groups.title, ...states.keys()]) {
           node.style.translate = '';
           node.style.scale = '';
         }
         return;
       }
+      const title = visible(groups.title),
+        first = visible(groups.first),
+        second = visible(groups.second),
+        third = visible(groups.third);
       if (title) {
-        const y =
-          title.getBoundingClientRect().top -
-          (parseFloat(title.style.translate?.split(' ')[1]) || 0);
+        const shift = parseFloat(title.style.translate?.split(' ')[1]) || 0;
+        const y = title.getBoundingClientRect().top - shift;
         title.style.translate = `0 ${200 * (1 - clamp((innerHeight - y) / (innerHeight * 0.35)))}px`;
       }
-      // The reference compresses each pinned desktop card as the next arrives.
-      if (innerWidth >= 1200) {
-        if (first && second)
-          first.style.scale = String(
-            1 -
+      let moving = false;
+      for (const [node, next, offset] of [
+        [first, second, 120],
+        [second, third, 140],
+      ]) {
+        if (!node || !next) continue;
+        const state = states.get(node);
+        const target =
+          innerWidth >= 1200
+            ? 1 -
               0.4 *
                 clamp(
-                  (innerHeight * 0.5 +
-                    120 -
-                    second.getBoundingClientRect().top) /
+                  (innerHeight * 0.5 + offset - unscaledTop(next)) /
                     (innerHeight * 0.5),
-                ),
-          );
-        if (second && third)
-          second.style.scale = String(
-            1 -
-              0.4 *
-                clamp(
-                  (innerHeight * 0.5 +
-                    140 -
-                    third.getBoundingClientRect().top) /
-                    (innerHeight * 0.5),
-                ),
-          );
-      } else {
-        if (first) first.style.scale = '';
-        if (second) second.style.scale = '';
+                )
+            : 1;
+        // Original stack spring: stiffness 422, damping 69, mass 2.3.
+        const steps = Math.ceil(dt / 0.004),
+          step = dt / steps;
+        for (let i = 0; i < steps; i++) {
+          state.velocity +=
+            ((-422 * (state.value - target) - 69 * state.velocity) / 2.3) *
+            step;
+          state.value += state.velocity * step;
+        }
+        if (
+          Math.abs(state.value - target) < 0.0001 &&
+          Math.abs(state.velocity) < 0.0001
+        ) {
+          state.value = target;
+          state.velocity = 0;
+        } else moving = true;
+        node.style.scale = String(state.value);
+        node.dataset.motionScale = state.value.toFixed(3);
       }
+      if (moving) frame = requestAnimationFrame(draw);
     }
     function update() {
-      if (!frame) frame = requestAnimationFrame(draw);
+      if (!frame) {
+        last = 0;
+        frame = requestAnimationFrame(draw);
+      }
     }
     addEventListener('scroll', update, { passive: true });
     addEventListener('resize', update);
+    document.addEventListener('visibilitychange', update);
     preference.addEventListener('change', update);
     update();
     return () => {
       cancelAnimationFrame(frame);
       removeEventListener('scroll', update);
       removeEventListener('resize', update);
+      document.removeEventListener('visibilitychange', update);
       preference.removeEventListener('change', update);
-      for (const node of nodes) {
+      for (const node of [...groups.title, ...states.keys()]) {
         node.style.translate = '';
         node.style.scale = '';
       }
