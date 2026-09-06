@@ -524,3 +524,45 @@ test('computed RGB wordmark colors and redundant unchanged edits do not reject a
     }),
   );
 });
+
+test('copy edits preserve other words and still replace standalone phrases across interaction states', () => {
+  const previous = assembleCapture(capture);
+  for (const variant of previous.variants) {
+    variant.html +=
+      '<p>Personal Coach</p><h3>1:1 Personal Coaching</h3><p>Coach, Coach.</p>';
+    variant.js = interactionRuntime({
+      motion: [],
+      actions: [
+        {
+          patches: [
+            {
+              id: '8',
+              attrs: [],
+              before: '<p>Personal Coach</p>',
+              after: '<h3>Personal Coaching</h3>',
+            },
+          ],
+        },
+      ],
+    });
+  }
+  const changed = applyCapturedPatch(previous, {
+    changes: [
+      {
+        file: 'html',
+        scope: 'text',
+        find: 'Personal Coach',
+        replace: 'Northstar Gym',
+        all: true,
+      },
+    ],
+    reply: 'Updated',
+  });
+  assert.match(changed.html, /<p>Northstar Gym<\/p>/);
+  assert.match(changed.html, /1:1 Personal Coaching/);
+  assert.ok(!changed.html.includes('Gyming'));
+  const state = JSON.parse(
+    changed.js.match(/const data=(.*?);const controller=/s)[1],
+  );
+  assert.equal(state.actions[0].patches[0].after, '<h3>Personal Coaching</h3>');
+});

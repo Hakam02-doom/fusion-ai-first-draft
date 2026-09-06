@@ -7,9 +7,31 @@ export function patchContent(html, change) {
   function walk(node) {
     if (change.scope === 'text' && node.nodeName === '#text') {
       const value = serializeOuter(node);
-      const count = value.split(change.find).length - 1;
+      // Visible-copy replacements may cover phrases, but never fragments of a
+      // different word (for example, "Coach" inside "Coaching").
+      const word = /[\p{L}\p{N}_]/u;
+      const startWord = word.test([...change.find][0] || '');
+      const endWord = word.test([...change.find].at(-1) || '');
+      let count = 0,
+        cursor = 0,
+        replacement = '';
+      for (
+        let at = value.indexOf(change.find);
+        at >= 0;
+        at = value.indexOf(change.find, at + change.find.length)
+      ) {
+        if (
+          (startWord && word.test([...value.slice(0, at)].at(-1) || '')) ||
+          (endWord &&
+            word.test([...value.slice(at + change.find.length)][0] || ''))
+        )
+          continue;
+        replacement += value.slice(cursor, at) + change.replace;
+        cursor = at + change.find.length;
+        count++;
+      }
+      replacement += value.slice(cursor);
       if (count) {
-        const replacement = value.replaceAll(change.find, change.replace);
         const parsed = parseFragment(replacement);
         if (parsed.childNodes.some((n) => n.nodeName !== '#text'))
           throw Error('A copy edit must contain text, not HTML.');
