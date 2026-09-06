@@ -6,6 +6,15 @@ const cleanFrames = (frames) =>
       Object.entries(frame).filter(([k]) => !['computedOffset'].includes(k)),
     ),
   );
+const animationProperties = (frames) =>
+  [...new Set((frames || []).flatMap((frame) => Object.keys(frame)))]
+    .filter(
+      (key) =>
+        !['offset', 'computedOffset', 'easing', 'composite'].includes(key),
+    )
+    .sort();
+const motionIdentity = (animation) =>
+  `${animation.target}:${animationProperties(animation.keyframes).join(',')}`;
 export function assembleCapture(capture) {
   const variants = capture.viewports
     .map((v) => {
@@ -15,7 +24,8 @@ export function assembleCapture(capture) {
       ]
         .filter((a) => a.target && a.keyframes?.length > 1)
         .filter(
-          (a, i, all) => all.findIndex((b) => b.target === a.target) === i,
+          (a, i, all) =>
+            all.findIndex((b) => motionIdentity(b) === motionIdentity(a)) === i,
         )
         .map((a) => ({
           target: a.target,
@@ -40,7 +50,12 @@ export function assembleCapture(capture) {
           Number(frames[0].opacity) < 0.1 &&
           Number(frames.at(-1).opacity) >= 0.99
         ) {
-          if (!motion.some((item) => item.target === id)) {
+          const properties = new Set(
+            motion
+              .filter((item) => item.target === id)
+              .flatMap((item) => animationProperties(item.keyframes)),
+          );
+          if (!properties.has('opacity')) {
             const start = Math.max(
               0,
               frames.findIndex((f) => Number(f.opacity) > 0.01) - 1,
@@ -55,7 +70,11 @@ export function assembleCapture(capture) {
             reveals.push({
               id,
               duration: Math.max(180, (sampled.length - 1) * 180),
-              frames: sampled.map(({ y: _y, ...f }) => f),
+              frames: sampled.map(({ y: _y, ...f }) =>
+                Object.fromEntries(
+                  Object.entries(f).filter(([key]) => !properties.has(key)),
+                ),
+              ),
             });
           }
           continue;
@@ -114,14 +133,17 @@ for(const action of data.actions){
   if(action.kind==='hover')document.addEventListener('pointerout',apply,{signal:controller.signal});
   document.addEventListener('keydown',event=>{if((event.key==='Enter'||event.key===' ')&&event.target.matches(selector(action.target.id))){event.preventDefault();event.target.click();}},{signal:controller.signal});
 }
-if(!matchMedia('(prefers-reduced-motion: reduce)').matches){
+const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+if(reduced){
+for(const item of [...data.motion.filter(m=>m.timing?.iterations!=='Infinity'&&m.timing?.iterations!==Infinity),...(data.reveals||[]).map(r=>({target:r.id,keyframes:r.frames}))]){const target=document.querySelector(selector(item.target));if(!target)continue;const animation=target.animate(item.keyframes,{duration:1,fill:'forwards'});animation.finish();animations.push(animation);}
+}else{
 for(const reveal of data.reveals||[]){const target=document.querySelector(selector(reveal.id));if(!target)continue;const animation=target.animate(reveal.frames,{duration:reveal.duration,fill:'both'});animation.pause();animations.push(animation);const observer=new IntersectionObserver(entries=>{if(entries.some(e=>e.isIntersecting)){animation.play();observer.disconnect();}},{threshold:.12});observer.observe(target);observers.push(observer);}
 for(const track of data.tracks||[]){const target=document.querySelector(selector(track.id));if(!target)continue;const max=track.frames.at(-1).y||1;const animation=target.animate(track.frames.map(({y,...f})=>({...f,offset:y/max})),{duration:max,fill:'both'});animation.id='fusion-scroll';animation.pause();const sync=()=>animation.currentTime=Math.min(max,scrollY);sync();addEventListener('scroll',sync,{passive:true,signal:controller.signal});animations.push(animation);}
 for(const item of data.motion){
  const target=document.querySelector(selector(item.target));if(!target)continue;
  const timing={...item.timing,iterations:item.timing?.iterations==='Infinity'?Infinity:(item.timing?.iterations||1)};
  if(timing.iterations===Infinity){const animation=target.animate(item.keyframes,timing);animations.push(animation);}
- else {const observer=new IntersectionObserver(entries=>{if(entries.some(e=>e.isIntersecting)){animations.push(target.animate(item.keyframes,{...timing,fill:'none'}));observer.disconnect();}},{threshold:.12});observer.observe(target);observers.push(observer);}
+ else {const observer=new IntersectionObserver(entries=>{if(entries.some(e=>e.isIntersecting)){animations.push(target.animate(item.keyframes,{...timing,fill:'forwards'}));observer.disconnect();}},{threshold:.12});observer.observe(target);observers.push(observer);}
 }}
 return ()=>{controller.abort();animations.forEach(a=>a.cancel());observers.forEach(o=>o.disconnect());};
 })();`;

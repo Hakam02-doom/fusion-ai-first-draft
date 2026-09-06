@@ -244,6 +244,13 @@ try {
               onReuse: () => event({ stage: 'Using the saved Kimi response' }),
             }),
             reference: job.reference,
+            inspection: {
+              evidence: capture?.viewports.map(({ width, measured }) => ({
+                width,
+                sections: measured.sections,
+                controls: measured.controls,
+              })),
+            },
             assets,
             signal: abort.signal,
             onProgress: ({ phase, ...update }) => {

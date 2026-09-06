@@ -334,3 +334,40 @@ test('resume copies owned matching checkpoints and does not charge a fresh gener
     else process.env.FUSION_JOB_DIR = previousRoot;
   }
 });
+
+test('renderer upgrades rebuild a failed baseline from saved capture without discarding personalized work', async () => {
+  const checkpoint = {
+    completed: ['capturing', 'rebuilding'],
+    site,
+    comparison: { passed: false },
+    referenceRepairAttempted: true,
+  };
+  const h = harness();
+  const result = await runWorkflow(
+    { project, body: { mode: 'build', prompt: 'Gym' }, checkpoint },
+    h.services,
+  );
+  assert.equal(result.status, 'completed');
+  assert.deepEqual(h.calls, [
+    'capture',
+    'assemble',
+    'compare',
+    'personalize',
+    'verify',
+  ]);
+  assert.equal(result.state.assemblyVersion, 2);
+  const personalized = harness();
+  await runWorkflow(
+    {
+      project,
+      body: { mode: 'build', prompt: 'Gym' },
+      checkpoint: {
+        ...checkpoint,
+        comparison: { passed: true },
+        completed: ['capturing', 'rebuilding', 'comparing', 'personalizing'],
+      },
+    },
+    personalized.services,
+  );
+  assert.deepEqual(personalized.calls, ['verify']);
+});

@@ -451,3 +451,34 @@ test('durable jobs enforce ownership and hide worker internals', async () => {
     else process.env.FUSION_JOB_DIR = old;
   }
 });
+
+test('malformed inspection requests return correction feedback before a browser is opened', async () => {
+  const previous = assembleCapture(capture);
+  let calls = 0;
+  const edited = await editCapturedSite({
+    previous,
+    prompt: 'Change the title',
+    callModel: async ({ prompt }) => {
+      if (++calls === 1)
+        return { inspect: { action: 'inspect_section', width: 1234 } };
+      assert.match(
+        JSON.parse(prompt).inspectionCorrection.error,
+        /captured viewport/,
+      );
+      return {
+        changes: [
+          {
+            file: 'html',
+            scope: 'text',
+            find: 'Original section',
+            replace: 'Training',
+            all: true,
+          },
+        ],
+        reply: 'Updated',
+      };
+    },
+  });
+  assert.equal(calls, 2);
+  assert.match(edited.html, /Training/);
+});

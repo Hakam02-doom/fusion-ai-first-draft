@@ -8,7 +8,7 @@ RUN npm ci --omit=dev --ignore-scripts && npm cache clean --force
 COPY server ./server
 COPY shared ./shared
 COPY api ./api
-COPY scripts/reconstruction-worker.mjs scripts/worker-server.mjs scripts/check-worker.mjs ./scripts/
+COPY scripts/reconstruction-worker.mjs scripts/worker-server.mjs scripts/check-worker.mjs scripts/probe-browser.mjs ./scripts/
 RUN mkdir -p /data/jobs && chown -R node:node /data
 ENV NODE_ENV=production \
     PORT=3101 \

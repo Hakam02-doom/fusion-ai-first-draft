@@ -216,6 +216,15 @@ export function sectionEvidence(html, terms) {
   walk(parseFragment(html));
   return result.join('\n').slice(0, 14000) || html.slice(0, 6000);
 }
+export function resolveInspectionNode(measured, request) {
+  return request.target
+    ? [...measured.elements, ...measured.sections, ...measured.controls].find(
+        (node) => node.id === request.target,
+      )
+    : measured.sections.find(
+        (node) => node.id === request.section || node.name === request.section,
+      );
+}
 const system =
   designPolicy('repair') +
   `\nYou are reconstructing captured frontend code. The captured reference is the visual authority. Do not substitute stock components, remove sections, invent copy or simplify the visual design. Return ONLY {changes:[{width?,file,find,replace,all?}],reply}; files are html, css, js. Each find is an exact unique substring; all:true is only for intentional repeated changes such as a user-requested brand rename. Omit width to apply to each matching breakpoint. Keep replacements compact. If more reference evidence is needed, return {inspect:{action,section?,target?,width?}} instead. Allowed actions: inspect_section, inspect_control, scroll_to, hover, click. Only use target IDs or section IDs supplied in evidence. Never return executable browser code. Do not claim visual validation.`;
@@ -288,7 +297,7 @@ export async function editCapturedSite({
         throw Error(
           'Inspection budget reached. Captured output is unchanged; narrow the requested edit.',
         );
-      const request = z
+      const parsedRequest = z
         .object({
           action: z.enum([
             'inspect_section',
@@ -303,7 +312,17 @@ export async function editCapturedSite({
             .union([z.literal(1440), z.literal(768), z.literal(390)])
             .default(1440),
         })
-        .parse(response.inspect);
+        .safeParse(response.inspect);
+      if (!parsedRequest.success) {
+        task.inspectionCorrection = {
+          error:
+            'Use a supported action, numeric target ID, and a captured viewport (1440, 768 or 390).',
+          previousRequest: response.inspect,
+        };
+        onProgress?.({ stage: 'Correcting the reference inspection request' });
+        continue;
+      }
+      const request = parsedRequest.data;
       if (!reference?.previewUrl)
         throw Error('The reference browser is unavailable for this edit.');
       if (!session) {
@@ -318,19 +337,28 @@ export async function editCapturedSite({
       await page.goto(reference.previewUrl, { waitUntil: 'domcontentloaded' });
       await page.waitForTimeout(1000);
       const measured = await page.evaluate(measurePage);
-      const node = request.target
-        ? [
-            ...measured.elements,
-            ...measured.sections,
-            ...measured.controls,
-          ].find((e) => e.id === request.target)
-        : measured.sections.find(
-            (s) => s.id === request.section || s.name === request.section,
-          );
-      if (!node)
-        throw Error(
-          'The requested reference element was not found in browser evidence.',
-        );
+      const node = resolveInspectionNode(measured, request);
+      if (!node) {
+        task.inspectionCorrection = {
+          error:
+            'The requested element is absent. Choose an exact section name or node ID below, or return a patch using the captured source.',
+          previousRequest: request,
+          sections: measured.sections.map(({ id, name, heading }) => ({
+            id,
+            name,
+            heading,
+          })),
+          controls: measured.controls.map(({ id, name, text }) => ({
+            id,
+            name,
+            text,
+          })),
+        };
+        onProgress?.({
+          stage: 'Matching the inspection request to captured sections',
+        });
+        continue;
+      }
       const target = page.locator(`[data-fusion-node="${node.id}"]`);
       if (
         request.action === 'scroll_to' ||

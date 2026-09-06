@@ -1,6 +1,7 @@
 import { createHash } from 'node:crypto';
 
 export const WORKFLOW_VERSION = 1;
+export const ASSEMBLY_VERSION = 2;
 export const workflowSteps = (mode) =>
   mode === 'edit'
     ? ['editing', 'checking', 'saving']
@@ -67,6 +68,19 @@ export async function runWorkflow(
   };
   signal?.throwIfAborted();
   if (mode !== 'edit') {
+    // Rebuild unfinished baselines after renderer fixes, retaining browser evidence.
+    // A personalized draft must never be overwritten by this migration.
+    if (
+      state.site &&
+      !state.comparison?.passed &&
+      !state.completed.includes('personalizing') &&
+      (state.assemblyVersion || 1) < ASSEMBLY_VERSION
+    ) {
+      delete state.site;
+      delete state.comparison;
+      delete state.referenceRepairAttempted;
+      state.completed = state.completed.filter((step) => step === 'capturing');
+    }
     if (!state.site) {
       await event('capturing', 'Opening the reference in the browser');
       const capture = await services.capture();
@@ -77,6 +91,7 @@ export async function runWorkflow(
         'Rebuilding the reference layout, assets and interactions',
       );
       await save('rebuilding', {
+        assemblyVersion: ASSEMBLY_VERSION,
         site: await services.assemble(capture),
         coverage: {
           capturedControls: capture.interactions.length,
