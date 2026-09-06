@@ -3,7 +3,7 @@ import { openBrowser } from './session.js';
 import { allowedResource } from '../browser.js';
 import { siteDocument } from '../../shared/site.js';
 import { measurePage } from './dom.js';
-import { settlePage } from './capture.js';
+import { settlePage, freezeComparisonMotion } from './capture.js';
 export function compareHeadings(reference, actual) {
   const used = new Set(),
     missingHeadings = [];
@@ -99,16 +99,7 @@ export async function compareCapture(
       await page.evaluate(() => document.fonts.ready);
       await page.waitForTimeout(2000);
       await settlePage(page, signal);
-      await page.evaluate(() =>
-        document.getAnimations().forEach((a) => {
-          try {
-            if (a.id === 'fusion-scroll') return;
-            a.pause();
-            if (a.effect.getTiming().iterations === Infinity) a.currentTime = 0;
-            else a.finish();
-          } catch {}
-        }),
-      );
+      await freezeComparisonMotion(page);
       const measured = await page.evaluate(measurePage);
       const integrity = await page.evaluate(() => ({
         overflow: document.documentElement.scrollWidth > innerWidth + 2,

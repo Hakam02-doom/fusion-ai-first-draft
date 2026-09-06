@@ -2,6 +2,26 @@ import { openBrowser, referenceContext } from './session.js';
 import { measurePage, serializePage } from './dom.js';
 import { isInspectableControl } from './controls.js';
 export const CAPTURE_VERSION = 4;
+// Normalize animation clocks for comparison without changing captured motion data.
+export async function freezeComparisonMotion(page) {
+  await page.evaluate(async () => {
+    await Promise.all(
+      document.getAnimations().map(async (animation) => {
+        if (animation.id === 'fusion-scroll') return;
+        try {
+          if (animation.effect.getTiming().iterations === Infinity) {
+            animation.pause();
+            await animation.ready;
+            animation.currentTime = 0;
+          } else {
+            await animation.ready;
+            animation.finish();
+          }
+        } catch {}
+      }),
+    );
+  });
+}
 export async function settlePage(page, signal, track = false) {
   await page.evaluate(() => document.fonts.ready);
   const height = await page.evaluate(
@@ -88,15 +108,7 @@ export async function captureReference(
       if (document.html.length > 2500000 || document.css.length > 2000000)
         throw Error('The reference exceeds this worker’s document limit.');
       // Freeze clocks only for the reproducible comparison, after capturing motion evidence.
-      await page.evaluate(() =>
-        document.getAnimations().forEach((a) => {
-          try {
-            a.pause();
-            if (a.effect.getTiming().iterations === Infinity) a.currentTime = 0;
-            else a.finish();
-          } catch {}
-        }),
-      );
+      await freezeComparisonMotion(page);
       const screenshot = await page.screenshot({ fullPage: true, type: 'png' });
       const artifact = `reference-${width}.png`;
       await onArtifact(artifact, screenshot);
