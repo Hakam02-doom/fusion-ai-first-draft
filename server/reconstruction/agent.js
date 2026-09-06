@@ -245,6 +245,30 @@ export async function editCapturedSite({
   onProgress,
   callModel = modelJSON,
 }) {
+  // A deliberately narrow command avoids a provider call for an unambiguous
+  // literal edit. All other briefs still go through the model.
+  const literal =
+    !personalize &&
+    !repair &&
+    prompt.match(
+      /^Replace\s+("(?:[^"\\]|\\.)+")\s+with\s+("(?:[^"\\]|\\.)*")\s+everywhere\.?$/i,
+    );
+  if (literal) {
+    signal?.throwIfAborted();
+    onProgress?.({ stage: 'Updating the requested text' });
+    return applyCapturedPatch(previous, {
+      changes: [
+        {
+          file: 'html',
+          scope: 'text',
+          find: JSON.parse(literal[1]),
+          replace: JSON.parse(literal[2]),
+          all: true,
+        },
+      ],
+      reply: 'Updated the requested text across the captured screen sizes.',
+    });
+  }
   const task = {
     brief: prompt,
     repair,

@@ -566,3 +566,37 @@ test('copy edits preserve other words and still replace standalone phrases acros
   );
   assert.equal(state.actions[0].patches[0].after, '<h3>Personal Coaching</h3>');
 });
+
+test('explicit literal replacements use the same atomic patcher without a model request', async () => {
+  const previous = assembleCapture(capture);
+  let calls = 0;
+  const next = await editCapturedSite({
+    previous,
+    prompt: 'Replace "Original section" with "Training" everywhere.',
+    callModel: async () => {
+      calls++;
+      throw Error('Provider unavailable');
+    },
+  });
+  assert.equal(calls, 0);
+  assert.ok(next.variants.every((v) => v.html.includes('Training')));
+  assert.match(previous.html, /Original section/);
+  await assert.rejects(
+    () =>
+      editCapturedSite({
+        previous,
+        prompt:
+          'Replace "Original section" with "Training" everywhere. Also change the colors.',
+        callModel: async () => {
+          calls++;
+          throw Error('Provider unavailable');
+        },
+      }),
+    /Provider unavailable/,
+  );
+  assert.equal(
+    calls,
+    1,
+    'additional instructions must not be silently ignored by the literal shortcut',
+  );
+});
