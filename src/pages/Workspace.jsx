@@ -551,9 +551,21 @@ export default function Workspace() {
                       </p>
                       <small aria-live="off">
                         {Math.floor(elapsed / 60)}:
-                        {String(elapsed % 60).padStart(2, '0')} elapsed
+                        {String(elapsed % 60).padStart(2, '0')} total
                         {progress?.detail ? ` · ${progress.detail}` : ''}
                       </small>
+                      {reconstructionJob && progress?.receivedChars === 0 && (
+                        <small>
+                          Waiting for AI:{' '}
+                          {Math.floor((progress.elapsedSeconds || 0) / 60)}:
+                          {String((progress.elapsedSeconds || 0) % 60).padStart(
+                            2,
+                            '0',
+                          )}
+                          . Your draft is saved. You can leave this page and
+                          return while it continues.
+                        </small>
+                      )}
                     </div>
                   </div>
                 )}
