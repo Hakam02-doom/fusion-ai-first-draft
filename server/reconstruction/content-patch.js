@@ -21,9 +21,12 @@ export function patchContent(html, change) {
         at = value.indexOf(change.find, at + change.find.length)
       ) {
         if (
-          (startWord && word.test([...value.slice(0, at)].at(-1) || '')) ||
+          (startWord &&
+            word.test(Array.from(value.slice(0, at)).at(-1) || '')) ||
           (endWord &&
-            word.test([...value.slice(at + change.find.length)][0] || ''))
+            word.test(
+              Array.from(value.slice(at + change.find.length))[0] || '',
+            ))
         )
           continue;
         replacement += value.slice(cursor, at) + change.replace;
