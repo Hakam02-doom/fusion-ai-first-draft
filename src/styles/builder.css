@@ -1789,6 +1789,209 @@ html:has(.b-dashboard)::-webkit-scrollbar {
   }
 }
 
-.b-title-line { display: block; white-space: nowrap; }
-.b-title-last { transform: scaleX(.94); transform-origin: left center; }
-@container(max-width:650px) { .b-title-last { transform: none; } }
+.b-title-line {
+  display: block;
+  white-space: nowrap;
+}
+.b-title-last {
+  transform: scaleX(0.94);
+  transform-origin: left center;
+}
+@container (max-width:650px) {
+  .b-title-last {
+    transform: none;
+  }
+}
+
+/* Functional builder surfaces extend the approved app chrome. */
+.b-generated-container {
+  height: 100%;
+  min-height: 560px;
+  overflow: hidden !important;
+}
+.b-generated-frame {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 560px;
+  border: 0;
+  background: #fff;
+}
+.b-public-site {
+  width: 100%;
+  height: 100dvh;
+  background: #0b0c0e;
+}
+.b-public-site .b-generated-frame {
+  height: 100dvh;
+}
+.b-generation-empty,
+.b-load-state {
+  min-height: 70vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  text-align: center;
+  background: #101114;
+  color: #f4f2ef;
+  font-family: Inter, sans-serif;
+  gap: 20px;
+}
+.b-generation-empty h2,
+.b-load-state h1 {
+  font-family: 'General Sans', sans-serif;
+  font-size: 32px;
+  line-height: 1.2;
+  font-weight: 500;
+}
+.b-generation-empty p,
+.b-load-state p {
+  max-width: 42ch;
+  color: #b5b6be;
+  line-height: 1.7;
+}
+.b-generation-error {
+  margin: 18px 0;
+  padding: 16px;
+  background: #301c18;
+  border: 1px solid #684338;
+  border-radius: 12px;
+  color: #ffddd1;
+}
+.b-generation-error p {
+  line-height: 1.6;
+  margin-bottom: 12px;
+  overflow-wrap: anywhere;
+}
+.b-generation-error button {
+  margin: 4px 6px 0 0;
+}
+.b-reference-card {
+  border: 1px solid #353438;
+  border-radius: 12px;
+  padding: 12px;
+  margin: 18px 0;
+}
+.b-reference-card.selected {
+  border-color: #b96537;
+}
+.b-reference-card img {
+  width: 100%;
+  aspect-ratio: 1.5;
+  object-fit: cover;
+  border-radius: 8px;
+}
+.b-reference-card h3 {
+  font-size: 18px;
+  margin: 12px 0 8px;
+}
+.b-reference-card p {
+  font-size: 14px;
+  line-height: 1.5;
+}
+.b-reference-card > div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin: 12px 0;
+}
+.b-reference-card a {
+  color: #e0c4ad;
+  font-size: 13px;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.b-reference-card small {
+  color: #b9b6b3;
+  font-size: 12px;
+}
+.b-tool-panel select {
+  width: 100%;
+  background: #19191c;
+  color: #f4f2ef;
+  padding: 12px;
+  border: 1px solid #454348;
+  border-radius: 8px;
+  font: inherit;
+}
+.b-uploaded-image {
+  margin: 22px 0;
+}
+.b-uploaded-image img {
+  width: 100%;
+  max-height: 220px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+.b-uploaded-image figcaption {
+  margin-top: 8px;
+  font-size: 13px;
+  color: #bfbac0;
+  overflow-wrap: anywhere;
+}
+.b-cloud-thumbnail {
+  width: 100%;
+  aspect-ratio: 1.58;
+  object-fit: cover;
+  object-position: top;
+  display: block;
+}
+.b-cloud-placeholder {
+  aspect-ratio: 1.58;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  flex-direction: column;
+  background: #1e2025;
+  color: #c9c4bd;
+  font-size: 20px;
+  padding: 24px;
+  overflow-wrap: anywhere;
+}
+.b-project-grid.list-view .b-cloud-thumbnail,
+.b-project-grid.list-view .b-cloud-placeholder {
+  width: 180px;
+  max-height: 120px;
+}
+.b-tool-panel form {
+  display: grid;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+.b-dialog input,
+.b-tool-panel textarea {
+  min-width: 0;
+}
+.b-tool-panel .b-outline,
+.b-dialog .b-outline {
+  margin-top: 8px;
+}
+.b-working {
+  overflow-wrap: anywhere;
+}
+@media (max-width: 700px) {
+  .b-generated-container,
+  .b-generated-frame {
+    min-height: calc(100dvh - 200px);
+  }
+  .b-editor-top .b-project-title {
+    max-width: 45vw;
+  }
+  .b-cloud-placeholder {
+    font-size: 18px;
+  }
+  .b-project-grid.list-view .b-cloud-thumbnail,
+  .b-project-grid.list-view .b-cloud-placeholder {
+    width: 100px;
+  }
+  .b-generation-empty {
+    padding: 28px;
+  }
+  .b-generation-empty h2 {
+    font-size: 27px;
+  }
+}

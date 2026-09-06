@@ -95,3 +95,9 @@ The dashboard supports project search, draft/published filters, grid/list views,
 This is a frontend demo. General AI generation, image analysis, accounts, cross-device synchronization, and public project publishing are not connected. The UI discloses these limits. The Publish dialog offers preview and HTML export; exported artwork depends on the app’s hosted assets. Sample project names/statuses and initial conversation are illustrative.
 
 Validation: `npm run lint`, `npm run test:builder`, and `npm run build`. Browser checks cover responsive layouts, project search/status filters, conversation-to-preview heading changes, undo, history persistence, and device preview sizing.
+
+## Functional builder backend — 2026-09-06
+
+The builder now uses `/api/builder` for real marketplace discovery, cloud projects, AI requests, image uploads, version history, public snapshot links and React source export. See [IMPLEMENTATION.md](IMPLEMENTATION.md) for architecture, setup, limits and validation. The existing local demo store is retained for migration and its previous controls are no longer used for new generation.
+
+SiliconFlow is now the default AI provider; configure its server API key and an available model as described in IMPLEMENTATION.md. SiliconFlow API authentication is verified. Live generation is pending an available free model or credit allowance; the current global account has a zero balance. The application reports provider failures honestly and keeps the previous saved version. Workspaces currently use recovery keys for cross-device access, not email accounts. Generated websites are frontend-only.

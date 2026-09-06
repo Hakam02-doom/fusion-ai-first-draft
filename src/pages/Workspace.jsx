@@ -1,4 +1,5 @@
-import { useEffect, useRef, useState } from 'react';
+import { categories } from '../../shared/categories.js';
+import { useEffect, useEffectEvent, useRef, useState } from 'react';
 import {
   ArrowLeft,
   ChevronDown,
@@ -22,182 +23,185 @@ import {
   ExternalLink,
   X,
   Download,
+  PanelsTopLeft,
+  Square,
+  RefreshCw,
 } from 'lucide-react';
 import {
   Brand,
   IconButton,
   GlowButton,
   Dialog,
-  CompCrop,
-  Website,
   orb,
 } from '../components/builder/UI.jsx';
 import {
-  getProject,
-  updateProject,
-  applyDemoEdit,
-} from '../components/builder/store.js';
+  api,
+  generate,
+  imageData,
+  exportProject,
+} from '../components/builder/client.js';
+import GeneratedPreview from '../components/builder/GeneratedPreview.jsx';
+import WorkspaceAccess from '../components/builder/WorkspaceAccess.jsx';
+import { samples } from '../components/builder/store.js';
 import '../styles/builder.css';
-
-const cleanVersion = (project) => {
-  const {
-    versions: _versions,
-    messages: _messages,
-    activeVersion: _activeVersion,
-    ...rest
-  } = project;
-  return rest;
-};
 export default function Workspace() {
-  const [initial] = useState(() =>
-    getProject(new URLSearchParams(location.search).get('project')),
-  );
-  const [project, setProject] = useState(initial);
-  const [versions, setVersions] = useState(
-    () =>
-      initial.versions ?? [
-        { ...cleanVersion(initial), largeImage: false, simpleNav: false },
-        cleanVersion(initial),
-      ],
-  );
-  const [index, setIndex] = useState(
-    () => initial.activeVersion ?? (initial.versions?.length ?? 2) - 1,
-  );
-  const [messages, setMessages] = useState(
-    () =>
-      initial.messages ?? [
-        {
-          role: 'user',
-          text:
-            initial.prompt ??
-            'Create a portfolio for an architecture studio. Warm neutrals, bold typography, and large project images.',
-        },
-        {
-          role: 'assistant',
-          text: `I’ve created ${initial.name} with a ${initial.theme === 'lumina' ? 'warm editorial' : 'clean, considered'} style.`,
-          checklist: [
-            'Responsive home page',
-            'Selected projects gallery',
-            'Contact section',
-          ],
-          version: true,
-        },
-        {
-          role: 'user',
-          text: 'Make the hero image larger and simplify the navigation.',
-        },
-        {
-          role: 'assistant',
-          text: 'Done. The imagery now leads, with a cleaner four-link navigation.',
-          changed: true,
-        },
-      ],
-  );
-  const [prompt, setPrompt] = useState('');
-  const [busy, setBusy] = useState(false);
-  const [device, setDevice] = useState('Desktop');
-  const [mobileTab, setMobileTab] = useState('Chat');
-  const [panel, setPanel] = useState('Chat');
-  const [page, setPage] = useState('Home');
-  const [dialog, setDialog] = useState(null);
-  const [attachment, setAttachment] = useState(null);
-  const [notice, setNotice] = useState('');
-  const [storageOk, setStorageOk] = useState(true);
-  const timer = useRef(null),
+  const [project, setProject] = useState(null),
+    [loading, setLoading] = useState(true),
+    [error, setError] = useState(''),
+    [notice, setNotice] = useState('');
+  const [prompt, setPrompt] = useState(''),
+    [busy, setBusy] = useState(false),
+    [stage, setStage] = useState(''),
+    [messages, setMessages] = useState([]),
+    [device, setDevice] = useState('Desktop'),
+    [mobileTab, setMobileTab] = useState('Chat'),
+    [panel, setPanel] = useState('Chat'),
+    [dialog, setDialog] = useState(null),
+    [name, setName] = useState(''),
+    [designRequest, setDesignRequest] = useState(''),
+    [pending, setPending] = useState(false);
+  const controller = useRef(null),
+    file = useRef(null),
     conversation = useRef(null),
     textarea = useRef(null),
-    file = useRef(null),
-    preview = useRef(null);
-  useEffect(() => () => clearTimeout(timer.current), []);
-  useEffect(() => {
-    const ok = updateProject({
-      ...project,
-      messages,
-      versions,
-      activeVersion: index,
-    });
-    queueMicrotask(() => setStorageOk(ok));
-  }, [project, messages, versions, index]);
-  const moveVersion = (to) => {
-    setIndex(to);
-    setProject(versions[to]);
+    lastRequest = useRef(null);
+  const accept = (p) => {
+    setProject(p);
+    setMessages(p.messages || []);
   };
-  const commit = (next, nextMessages = messages) => {
-    const history = [...versions.slice(0, index + 1), cleanVersion(next)].slice(
-      -30,
-    );
-    setVersions(history);
-    setIndex(history.length - 1);
-    setProject(next);
-    setMessages(nextMessages);
-  };
-  const send = (e) => {
-    e.preventDefault();
-    if (!prompt.trim() || busy) return;
-    const text = prompt.trim();
-    const nextMessages = [
-      ...messages,
-      { role: 'user', text, attachment: attachment?.name },
-    ];
-    setMessages(nextMessages);
-    setPrompt('');
-    setAttachment(null);
+  async function run(text, p = project, { redesign = false } = {}) {
+    if (!p || busy || !text.trim()) return;
     setBusy(true);
-    requestAnimationFrame(() => {
-      conversation.current?.scrollTo({
-        top: conversation.current.scrollHeight,
-        behavior: 'smooth',
-      });
-    });
-    timer.current = setTimeout(() => {
-      const result = applyDemoEdit(project, text);
-      const all = [
-        ...nextMessages,
-        { role: 'assistant', text: result.reply, changed: result.changed },
-      ];
-      if (result.changed) commit(result.project, all);
-      else setMessages(all);
+    setError('');
+    setPrompt('');
+    setStage('Preparing your website');
+    setPanel('Chat');
+    lastRequest.current = { text, redesign };
+    setMessages([...(p.messages || []), { role: 'user', text }]);
+    controller.current = new AbortController();
+    try {
+      accept(
+        await generate(p.id, text, setStage, controller.current.signal, {
+          redesign,
+        }),
+      );
+      setMobileTab('Preview');
+    } catch (e) {
+      setError(
+        e.name === 'AbortError'
+          ? 'Generation stopped. Your saved version is unchanged.'
+          : e.message,
+      );
+      try {
+        const saved = await api('project', null, { query: `&id=${p.id}` });
+        setProject(saved);
+      } catch {
+        /* Retain the current version when offline. */
+      }
+    } finally {
       setBusy(false);
-      requestAnimationFrame(() => {
-        conversation.current?.scrollTo({
-          top: conversation.current.scrollHeight,
-          behavior: 'smooth',
-        });
-        textarea.current?.focus();
-      });
-    }, 500);
-  };
-  const download = () => {
-    const clone = preview.current.querySelector('.b-website').cloneNode(true);
-    clone.querySelectorAll('img').forEach((img) => {
-      img.src = new URL(img.getAttribute('src'), location.origin).href;
-    });
-    const css = [...document.styleSheets]
-      .map((sheet) => {
-        try {
-          return [...sheet.cssRules].map((rule) => rule.cssText).join('\n');
-        } catch {
-          return '';
+      setStage('');
+    }
+  }
+  const startInitial = useEffectEvent((p) => run(p.prompt, p));
+  useEffect(() => {
+    let live = true;
+    const load = async () => {
+      try {
+        const url = new URL(location.href);
+        let id = url.searchParams.get('project');
+        let p;
+        if (samples.some((s) => s.id === id)) {
+          const sample = samples.find((s) => s.id === id);
+          const { importLegacyProject } =
+            await import('../components/builder/migrate.js');
+          p = await importLegacyProject(sample);
+          id = p.id;
+          history.replaceState(null, '', `/workspace?project=${id}`);
+        } else
+          p = await api('project', null, {
+            query: `&id=${encodeURIComponent(id || '')}`,
+          });
+        if (!live) return;
+        accept(p);
+        if (p.generationError) {
+          setError(p.generationError);
+          lastRequest.current = {
+            text: p.failedPrompt || p.prompt,
+            redesign: false,
+          };
         }
-      })
-      .join('\n');
-    const blob = new Blob(
-      [
-        `<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>${project.name.replace(/[<>&]/g, '')}</title><style>${css}body{margin:0}.b-website{min-height:100vh}</style>${clone.outerHTML}</html>`,
-      ],
-      { type: 'text/html' },
-    );
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `${project.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}.html`;
-    a.click();
-    setTimeout(() => URL.revokeObjectURL(url), 1000);
-    setNotice(
-      'Website exported. Artwork still loads from this app’s hosted assets.',
-    );
+        setLoading(false);
+        if (url.searchParams.get('new') === '1') {
+          history.replaceState(null, '', `/workspace?project=${id}`);
+          startInitial(p);
+        }
+      } catch (e) {
+        if (live) {
+          setError(e.message);
+          setLoading(false);
+        }
+      }
+    };
+    load();
+    return () => {
+      live = false;
+      controller.current?.abort();
+    };
+  }, []);
+  useEffect(() => {
+    conversation.current?.scrollTo({
+      top: conversation.current.scrollHeight,
+      behavior: 'smooth',
+    });
+  }, [messages, stage, error]);
+  const mutate = async (action, body = {}) => {
+    if (busy || pending) return;
+    setPending(true);
+    try {
+      const p = await api(action, { id: project.id, ...body });
+      accept(p);
+      return p;
+    } catch (e) {
+      setNotice(e.message);
+    } finally {
+      setPending(false);
+    }
   };
-  const previewUrl = `/site?project=${encodeURIComponent(project.id)}`;
+  const discover = async (reroll = false) => {
+    setStage('Finding matching Framer references');
+    const p = await mutate('discover', { reroll });
+    setStage('');
+    if (p) setPanel('References');
+  };
+  const shareUrl = project?.shareId
+    ? `${location.origin}/site?share=${project.shareId}`
+    : '';
+  const previewUrl = project ? `/site?project=${project.id}` : '#';
+  const download = async () => {
+    setPending(true);
+    try {
+      await exportProject(project.id);
+      setNotice(
+        'Downloaded your editable React project and standalone website.',
+      );
+    } catch (e) {
+      setNotice(e.message);
+    } finally {
+      setPending(false);
+    }
+  };
+  if (loading || !project)
+    return (
+      <div className="builder-app b-load-state">
+        <Brand />
+        <h1>{loading ? 'Opening your workspace…' : 'Website unavailable'}</h1>
+        {error && <p role="alert">{error}</p>}
+        <a className="b-outline" href="/dashboard">
+          Back to projects
+        </a>
+      </div>
+    );
   return (
     <div className={`builder-app b-editor mobile-${mobileTab.toLowerCase()}`}>
       <header className="b-editor-top">
@@ -208,27 +212,38 @@ export default function Workspace() {
         </a>
         <button
           className="b-project-title"
-          onClick={() => setDialog('Project settings')}
+          onClick={() => {
+            setName(project.name);
+            setDialog('Project settings');
+          }}
         >
           {project.name}
           <ChevronDown size={16} />
         </button>
         <span className="b-saved">
           <CircleCheck size={15} />
-          {busy ? 'Updating…' : storageOk ? 'Saved' : 'Not saved'}
+          {busy ? 'Building…' : pending ? 'Saving…' : 'Saved'}
         </span>
         <div className="b-editor-actions">
           <IconButton
             icon={Undo2}
             label="Undo change"
-            disabled={index <= 0 || busy}
-            onClick={() => moveVersion(index - 1)}
+            disabled={project.activeVersion <= 0 || busy || pending}
+            onClick={() =>
+              mutate('restore', { index: project.activeVersion - 1 })
+            }
           />
           <IconButton
             icon={Redo2}
             label="Redo change"
-            disabled={index >= versions.length - 1 || busy}
-            onClick={() => moveVersion(index + 1)}
+            disabled={
+              project.activeVersion >= project.versions.length - 1 ||
+              busy ||
+              pending
+            }
+            onClick={() =>
+              mutate('restore', { index: project.activeVersion + 1 })
+            }
           />
           <IconButton
             icon={History}
@@ -237,12 +252,16 @@ export default function Workspace() {
           />
           <button
             className="b-outline"
-            onClick={() => setDialog('Share preview')}
+            disabled={!project.site || busy}
+            onClick={() => setDialog('Share website')}
           >
             <Share2 size={17} />
             Share
           </button>
-          <GlowButton onClick={() => setDialog('Publish website')}>
+          <GlowButton
+            disabled={!project.site || busy}
+            onClick={() => setDialog('Publish website')}
+          >
             Publish
           </GlowButton>
         </div>
@@ -263,18 +282,19 @@ export default function Workspace() {
         <nav className="b-tool-rail" aria-label="Builder tools">
           {[
             [MessageSquare, 'Chat'],
+            [PanelsTopLeft, 'References'],
             [File, 'Pages'],
             [Palette, 'Design'],
             [Image, 'Assets'],
-          ].map(([Icon, name]) => (
+          ].map(([Icon, label]) => (
             <IconButton
-              key={name}
+              key={label}
               icon={Icon}
-              label={name}
-              active={panel === name}
-              aria-pressed={panel === name}
+              label={label}
+              active={panel === label}
+              aria-pressed={panel === label}
               onClick={() => {
-                setPanel(name);
+                setPanel(label);
                 setMobileTab('Chat');
               }}
             />
@@ -287,8 +307,8 @@ export default function Workspace() {
           />
           <IconButton
             icon={Settings}
-            label="Builder settings"
-            onClick={() => setDialog('Project settings')}
+            label="Workspace access"
+            onClick={() => setDialog('Workspace access')}
           />
         </nav>
         <aside className="b-chat-panel">
@@ -296,8 +316,11 @@ export default function Workspace() {
             <h1>{panel === 'Chat' ? 'Build with Fusion' : panel}</h1>
             <IconButton
               icon={MessageSquare}
-              label="New conversation"
-              onClick={() => setDialog('New conversation')}
+              label="Focus chat"
+              onClick={() => {
+                setPanel('Chat');
+                textarea.current?.focus();
+              }}
             />
           </header>
           {panel === 'Chat' ? (
@@ -309,6 +332,31 @@ export default function Workspace() {
                 aria-label="Website conversation"
                 aria-live="polite"
               >
+                {!messages.length && (
+                  <div className="b-message assistant">
+                    <img
+                      className="b-message-avatar"
+                      src={orb}
+                      alt="Fusion AI"
+                    />
+                    <div>
+                      <p>
+                        {project.site
+                          ? 'Your website is ready. What would you like to change?'
+                          : 'I’ll find a Framer reference for your brief, inspect its design, and build your first website.'}
+                      </p>
+                      <p>{project.prompt}</p>
+                      {!busy && (
+                        <button
+                          className="b-outline"
+                          onClick={() => run(project.prompt)}
+                        >
+                          Generate website
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                )}
                 {messages.map((m, i) => (
                   <div key={i} className={`b-message ${m.role}`}>
                     {m.role === 'assistant' && (
@@ -320,34 +368,6 @@ export default function Workspace() {
                     )}
                     <div>
                       <p>{m.text}</p>
-                      {m.attachment && (
-                        <small>
-                          <Paperclip size={13} />
-                          {m.attachment}
-                        </small>
-                      )}
-                      {m.checklist && (
-                        <ul>
-                          {m.checklist.map((item) => (
-                            <li key={item}>
-                              <Check size={16} />
-                              {item}
-                            </li>
-                          ))}
-                        </ul>
-                      )}
-                      {m.version && (
-                        <button
-                          className="b-version-card"
-                          onClick={() => setDialog('Version history')}
-                        >
-                          <CompCrop type="architecture" />
-                          <span>
-                            First design · Version 1
-                            <strong>View changes</strong>
-                          </span>
-                        </button>
-                      )}
                       {m.changed && (
                         <span className="b-preview-updated">
                           <Check size={16} />
@@ -357,19 +377,55 @@ export default function Workspace() {
                     </div>
                   </div>
                 ))}
-                {busy && (
+                {(busy || stage) && (
                   <div className="b-message assistant">
                     <img className="b-message-avatar" src={orb} alt="" />
                     <p className="b-working">
-                      Updating your preview<span>…</span>
+                      {stage}
+                      <span>…</span>
                     </p>
+                  </div>
+                )}
+                {error && (
+                  <div className="b-generation-error" role="alert">
+                    <p>{error}</p>
+                    <button
+                      className="b-outline"
+                      disabled={busy}
+                      onClick={() =>
+                        run(
+                          lastRequest.current?.text || project.prompt,
+                          project,
+                          { redesign: lastRequest.current?.redesign },
+                        )
+                      }
+                    >
+                      <RefreshCw size={15} />
+                      Retry
+                    </button>
+                    <button
+                      className="b-outline"
+                      onClick={() => {
+                        setError('');
+                        setPanel('References');
+                      }}
+                    >
+                      View references
+                    </button>
                   </div>
                 )}
               </div>
               <div className="b-chat-composer">
-                <form className="b-composer" onSubmit={send}>
+                <form
+                  className="b-composer"
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    run(prompt);
+                  }}
+                >
                   <textarea
                     ref={textarea}
+                    maxLength={6000}
                     aria-label="Ask Fusion to change your website"
                     placeholder="Ask Fusion to change anything…"
                     value={prompt}
@@ -381,136 +437,232 @@ export default function Workspace() {
                         !e.nativeEvent.isComposing
                       ) {
                         e.preventDefault();
-                        send(e);
+                        run(prompt);
                       }
                     }}
                   />
-                  {attachment && (
-                    <div className="b-attachment">
-                      {attachment.name}
-                      <IconButton
-                        icon={X}
-                        label="Remove attachment"
-                        onClick={() => setAttachment(null)}
-                      />
-                    </div>
-                  )}
                   <div className="b-composer-bottom">
                     <div>
                       <IconButton
                         icon={Paperclip}
-                        label="Attach reference"
-                        onClick={() => file.current.click()}
-                      />
-                      <IconButton
-                        icon={Image}
                         label="Attach image"
+                        disabled={busy || pending}
                         onClick={() => file.current.click()}
                       />
-                    </div>
-                    <div>
                       <button
                         type="button"
                         className="b-outline"
-                        onClick={() => setDialog('Demo editing')}
+                        onClick={() => setPanel('References')}
                       >
-                        Build
-                        <ChevronDown size={14} />
+                        References
                       </button>
+                    </div>
+                    {busy ? (
+                      <button
+                        type="button"
+                        className="b-outline"
+                        onClick={() => controller.current?.abort()}
+                      >
+                        <Square size={15} />
+                        Stop
+                      </button>
+                    ) : (
                       <GlowButton
                         aria-label="Send message"
-                        disabled={!prompt.trim() || busy}
+                        disabled={!prompt.trim() || pending}
                       >
                         <Send size={20} />
                       </GlowButton>
-                    </div>
+                    )}
                   </div>
                 </form>
                 <p className="b-demo-note">
-                  Local demo · changes save on this device.
+                  Frontend generation · versions save to your workspace.
                 </p>
               </div>
             </>
           ) : (
             <div className="b-tool-panel">
-              {panel === 'Pages' ? (
+              {panel === 'References' ? (
                 <>
-                  <p>Website pages</p>
-                  {['Home', 'Work', 'About', 'Contact'].map((name) => (
-                    <button
-                      className={`b-page-item ${page === name ? 'selected' : ''}`}
-                      key={name}
-                      onClick={() => {
-                        setPage(name);
-                        setMobileTab('Preview');
+                  <h2>Design references</h2>
+                  <p>
+                    Matches from Framer’s{' '}
+                    {project.category.replaceAll('-', ' ')} category. Choose a
+                    reference or let Fusion pick one.
+                  </p>
+                  <label>
+                    Category
+                    <select
+                      value={project.category}
+                      disabled={busy || pending}
+                      onChange={async (e) => {
+                        setStage('Finding references');
+                        await mutate('discover', { category: e.target.value });
+                        setStage('');
                       }}
                     >
-                      <File size={17} />
-                      {name}
-                    </button>
+                      {categories.map((c) => (
+                        <option key={c} value={c}>
+                          {c.replaceAll('-', ' ')}
+                        </option>
+                      ))}
+                    </select>
+                  </label>
+                  <button
+                    className="b-outline"
+                    disabled={busy || pending}
+                    onClick={() => discover(true)}
+                  >
+                    <RefreshCw size={16} />
+                    {project.candidates?.length
+                      ? 'Find other designs'
+                      : 'Find matching designs'}
+                  </button>
+                  {stage && <output>{stage}…</output>}
+                  {project.candidates?.map((r) => (
+                    <article
+                      key={r.listingUrl}
+                      className={`b-reference-card ${project.reference?.listingUrl === r.listingUrl ? 'selected' : ''}`}
+                    >
+                      {r.thumbnail && (
+                        <img
+                          src={r.thumbnail}
+                          alt={`${r.name} template preview`}
+                          loading="lazy"
+                        />
+                      )}
+                      <h3>{r.name}</h3>
+                      <p>{r.reason}</p>
+                      <div>
+                        <a href={r.previewUrl} target="_blank" rel="noreferrer">
+                          Open live preview <ExternalLink size={13} />
+                        </a>
+                        <button
+                          className="b-outline"
+                          disabled={
+                            busy ||
+                            pending ||
+                            project.reference?.listingUrl === r.listingUrl
+                          }
+                          onClick={() =>
+                            mutate('select', { listingUrl: r.listingUrl })
+                          }
+                        >
+                          {project.reference?.listingUrl === r.listingUrl
+                            ? 'Selected'
+                            : 'Select'}
+                        </button>
+                      </div>
+                      <small>
+                        <a href={r.listingUrl} target="_blank" rel="noreferrer">
+                          Creator listing
+                        </a>{' '}
+                        · {r.license}
+                      </small>
+                    </article>
                   ))}
+                  {project.reference && (
+                    <GlowButton
+                      disabled={busy || pending}
+                      onClick={() =>
+                        run(project.prompt, project, { redesign: true })
+                      }
+                    >
+                      {project.site
+                        ? 'Build another design'
+                        : 'Build this design'}
+                    </GlowButton>
+                  )}
+                  {project.inspection && (
+                    <p>
+                      {project.inspection.available
+                        ? 'Reference inspected at desktop and mobile sizes.'
+                        : project.inspection.reason}
+                    </p>
+                  )}
+                </>
+              ) : panel === 'Pages' ? (
+                <>
+                  <h2>Your website</h2>
+                  <button
+                    className="b-page-item selected"
+                    onClick={() => setMobileTab('Preview')}
+                  >
+                    <File size={17} />
+                    Home
+                  </button>
+                  <p>
+                    This version builds complete single-page websites.
+                    Navigation links move between sections.
+                  </p>
+                  {project.validation && (
+                    <p>
+                      <Check size={16} />
+                      Desktop and phone browser checks passed.
+                    </p>
+                  )}
                 </>
               ) : panel === 'Design' ? (
                 <>
-                  <h2>Website appearance</h2>
-                  <label>
-                    Hero heading
-                    <textarea
-                      value={project.heading}
-                      onChange={(e) =>
-                        setProject({ ...project, heading: e.target.value })
-                      }
-                      onBlur={() => commit(project)}
-                    />
-                  </label>
-                  <label>
-                    Description
-                    <textarea
-                      value={project.description}
-                      onChange={(e) =>
-                        setProject({ ...project, description: e.target.value })
-                      }
-                      onBlur={() => commit(project)}
-                    />
-                  </label>
-                  <label className="b-check-label">
-                    <input
-                      type="checkbox"
-                      checked={!!project.dark}
-                      onChange={(e) =>
-                        commit({ ...project, dark: e.target.checked })
-                      }
-                    />
-                    Dark theme
-                  </label>
-                  <label>
-                    Accent color
-                    <input
-                      type="color"
-                      value={project.accent ?? '#26211a'}
-                      onChange={(e) =>
-                        setProject({ ...project, accent: e.target.value })
-                      }
-                      onBlur={() => commit(project)}
-                    />
-                  </label>
+                  <h2>Make it yours</h2>
+                  <p>
+                    Describe a typography, color, spacing or layout change.
+                    Fusion updates the actual website and saves a new version.
+                  </p>
+                  <form
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      run(designRequest);
+                      setDesignRequest('');
+                    }}
+                  >
+                    <label>
+                      Design change
+                      <textarea
+                        value={designRequest}
+                        maxLength={6000}
+                        placeholder="Use an editorial serif for headings and warm ivory backgrounds…"
+                        onChange={(e) => setDesignRequest(e.target.value)}
+                      />
+                    </label>
+                    <GlowButton
+                      disabled={!designRequest.trim() || busy || pending}
+                    >
+                      Apply change
+                    </GlowButton>
+                  </form>
+                  <button
+                    className="b-outline"
+                    disabled={!project.site || pending}
+                    onClick={download}
+                  >
+                    <Download size={16} />
+                    Download React source
+                  </button>
                 </>
               ) : (
                 <>
-                  <h2>Reference images</h2>
+                  <h2>Your images</h2>
                   <p>
-                    Attach an image to your next message. Image analysis will be
-                    available when AI generation is connected.
+                    Upload images for your website. Mention an image by its
+                    filename in chat to use it. PNG, JPEG or WebP, up to 1.2 MB
+                    each.
                   </p>
                   <button
                     className="b-outline"
+                    disabled={busy || pending}
                     onClick={() => file.current.click()}
                   >
-                    <Plus size={18} />
-                    Add an image
+                    <Plus size={16} />
+                    Upload image
                   </button>
-                  {attachment && <p>{attachment.name}</p>}
-                  <CompCrop type="architecture" />
+                  {project.assets.map((a) => (
+                    <figure className="b-uploaded-image" key={a.id}>
+                      <img src={a.url} alt={a.description} />
+                      <figcaption>{a.description}</figcaption>
+                    </figure>
+                  ))}
                 </>
               )}
             </div>
@@ -520,19 +672,18 @@ export default function Workspace() {
           <div className="b-preview-toolbar">
             <div className="b-segment">
               <button
-                className={panel !== 'Pages' ? 'active' : ''}
-                onClick={() => setPanel('Chat')}
+                className="active"
+                onClick={() => setMobileTab('Preview')}
               >
                 Preview
               </button>
               <button
-                className={panel === 'Pages' ? 'active' : ''}
                 onClick={() => {
-                  setPanel('Pages');
+                  setPanel('References');
                   setMobileTab('Chat');
                 }}
               >
-                Pages
+                Reference
               </button>
             </div>
             <div className="b-segment b-devices">
@@ -540,14 +691,14 @@ export default function Workspace() {
                 [Monitor, 'Desktop'],
                 [Tablet, 'Tablet'],
                 [Smartphone, 'Phone'],
-              ].map(([Icon, name]) => (
+              ].map(([Icon, label]) => (
                 <IconButton
-                  key={name}
+                  key={label}
                   icon={Icon}
-                  label={`${name} preview`}
-                  active={device === name}
-                  aria-pressed={device === name}
-                  onClick={() => setDevice(name)}
+                  label={`${label} preview`}
+                  active={device === label}
+                  aria-pressed={device === label}
+                  onClick={() => setDevice(label)}
                 />
               ))}
             </div>
@@ -557,17 +708,15 @@ export default function Workspace() {
               target="_blank"
               rel="noreferrer"
             >
-              {project.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}
-              .fusion.site
+              Open preview
               <ExternalLink size={17} />
             </a>
           </div>
           <div className="b-preview-stage">
             <div
-              ref={preview}
-              className={`b-live-preview device-${device.toLowerCase()}`}
+              className={`b-live-preview b-generated-container device-${device.toLowerCase()}`}
             >
-              <Website project={project} page={page} />
+              <GeneratedPreview site={project.site} />
             </div>
           </div>
         </main>
@@ -576,14 +725,26 @@ export default function Workspace() {
         hidden
         ref={file}
         type="file"
-        accept="image/*"
-        onChange={(e) => {
+        accept="image/png,image/jpeg,image/webp"
+        onChange={async (e) => {
           const f = e.target.files?.[0];
-          if (f) {
-            setAttachment(f);
-            setNotice(
-              'Reference attached. This demo does not analyze uploaded images.',
+          if (!f) return;
+          setPending(true);
+          try {
+            accept(
+              await api('upload', {
+                id: project.id,
+                name: f.name,
+                data: await imageData(f),
+              }),
             );
+            setNotice('Image uploaded. Ask Fusion to use it in your website.');
+            setPanel('Assets');
+          } catch (e) {
+            setNotice(e.message);
+          } finally {
+            setPending(false);
+            e.target.value = '';
           }
         }}
       />
@@ -601,131 +762,127 @@ export default function Workspace() {
         <Dialog title={dialog} onClose={() => setDialog(null)}>
           {dialog === 'Version history' ? (
             <>
-              <p>Restore any version saved on this device.</p>
+              <p>Restore a saved design. Your conversation stays available.</p>
               <div className="b-history">
-                {versions.map((version, i) => (
+                {!project.versions.length && (
+                  <p>Your first version appears here after generation.</p>
+                )}
+                {project.versions.map((v, i) => (
                   <button
-                    key={i}
-                    className={index === i ? 'selected' : ''}
-                    onClick={() => {
-                      moveVersion(i);
+                    key={v.id}
+                    disabled={busy || pending}
+                    className={project.activeVersion === i ? 'selected' : ''}
+                    onClick={async () => {
+                      await mutate('restore', { index: i });
                       setDialog(null);
                     }}
                   >
                     <History size={18} />
                     <span>
                       Version {i + 1}
-                      <small>{version.heading}</small>
+                      <small>{v.prompt}</small>
                     </span>
-                    {index === i && <Check size={17} />}
+                    {project.activeVersion === i && <Check size={17} />}
                   </button>
                 ))}
               </div>
             </>
           ) : dialog === 'Project settings' ? (
-            <>
+            <form
+              onSubmit={async (e) => {
+                e.preventDefault();
+                await mutate('rename', { name });
+                setDialog(null);
+              }}
+            >
               <label>
                 Website name
                 <input
-                  value={project.name}
-                  maxLength={60}
-                  onChange={(e) =>
-                    setProject({ ...project, name: e.target.value })
-                  }
+                  value={name}
+                  maxLength={100}
+                  required
+                  onChange={(e) => setName(e.target.value)}
                 />
               </label>
-              <p>
-                Saved locally in this browser. This project is a frontend demo.
-              </p>
-              <GlowButton onClick={() => setDialog(null)}>Done</GlowButton>
-            </>
-          ) : dialog === 'Publish website' ? (
-            <>
-              <p>
-                Your design is ready to preview or export. Public hosting is not
-                connected to the builder yet.
-              </p>
-              <p>
-                Downloading exports this page as HTML. Artwork loads from the
-                app’s hosted assets.
-              </p>
-              <div className="b-dialog-actions">
-                <a
-                  className="b-outline"
-                  href={previewUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  Open preview
-                  <ExternalLink size={16} />
-                </a>
-                <GlowButton onClick={download}>
-                  <Download size={17} />
-                  Download website
-                </GlowButton>
-              </div>
-            </>
-          ) : dialog === 'Share preview' ? (
-            <>
-              <p>
-                This preview link shows the project saved in this browser.
-                Custom projects and edits are not synced to other devices.
-              </p>
-              <input
-                readOnly
-                aria-label="Preview URL"
-                value={location.origin + previewUrl}
-              />
-              <GlowButton
-                onClick={async () => {
-                  try {
-                    await navigator.clipboard.writeText(
-                      location.origin + previewUrl,
-                    );
-                    setNotice(
-                      'Preview link copied. Local edits stay on this device.',
-                    );
-                    setDialog(null);
-                  } catch {
-                    setNotice('Select the preview URL above to copy it.');
-                  }
-                }}
-              >
-                Copy preview link
-              </GlowButton>
-            </>
-          ) : dialog === 'New conversation' ? (
-            <>
-              <p>
-                Start a fresh conversation while keeping the current website and
-                version history?
-              </p>
-              <GlowButton
-                onClick={() => {
-                  setMessages([
-                    {
-                      role: 'assistant',
-                      text: 'Your website is ready. What would you like to change?',
-                    },
-                  ]);
-                  setPanel('Chat');
-                  setDialog(null);
-                }}
-              >
-                Start conversation
-              </GlowButton>
-            </>
+              <GlowButton disabled={pending}>Save name</GlowButton>
+            </form>
+          ) : dialog === 'Workspace access' ? (
+            <WorkspaceAccess />
           ) : (
             <>
-              <p>Try a supported edit:</p>
-              <ul>
-                <li>Make the theme dark.</li>
-                <li>Make the hero image larger.</li>
-                <li>Change the heading to “A place to belong”.</li>
-              </ul>
               <p>
-                These are local preview edits. Full AI generation is not
-                connected.
+                Publish a snapshot of your current design. Anyone with its link
+                can view the website. Your chat, uploads list and version
+                history stay private.
+              </p>
+              {shareUrl && (
+                <>
+                  <label>
+                    Published website URL
+                    <input
+                      readOnly
+                      aria-label="Published website URL"
+                      value={shareUrl}
+                    />
+                  </label>
+                  <a
+                    href={shareUrl}
+                    className="b-outline"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Open website <ExternalLink size={16} />
+                  </a>
+                  <button
+                    className="b-outline"
+                    onClick={async () => {
+                      try {
+                        await navigator.clipboard.writeText(shareUrl);
+                        setNotice('Website link copied.');
+                      } catch {
+                        setNotice('Select and copy the website URL manually.');
+                      }
+                    }}
+                  >
+                    Copy link
+                  </button>
+                </>
+              )}
+              <div className="b-dialog-actions">
+                <GlowButton
+                  disabled={busy || pending || !project.site}
+                  onClick={async () => {
+                    const p = await mutate('share');
+                    if (p) setNotice('Your website is published.');
+                  }}
+                >
+                  {pending
+                    ? 'Saving…'
+                    : shareUrl
+                      ? 'Publish latest version'
+                      : 'Publish website'}
+                </GlowButton>
+                <button
+                  className="b-outline"
+                  disabled={!project.site || pending}
+                  onClick={download}
+                >
+                  <Download size={16} />
+                  Download React
+                </button>
+              </div>
+              {shareUrl && (
+                <button
+                  className="b-outline"
+                  disabled={pending}
+                  onClick={() => mutate('unpublish')}
+                >
+                  Unpublish
+                </button>
+              )}
+              <p>
+                Contact delivery, checkout and other backend features are
+                outside this frontend release.
               </p>
             </>
           )}

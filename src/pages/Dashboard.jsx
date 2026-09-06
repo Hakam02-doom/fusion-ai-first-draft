@@ -1,4 +1,6 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { api, imageData } from '../components/builder/client.js';
+import WorkspaceAccess from '../components/builder/WorkspaceAccess.jsx';
 import {
   Plus,
   ChevronDown,
@@ -26,16 +28,11 @@ import {
   Dialog,
   CompCrop,
 } from '../components/builder/UI.jsx';
-import {
-  readProjects,
-  saveProjects,
-  createProject,
-  samples,
-} from '../components/builder/store.js';
+import { samples, STORE } from '../components/builder/store.js';
 import '../styles/builder.css';
 
 export default function Dashboard() {
-  const [projects, setProjects] = useState(readProjects);
+  const [projects, setProjects] = useState([]);
   const [tab, setTab] = useState('All projects');
   const [section, setSection] = useState('Overview');
   const [query, setQuery] = useState('');
@@ -48,28 +45,44 @@ export default function Dashboard() {
   const [mobileNav, setMobileNav] = useState(false);
   const composer = useRef(null),
     file = useRef(null);
-  const setAndSave = (next) => {
-    setProjects(next);
-    if (!saveProjects(next))
-      setNotice(
-        'Storage is full. Your changes are available for this session.',
-      );
-  };
-  const start = (text = prompt, theme) => {
-    if (!text.trim()) {
+  const [loading, setLoading] = useState(true);
+  const [starting, setStarting] = useState(false);
+  const refresh = () =>
+    api('projects')
+      .then((data) => setProjects(data.projects))
+      .catch((e) => setNotice(e.message))
+      .finally(() => setLoading(false));
+  useEffect(() => {
+    refresh();
+  }, []);
+  const start = async (text = prompt) => {
+    if (!text.trim() || starting) {
       composer.current?.focus();
       return;
     }
-    const project = createProject(
-      text,
-      theme ??
-        (/startup|analytics/i.test(text)
-          ? 'orbit'
-          : /store|shop|furniture/i.test(text)
-            ? 'forma'
-            : 'lumina'),
-    );
-    location.href = `/workspace?project=${project.id}`;
+    setStarting(true);
+    try {
+      const project = await api('create', { prompt: text });
+      if (attachment)
+        await api('upload', {
+          id: project.id,
+          name: attachment.name,
+          data: await imageData(attachment),
+        });
+      location.href = `/workspace?project=${project.id}&new=1`;
+    } catch (e) {
+      setNotice(e.message);
+      setStarting(false);
+    }
+  };
+  const mutate = async (action, body) => {
+    try {
+      await api(action, body);
+      await refresh();
+      setDialog(null);
+    } catch (e) {
+      setNotice(e.message);
+    }
   };
   const chooseSection = (label) => {
     setSection(label);
@@ -215,8 +228,8 @@ export default function Dashboard() {
                       {attachment ? attachment.name : 'Add reference'}
                     </button>
                   </div>
-                  <GlowButton type="submit">
-                    Start building
+                  <GlowButton type="submit" disabled={starting}>
+                    {starting ? 'Creating project…' : 'Start building'}
                     <ArrowRight size={20} />
                   </GlowButton>
                 </div>
@@ -231,7 +244,7 @@ export default function Dashboard() {
                   if (f) {
                     setAttachment(f);
                     setNotice(
-                      'Reference attached for this session. Image analysis is not connected in this demo.',
+                      'Reference selected. It will be uploaded to your new project.',
                     );
                   }
                 }}
@@ -351,14 +364,27 @@ export default function Dashboard() {
                     }}
                     aria-label={`${section === 'Templates' ? 'Use' : 'Open'} ${p.name}`}
                   >
-                    <CompCrop type={p.theme} />
+                    {p.thumbnail ? (
+                      <img
+                        className="b-cloud-thumbnail"
+                        src={p.thumbnail}
+                        alt={`${p.name} website preview`}
+                      />
+                    ) : p.theme ? (
+                      <CompCrop type={p.theme} />
+                    ) : (
+                      <div className="b-cloud-placeholder">
+                        <PanelsTopLeft size={32} />
+                        <span>{p.name}</span>
+                      </div>
+                    )}
                     <div className="b-project-meta">
                       <div>
                         <h3>{p.name}</h3>
                         <p>
                           {section === 'Templates'
                             ? 'Use this template'
-                            : p.edited}
+                            : `Edited ${new Date(p.updatedAt).toLocaleDateString()}`}
                         </p>
                       </div>
                       <span className={`b-status ${p.status.toLowerCase()}`}>
@@ -382,16 +408,7 @@ export default function Dashboard() {
                         </button>
                         <button
                           onClick={() => {
-                            setAndSave([
-                              {
-                                ...p,
-                                id: crypto.randomUUID(),
-                                name: `${p.name} copy`,
-                                status: 'Draft',
-                                edited: 'Edited just now',
-                              },
-                              ...projects,
-                            ]);
+                            mutate('duplicate', { id: p.id });
                           }}
                         >
                           Duplicate
@@ -426,8 +443,9 @@ export default function Dashboard() {
               </div>
             )}
             <p className="b-demo-note">
-              Sample projects to help you get started. Changes save on this
-              device.
+              {loading
+                ? 'Loading your websites…'
+                : 'Your projects save to your private cloud workspace.'}
             </p>
           </section>
         </main>
@@ -449,13 +467,7 @@ export default function Dashboard() {
               onSubmit={(e) => {
                 e.preventDefault();
                 if (!rename.trim()) return;
-                setAndSave(
-                  projects.map((p) =>
-                    p.id === dialog.project.id
-                      ? { ...p, name: rename.trim() }
-                      : p,
-                  ),
-                );
+                mutate('rename', { id: dialog.project.id, name: rename });
                 setDialog(null);
               }}
             >
@@ -472,16 +484,17 @@ export default function Dashboard() {
             </form>
           ) : dialog.type === 'Delete website' ? (
             <>
-              <p>Remove “{dialog.project.name}” from this device?</p>
+              <p>
+                Remove “{dialog.project.name}” from your workspace? Any
+                published preview will be unpublished.
+              </p>
               <div className="b-dialog-actions">
                 <button className="b-outline" onClick={() => setDialog(null)}>
                   Cancel
                 </button>
                 <GlowButton
                   onClick={() => {
-                    setAndSave(
-                      projects.filter((p) => p.id !== dialog.project.id),
-                    );
+                    mutate('delete', { id: dialog.project.id });
                     setDialog(null);
                   }}
                 >
@@ -492,8 +505,8 @@ export default function Dashboard() {
           ) : dialog.type === 'Assets' ? (
             <>
               <p>
-                Attach a reference image to your next website prompt. References
-                remain on your device in this demo.
+                Attach a reference image to your next website prompt. Uploaded
+                images can be used in your generated website.
               </p>
               <button
                 className="b-outline"
@@ -509,11 +522,32 @@ export default function Dashboard() {
             </>
           ) : dialog.type === 'Settings' ? (
             <>
-              <p>Your workspace is stored locally in this browser.</p>
-              <p>
-                AI generation, accounts, and hosting are not connected yet. You
-                can create projects and try the supported preview edits.
-              </p>
+              <WorkspaceAccess />
+              <button
+                className="b-outline"
+                onClick={async () => {
+                  try {
+                    const local = JSON.parse(
+                      localStorage.getItem(STORE) || '[]',
+                    );
+                    if (!local.length) {
+                      setNotice('No previous local drafts were found.');
+                      return;
+                    }
+                    const { importLegacyProject } =
+                      await import('../components/builder/migrate.js');
+                    for (const p of local) await importLegacyProject(p);
+                    await refresh();
+                    setNotice(
+                      'Your previous local drafts are available in this workspace.',
+                    );
+                  } catch (e) {
+                    setNotice(e.message);
+                  }
+                }}
+              >
+                Import previous local drafts
+              </button>
             </>
           ) : dialog.type === 'Workspace' ? (
             <>
@@ -521,10 +555,11 @@ export default function Dashboard() {
                 <span className="b-avatar">H</span>
                 <div>
                   <h3>Hakam’s workspace</h3>
-                  <p>Personal · local demo</p>
+                  <p>Personal workspace</p>
                 </div>
               </div>
-              <p>{projects.length} websites on this device</p>
+              <p>{projects.length} saved websites</p>
+              <WorkspaceAccess />
             </>
           ) : (
             <>
@@ -533,8 +568,9 @@ export default function Dashboard() {
                 its preview in a conversation.
               </p>
               <p>
-                Try “Make the theme dark” or “Change the heading to “Your new
-                heading””. Use History to restore an earlier version.
+                Ask for changes to your typography, colors, imagery or sections.
+                Use History to restore an earlier version. Marketplace
+                references are selected based on your brief.
               </p>
             </>
           )}

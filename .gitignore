@@ -38,3 +38,5 @@ next-env.d.ts
 /outputs/
 /work/
 /.impeccable/review/
+
+.fusion-data/

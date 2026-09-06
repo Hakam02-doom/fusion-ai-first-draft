@@ -119,7 +119,18 @@ export function Website({ project, page = 'Home' }) {
         <>
           <section className="b-web-hero" id="home">
             <div>
-              <h1>{heading === 'Spaces that feel like home.' ? <><span className="b-title-line">Spaces that</span><span className="b-title-line b-title-last">feel like home.</span></> : heading}</h1>
+              <h1>
+                {heading === 'Spaces that feel like home.' ? (
+                  <>
+                    <span className="b-title-line">Spaces that</span>
+                    <span className="b-title-line b-title-last">
+                      feel like home.
+                    </span>
+                  </>
+                ) : (
+                  heading
+                )}
+              </h1>
               <p>{project.description}</p>
               <a className="b-web-link" href="#work">
                 {project.theme === 'forma'
