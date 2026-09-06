@@ -3,7 +3,51 @@ import assert from 'node:assert/strict';
 import { openBrowser } from '../server/reconstruction/session.js';
 import { assembleCapture } from '../server/reconstruction/assemble.js';
 import { siteDocument } from '../shared/site.js';
-import { freezeComparisonMotion } from '../server/reconstruction/capture.js';
+import {
+  freezeComparisonMotion,
+  comparisonSnapshot,
+} from '../server/reconstruction/capture.js';
+import { measurePage } from '../server/reconstruction/dom.js';
+import { compareHeadings } from '../server/reconstruction/compare.js';
+
+test(
+  'comparison geometry uses the same finished animation frame as its screenshot',
+  { timeout: 30000 },
+  async () => {
+    const session = await openBrowser();
+    try {
+      const page = await session.browser.newPage({
+        viewport: { width: 1440, height: 1000 },
+      });
+      await page.setContent('<h2 style="margin:0">Send a message</h2>');
+      await page.evaluate(() => {
+        const animation = document
+          .querySelector('h2')
+          .animate(
+            [{ transform: 'translateY(50px)' }, { transform: 'translateY(0)' }],
+            { duration: 100000, fill: 'both' },
+          );
+        animation.pause();
+        animation.currentTime = 0;
+      });
+      const moving = await page.evaluate(measurePage);
+      const snapshot = await comparisonSnapshot(page);
+      const finished = await page.evaluate(measurePage);
+      assert.equal(
+        compareHeadings(moving.headings, finished.headings).geometry[0].delta,
+        50,
+      );
+      assert.equal(
+        compareHeadings(snapshot.measured.headings, finished.headings)
+          .geometry[0].delta,
+        0,
+      );
+      assert.ok(snapshot.screenshot.length > 1000);
+    } finally {
+      await session.close();
+    }
+  },
+);
 
 test(
   'separate opacity and transform animations keep scrolled sections visible, including reduced motion',

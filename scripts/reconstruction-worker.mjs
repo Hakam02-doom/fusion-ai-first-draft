@@ -5,7 +5,10 @@ import { aiConfigured, modelJSON } from '../server/model.js';
 import { durableModel } from '../server/reconstruction/model-cache.js';
 import { readJob, saveJob, jobPath } from '../server/reconstruction/jobs.js';
 import { read, write, projectKey } from '../server/storage.js';
-import { captureReference } from '../server/reconstruction/capture.js';
+import {
+  captureReference,
+  CAPTURE_VERSION,
+} from '../server/reconstruction/capture.js';
 import { assembleCapture } from '../server/reconstruction/assemble.js';
 import { compareCapture } from '../server/reconstruction/compare.js';
 import { verifyReconstruction } from '../server/reconstruction/verify.js';
@@ -135,6 +138,7 @@ try {
     if (!job.reference && job.body.mode !== 'edit')
       throw Error('Choose a supported Framer reference before building.');
     let capture = await loadJson('capture.json');
+    if (capture && capture.version !== CAPTURE_VERSION) capture = null;
     const getCapture = async () => {
       if (!capture)
         capture = await cachedCapture(job.reference.previewUrl, dir);

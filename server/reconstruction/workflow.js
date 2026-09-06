@@ -1,7 +1,7 @@
 import { createHash } from 'node:crypto';
 
 export const WORKFLOW_VERSION = 1;
-export const ASSEMBLY_VERSION = 2;
+export const ASSEMBLY_VERSION = 3;
 export const workflowSteps = (mode) =>
   mode === 'edit'
     ? ['editing', 'checking', 'saving']

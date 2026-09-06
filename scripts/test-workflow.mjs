@@ -355,7 +355,7 @@ test('renderer upgrades rebuild a failed baseline from saved capture without dis
     'personalize',
     'verify',
   ]);
-  assert.equal(result.state.assemblyVersion, 2);
+  assert.equal(result.state.assemblyVersion, 3);
   const personalized = harness();
   await runWorkflow(
     {

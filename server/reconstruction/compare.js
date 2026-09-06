@@ -2,8 +2,7 @@ import { PNG } from 'pngjs';
 import { openBrowser } from './session.js';
 import { allowedResource } from '../browser.js';
 import { siteDocument } from '../../shared/site.js';
-import { measurePage } from './dom.js';
-import { settlePage, freezeComparisonMotion } from './capture.js';
+import { settlePage, comparisonSnapshot } from './capture.js';
 export function compareHeadings(reference, actual) {
   const used = new Set(),
     missingHeadings = [];
@@ -99,8 +98,7 @@ export async function compareCapture(
       await page.evaluate(() => document.fonts.ready);
       await page.waitForTimeout(2000);
       await settlePage(page, signal);
-      await freezeComparisonMotion(page);
-      const measured = await page.evaluate(measurePage);
+      const { measured, screenshot: image } = await comparisonSnapshot(page);
       const integrity = await page.evaluate(() => ({
         overflow: document.documentElement.scrollWidth > innerWidth + 2,
         missingImages: [...document.images].filter(
@@ -110,7 +108,6 @@ export async function compareCapture(
           .map((a) => a.getAttribute('href').slice(1))
           .filter((id) => id && !document.getElementById(id)),
       }));
-      const image = await page.screenshot({ type: 'png', fullPage: true });
       const name = `generated-${reference.width}.png`;
       await onArtifact(name, image);
       const visual = pixelDifference(
@@ -118,7 +115,7 @@ export async function compareCapture(
         image,
       );
       const { missingHeadings, geometry } = compareHeadings(
-        reference.measured.headings,
+        (reference.comparisonMeasured || reference.measured).headings,
         measured.headings,
       );
       checks.push({

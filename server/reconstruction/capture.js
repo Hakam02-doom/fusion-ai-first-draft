@@ -1,7 +1,7 @@
 import { openBrowser, referenceContext } from './session.js';
 import { measurePage, serializePage } from './dom.js';
 import { isInspectableControl } from './controls.js';
-export const CAPTURE_VERSION = 4;
+export const CAPTURE_VERSION = 5;
 // Normalize animation clocks for comparison without changing captured motion data.
 export async function freezeComparisonMotion(page) {
   await page.evaluate(async () => {
@@ -21,6 +21,14 @@ export async function freezeComparisonMotion(page) {
       }),
     );
   });
+}
+export async function comparisonSnapshot(page) {
+  await freezeComparisonMotion(page);
+  // Geometry and pixels must describe the same animation frame. Motion evidence
+  // is captured separately before this normalization.
+  const measured = await page.evaluate(measurePage);
+  const screenshot = await page.screenshot({ fullPage: true, type: 'png' });
+  return { measured, screenshot };
 }
 export async function settlePage(page, signal, track = false) {
   await page.evaluate(() => document.fonts.ready);
@@ -108,8 +116,8 @@ export async function captureReference(
       if (document.html.length > 2500000 || document.css.length > 2000000)
         throw Error('The reference exceeds this worker’s document limit.');
       // Freeze clocks only for the reproducible comparison, after capturing motion evidence.
-      await freezeComparisonMotion(page);
-      const screenshot = await page.screenshot({ fullPage: true, type: 'png' });
+      const { measured: comparisonMeasured, screenshot } =
+        await comparisonSnapshot(page);
       const artifact = `reference-${width}.png`;
       await onArtifact(artifact, screenshot);
       capture.viewports.push({
@@ -117,6 +125,7 @@ export async function captureReference(
         initial,
         scrollSamples,
         measured,
+        comparisonMeasured,
         document,
         screenshot: artifact,
       });
