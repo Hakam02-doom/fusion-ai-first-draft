@@ -445,7 +445,7 @@ export default function Dashboard() {
             <p className="b-demo-note">
               {loading
                 ? 'Loading your websites…'
-                : 'Your projects save to your private cloud workspace.'}
+                : 'Your projects save to your private workspace.'}
             </p>
           </section>
         </main>

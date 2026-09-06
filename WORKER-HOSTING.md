@@ -1,6 +1,20 @@
 # Hosted browser workflow
 
-Implemented September 6, 2026. The local builder now connects to a separate worker on port 3101. A protected Vercel preview has now been deployed for integration testing. The production site has not been promoted, and no paid worker has been provisioned.
+Implemented September 6, 2026. The protected live test preview now connects through a free Cloudflare tunnel to this Mac. The test worker uses local disk, local Chrome and the configured free NVIDIA Kimi endpoint. The production site has not been promoted, and no paid worker has been provisioned. The user's testing budget is zero; do not activate paid hosting or models.
+
+## Free live testing on this Mac
+
+Run `npm run live:test` from this repository. It starts a detached worker on loopback port 3102 and a free Quick Tunnel, then connects the protected preview. It returns the existing preview when already connected; after a tunnel restart it updates the preview connection automatically. The first setup/reconnection can take a few minutes. It requires the existing private NVIDIA key in `.env.local`, installed Cloudflare `cloudflared`, and the existing Vercel CLI login. It never uses `--prod` or changes the production domain. The stable test address is https://fusion-ai-first-draft-git-codex-440b5f-hakams-projects-a6d8ca99.vercel.app/dashboard.
+
+`npm run live:status` reports whether the worker and tunnel are running. `npm run live:stop` closes the tunnel and gracefully stops the worker. The processes are detached from the assistant/terminal; queued jobs, browser inspection, personalization, validation and saving run without an assistant session or open builder tab. Keep the Mac awake, online and its lid open. This is an explicitly started test service, not a login item. Closing a browser tab does not cancel a job; the chat's Stop button does.
+
+The private profile lives at `work/local-live/worker.env`. Only the NVIDIA credential and a separate random worker signing secret are included. Projects, captures, queue checkpoints and versions remain in `work/local-live/data` and `work/local-live/jobs`; these directories are excluded from Git and deployment uploads. Existing cloud projects are not migrated, deleted or read by this test profile. Do not delete the local data or share its private profile.
+
+The gateway uses `FUSION_STORAGE_BACKEND=worker`; the Mac uses `FUSION_STORAGE_BACKEND=local`. All supported workspace operations, uploads, exports, public shares and reconstruction requests pass through authenticated/signed requests to the worker. Public shares and UUID image links retain their existing access behavior. The Mac explicitly avoids Blob operations even if a Blob token exists in its inherited environment. Model and cloud-provider credentials are stripped from the child environment; only the local profile is loaded. Large projects and version histories are streamed through the gateway.
+
+[Cloudflare Quick Tunnels](https://developers.cloudflare.com/cloudflare-one/networks/connectors/cloudflare-tunnel/do-more-with-tunnels/trycloudflare/) are free development tunnels with changing worker addresses and no uptime guarantee. The frontend uses job polling, so their lack of SSE support does not affect progress. A fresh tunnel address requires reconnecting the preview via `npm run live:test`. The stable preview address preserves browser workspace access across reconnects. The free model may still queue, time out or exhaust its free allowance; those errors are shown in chat and never trigger a paid fallback.
+
+The previous native development worker on port 3101 and its shared-Blob configuration remain separate. Use the stable live test address above for this no-cloud-storage testing mode.
 
 ## Architecture
 
@@ -85,4 +99,4 @@ All 79 automated tests passed (63 generator/builder/reconstruction checks, 15 wo
 
 The free compatibility probe is https://fusion-browser-probe.onrender.com/healthz, service `srv-daele0on74is73eckm60`, using `codex/hosted-browser-worker`. It runs `node scripts/probe-browser.mjs`, has no disk or model/storage credentials, and automatic deploys are off. Upgrading it to the full worker needs approval for $25/month compute plus $2.50/month for a 10 GB disk, before tax. Then add private environment variables, attach `/data`, replace the Docker command with `node scripts/worker-server.mjs`, and manually deploy the tested commit. The production site remains unchanged.
 
-The protected Vercel integration preview is https://fusion-ai-first-draft-1u2af2b1x-hakams-projects-a6d8ca99.vercel.app. The preview build and status endpoint passed. Its branch is configured for NVIDIA/Kimi with paid-model fallback disabled. The remote worker is not connected yet, so this preview cannot run hosted reconstruction until the paid worker setup is completed.
+The earlier immutable preview https://fusion-ai-first-draft-1u2af2b1x-hakams-projects-a6d8ca99.vercel.app is superseded for testing by the stable Mac-connected preview above. Its old disconnected settings are unchanged. Render remains an unused free compatibility probe; its paid upgrade is not authorized.

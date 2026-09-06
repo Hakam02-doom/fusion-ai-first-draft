@@ -7,6 +7,35 @@ export const workerActions = new Map([
   ['reconstruction-cancel', 'POST'],
   ['reconstruction-artifact', 'GET'],
 ]);
+// The local testing profile keeps the entire workspace on the worker's disk.
+// The default hosted profile still shares Blob storage with its gateway.
+const workspaceActions = new Map([
+  ...workerActions,
+  ['asset', 'GET'],
+  ['public', 'GET'],
+  ['projects', 'GET'],
+  ['project', 'GET'],
+  ...[
+    'create',
+    'import',
+    'discover',
+    'select',
+    'restore',
+    'rename',
+    'duplicate',
+    'delete',
+    'upload',
+    'share',
+    'unpublish',
+    'export',
+  ].map((action) => [action, 'POST']),
+]);
+export const remoteStorage = () =>
+  remoteWorker() && process.env.FUSION_STORAGE_BACKEND === 'worker';
+export const supportedWorkerActions = () =>
+  ['worker', 'local'].includes(process.env.FUSION_STORAGE_BACKEND)
+    ? workspaceActions
+    : workerActions;
 export const remoteWorker = () =>
   !process.env.FUSION_WORKER_PROCESS && Boolean(process.env.FUSION_WORKER_URL);
 export function workerSecret() {
@@ -96,7 +125,7 @@ export async function workerRequest(
     throw Error(
       'FUSION_WORKER_URL must be an HTTPS origin (HTTP is allowed on localhost).',
     );
-  if (workerActions.get(action) !== method)
+  if (supportedWorkerActions().get(action) !== method)
     throw Error('Unsupported worker operation.');
   const url = new URL('/api/builder', base);
   url.search = new URLSearchParams({ action, ...params });
@@ -113,7 +142,9 @@ export async function workerRequest(
       }),
       ...(method === 'POST' ? { body: serialized || undefined } : {}),
       redirect: 'error',
-      signal: AbortSignal.timeout(action === 'reconstruct' ? 90000 : 15000),
+      signal: AbortSignal.timeout(
+        ['reconstruct', 'discover'].includes(action) ? 90000 : 30000,
+      ),
     });
   } catch {
     throw Object.assign(

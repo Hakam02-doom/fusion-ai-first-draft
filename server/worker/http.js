@@ -1,5 +1,9 @@
 import { createServer } from 'node:http';
-import { requestVerifier, workerActions, workerSecret } from './transport.js';
+import {
+  requestVerifier,
+  supportedWorkerActions,
+  workerSecret,
+} from './transport.js';
 import { listJobs } from '../reconstruction/jobs.js';
 
 export function workerServer({ queue, handler, secret = workerSecret() }) {
@@ -24,7 +28,7 @@ export function workerServer({ queue, handler, secret = workerSecret() }) {
       const action = url.searchParams.get('action');
       if (
         url.pathname !== '/api/builder' ||
-        workerActions.get(action) !== req.method
+        supportedWorkerActions().get(action) !== req.method
       )
         throw Object.assign(Error('Unknown worker operation.'), {
           status: 404,
@@ -34,7 +38,7 @@ export function workerServer({ queue, handler, secret = workerSecret() }) {
       for await (const chunk of req) {
         const bytes = Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk);
         size += bytes.length;
-        if (size > 65536)
+        if (size > (['upload', 'import'].includes(action) ? 3500000 : 65536))
           throw Object.assign(Error('Request too large.'), { status: 413 });
         chunks.push(bytes);
       }

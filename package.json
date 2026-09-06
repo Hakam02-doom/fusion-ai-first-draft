@@ -18,6 +18,9 @@
     "test:reconstruction": "node --test scripts/test-reconstruction.mjs scripts/test-workflow.mjs",
     "worker": "node scripts/worker-server.mjs",
     "worker:check": "node scripts/check-worker.mjs",
+    "live:test": "node scripts/connect-local-preview.mjs",
+    "live:status": "node scripts/local-live-worker.mjs status",
+    "live:stop": "node scripts/local-live-worker.mjs stop",
     "test:worker": "node --test scripts/test-worker.mjs",
     "test:worker:integration": "node --test scripts/test-worker-integration.mjs"
   },

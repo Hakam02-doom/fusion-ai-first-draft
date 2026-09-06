@@ -11,7 +11,9 @@ import path from 'node:path';
 import { get, put, del, list } from '@vercel/blob';
 const dataRoot = () =>
   path.resolve(process.env.FUSION_DATA_DIR || '.fusion-data');
-export const cloudStorage = () => Boolean(process.env.BLOB_READ_WRITE_TOKEN);
+export const cloudStorage = () =>
+  !['local', 'worker'].includes(process.env.FUSION_STORAGE_BACKEND) &&
+  Boolean(process.env.BLOB_READ_WRITE_TOKEN);
 export function ownerFrom(req) {
   const token = String(req.headers.authorization || '').replace(/^Bearer /, '');
   if (!/^[a-f0-9]{64}$/.test(token))

@@ -2,6 +2,8 @@ import {
   remoteWorker,
   workerRequest,
   workerActions,
+  remoteStorage,
+  supportedWorkerActions,
 } from '../server/worker/transport.js';
 import {
   startJob,
@@ -20,6 +22,8 @@ import {
 } from '../server/staged-generation.js';
 import { aiConfigured, generationTimeoutMs } from '../server/model.js';
 import { randomUUID, createHash } from 'node:crypto';
+import { Readable } from 'node:stream';
+import { pipeline } from 'node:stream/promises';
 import {
   ownerFrom,
   read,
@@ -112,6 +116,15 @@ export default async function handler(req, res) {
   const action = url.searchParams.get('action') || 'status';
   let started = false;
   try {
+    if (
+      process.env.FUSION_STORAGE_BACKEND === 'worker' &&
+      !process.env.FUSION_WORKER_PROCESS &&
+      !remoteWorker()
+    )
+      throw fail(
+        'The local worker is not connected. Start the live test worker on your computer.',
+        503,
+      );
     if (action === 'status') {
       if (remoteWorker()) {
         let worker;
@@ -127,7 +140,11 @@ export default async function handler(req, res) {
         res.setHeader('Content-Type', 'application/json');
         return res.end(
           JSON.stringify({
-            storage: cloudStorage() ? 'cloud' : 'local-server',
+            storage: remoteStorage()
+              ? 'local-worker'
+              : cloudStorage()
+                ? 'cloud'
+                : 'local-server',
             categories,
             aiConfigured: worker.aiConfigured,
             reconstructionEnabled: worker.reconstructionEnabled,
@@ -146,6 +163,28 @@ export default async function handler(req, res) {
           browserProvider: browserProvider(),
         }),
       );
+    }
+    if (remoteStorage()) {
+      if (supportedWorkerActions().get(action) !== req.method)
+        throw fail('Unknown action or method.', 404);
+      if (!['asset', 'public'].includes(action)) ownerFrom(req);
+      const body = req.method === 'GET' ? undefined : await bodyOf(req);
+      if (action === 'upload')
+        body._gatewayOrigin = `${process.env.VERCEL ? 'https' : 'http'}://${req.headers.host}`;
+      const response = await workerRequest(action, {
+        method: req.method,
+        authorization: req.headers.authorization,
+        body,
+        params: Object.fromEntries(
+          [...url.searchParams].filter(([key]) => key !== 'action'),
+        ),
+      });
+      for (const name of ['content-type', 'content-disposition']) {
+        const value = response.headers.get(name);
+        if (value) res.setHeader(name, value);
+      }
+      // Captures and version history can exceed the buffered function payload limit.
+      return await pipeline(Readable.fromWeb(response.body), res);
     }
     if (action === 'asset') {
       if (req.method !== 'GET') throw fail('Method not allowed', 405);
@@ -185,7 +224,7 @@ export default async function handler(req, res) {
         'Content-Type',
         response.headers.get('content-type') || 'application/json',
       );
-      return res.end(Buffer.from(await response.arrayBuffer()));
+      return await pipeline(Readable.fromWeb(response.body), res);
     }
     let result;
     if (action === 'reconstruction-job' && req.method === 'GET') {
@@ -684,9 +723,13 @@ export default async function handler(req, res) {
       const assetId = randomUUID();
       await write(`assets/${assetId}.json`, { data: body.data });
       const protocol = process.env.VERCEL ? 'https' : 'http';
+      const origin =
+        process.env.FUSION_WORKER_PROCESS && body._gatewayOrigin
+          ? new URL(body._gatewayOrigin).origin
+          : `${protocol}://${req.headers.host}`;
       const asset = {
         id: assetId,
-        url: `${protocol}://${req.headers.host}/api/builder?action=asset&id=${assetId}`,
+        url: `${origin}/api/builder?action=asset&id=${assetId}`,
         description: String(body.name || 'Uploaded image').slice(0, 120),
       };
       result = {
@@ -747,6 +790,8 @@ export default async function handler(req, res) {
     res.setHeader('Content-Type', 'application/json');
     res.end(JSON.stringify(result));
   } catch (e) {
+    if (res.destroyed || res.writableEnded) return;
+    if (res.headersSent && !started) return res.destroy();
     const message =
       e.name === 'ZodError'
         ? 'The design response was incomplete. Retry generation.'

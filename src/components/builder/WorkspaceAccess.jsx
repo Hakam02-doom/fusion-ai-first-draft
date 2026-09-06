@@ -8,7 +8,7 @@ export default function WorkspaceAccess() {
   return (
     <>
       <p>
-        Projects save to a private cloud workspace. Keep your recovery key to
+        Projects save to a private workspace. Keep your recovery key to
         open this workspace on another device. Anyone with this key can access
         and edit your projects.
       </p>
