@@ -40,3 +40,7 @@ next-env.d.ts
 /.impeccable/review/
 
 .fusion-data/
+
+.fusion-jobs/
+
+!.env.example

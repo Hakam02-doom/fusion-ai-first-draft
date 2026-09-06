@@ -1,0 +1,19 @@
+services:
+  fusion-worker:
+    build:
+      context: .
+      dockerfile: Dockerfile.worker
+    restart: unless-stopped
+    env_file: .env.worker
+    ports:
+      - "127.0.0.1:3101:3101"
+    volumes:
+      - fusion-jobs:/data
+    security_opt:
+      - seccomp=./deploy/chromium-seccomp.json
+    shm_size: 1gb
+    stop_grace_period: 30s
+    # Chromium sandboxing requires a host that permits unprivileged user namespaces.
+    # Check this with `docker compose -f compose.worker.yaml run --rm fusion-worker npm run worker:check`.
+volumes:
+  fusion-jobs:

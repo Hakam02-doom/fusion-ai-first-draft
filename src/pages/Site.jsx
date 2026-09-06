@@ -22,10 +22,15 @@ export default function Site() {
     request
       .then((p) => {
         if (live) {
-          if (!p.site)
+          const preview = q.get('share')
+            ? p.site
+            : p.generation?.draftSite || p.site;
+          if (!preview)
             throw new Error('This project has not generated a website yet.');
-          document.title = p.site.title;
-          setSite(p.site);
+          document.title =
+            (p.generation?.draftSite && !q.get('share') ? 'Draft — ' : '') +
+            preview.title;
+          setSite(preview);
         }
       })
       .catch((e) => {

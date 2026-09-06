@@ -10,3 +10,11 @@ work
 reference
 .next
 .impeccable
+
+.fusion-jobs
+.fusion-data
+.agents
+deploy
+Dockerfile.worker
+compose.worker.yaml
+render.worker.yaml

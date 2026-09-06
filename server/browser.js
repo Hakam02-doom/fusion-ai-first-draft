@@ -189,7 +189,7 @@ export async function inspectGenerated(site, assets = []) {
         checks.every(
           (c) =>
             !c.overflow &&
-            c.h1 === 1 &&
+            (site.variants?.length ? c.h1 >= 1 : c.h1 === 1) &&
             !c.brokenAnchors.length &&
             !c.missingImages,
         ),

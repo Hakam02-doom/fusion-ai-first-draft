@@ -1,0 +1,39 @@
+# Optional hosting configuration. Creating this Blueprint provisions paid compute
+# and a persistent disk. Review the plan in Render before creating the service.
+# Browser sandbox compatibility must pass the startup preflight on the chosen host.
+services:
+  - type: web
+    name: fusion-browser-worker
+    runtime: docker
+    plan: 1c-2g
+    region: singapore
+    dockerfilePath: ./Dockerfile.worker
+    autoDeployTrigger: off
+    healthCheckPath: /healthz
+    maxShutdownDelaySeconds: 30
+    numInstances: 1
+    disk:
+      name: fusion-jobs
+      mountPath: /data
+      sizeGB: 10
+    envVars:
+      - key: BLOB_READ_WRITE_TOKEN
+        sync: false
+      - key: FUSION_WORKER_SECRET
+        generateValue: true
+      - key: NVIDIA_API_KEY
+        sync: false
+      - key: FUSION_AI_PROVIDER
+        value: nvidia
+      - key: FUSION_MODEL
+        value: moonshotai/kimi-k3
+      - key: FUSION_MODEL_VISION
+        value: "true"
+      - key: FUSION_ALLOW_PAID_MODELS
+        value: "false"
+      - key: FUSION_WORKER_CONCURRENCY
+        value: "1"
+      - key: FUSION_WORKER_MAX_PENDING
+        value: "20"
+      - key: FUSION_DAILY_LIMIT
+        value: "40"

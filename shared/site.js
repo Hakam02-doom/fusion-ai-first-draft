@@ -14,5 +14,8 @@ export function siteDocument(site) {
           "'": '&#39;',
         })[c],
     );
-  return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Content-Security-Policy" content="${escape(SITE_CSP)}"><title>${escape(site.title)}</title><meta name="description" content="${escape(site.description)}"><style>${String(site.css).replace(/<\/style/gi, '<\\/style')}</style></head><body>${site.html}<script nonce="fusion-preview">${anchorNavigation}${String(site.js || '').replace(/<\/script/gi, '<\\/script')}</script></body></html>`;
+  const responsive = site.variants?.length
+    ? `const variants=${JSON.stringify(site.variants.map(({ js: _js, ...v }) => v)).replace(/<\//g, '<\\/')};const initializers=[${site.variants.map((v) => 'function(){' + v.js + '}').join(',')}];let active=-1,cleanup;function renderVariant(){const next=variants.findIndex(v=>innerWidth>=v.minWidth);if(next===active)return;cleanup?.();active=next;document.body.innerHTML=variants[next].html;document.getElementById('fusion-site-css').textContent=variants[next].css;cleanup=initializers[next]();}renderVariant();addEventListener('resize',renderVariant);`
+    : String(site.js || '');
+  return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Content-Security-Policy" content="${escape(SITE_CSP)}"><title>${escape(site.title)}</title><meta name="description" content="${escape(site.description)}"><style id="fusion-site-css">${String(site.css).replace(/<\/style/gi, '<\\/style')}[hidden]:not([hidden="until-found"]){display:none!important}</style></head><body>${site.html}<script nonce="fusion-preview">(()=>{${anchorNavigation}${responsive.replace(/<\/script/gi, '<\\/script')}})();</script></body></html>`;
 }

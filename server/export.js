@@ -1,7 +1,10 @@
 import { parseFragment } from 'parse5';
+import { parse as parseJS } from '@babel/parser';
 import { zipSync, strToU8 } from 'fflate';
 import { siteDocument } from '../shared/site.js';
 const aliases = {
+  'xlink:href': 'xlinkHref',
+  'xmlns:xlink': 'xmlnsXlink',
   class: 'className',
   for: 'htmlFor',
   tabindex: 'tabIndex',
@@ -15,6 +18,8 @@ const aliases = {
   rowspan: 'rowSpan',
 };
 const bool = new Set([
+  'hidden',
+  'inert',
   'disabled',
   'checked',
   'selected',
@@ -51,7 +56,8 @@ function jsx(n) {
         }
         return ` style={${JSON.stringify(o)}}`;
       }
-      return bool.has(a.name)
+      return bool.has(a.name) &&
+        !(a.name === 'hidden' && a.value === 'until-found')
         ? ` ${name}={true}`
         : ` ${name}={${JSON.stringify(a.value)}}`;
     })
@@ -72,12 +78,55 @@ function jsx(n) {
     return `<${n.tagName}${attrs} />`;
   return `<${n.tagName}${attrs}>${(n.childNodes || []).map(jsx).join('')}</${n.tagName}>`;
 }
+// Export effects run after React mounts, potentially after DOMContentLoaded.
+export function exportInteractions(source) {
+  const ast = parseJS(source, {
+    sourceType: 'script',
+    allowReturnOutsideFunction: true,
+  });
+  const replacements = [];
+  const walk = (node) => {
+    if (!node || typeof node !== 'object') return;
+    if (
+      node.type === 'CallExpression' &&
+      node.callee.type === 'MemberExpression' &&
+      node.callee.object.type === 'Identifier' &&
+      node.callee.object.name === 'document' &&
+      !node.callee.computed &&
+      node.callee.property.name === 'addEventListener' &&
+      node.arguments[0]?.value === 'DOMContentLoaded'
+    ) {
+      replacements.push([node.callee.start, node.callee.end]);
+    }
+    for (const value of Object.values(node)) {
+      if (Array.isArray(value)) value.forEach(walk);
+      else if (value && typeof value === 'object') walk(value);
+    }
+  };
+  walk(ast);
+  for (const [start, end] of replacements.sort((a, b) => b[0] - a[0]))
+    source = source.slice(0, start) + 'fusionOnReady' + source.slice(end);
+  return `function fusionOnReady(type, listener, options) {
+    if(document.readyState === 'loading') document.addEventListener(type, listener, options);
+    else if (!options?.signal?.aborted) {
+      const event = new Event(type);
+      if(typeof listener === 'function') listener.call(document,event);
+      else listener?.handleEvent(event);
+    }
+  }\n${source}`;
+}
 export function reactArchive(site, assets = []) {
   site = { ...site };
   for (const a of assets) {
     if (a.data) {
       site.html = site.html.replaceAll(a.url, a.data);
       site.css = site.css.replaceAll(a.url, a.data);
+      if (site.variants)
+        site.variants = site.variants.map((variant) => ({
+          ...variant,
+          html: variant.html.replaceAll(a.url, a.data),
+          css: variant.css.replaceAll(a.url, a.data),
+        }));
     }
   }
   const files = {
@@ -105,12 +154,31 @@ export function reactArchive(site, assets = []) {
     'src/main.jsx':
       "import React from 'react';import {createRoot} from 'react-dom/client';import App from './App.jsx';createRoot(document.getElementById('root')).render(<App/>);",
     'src/App.jsx': `import {useEffect} from 'react';\nimport './site.css';\nimport {initializeSite} from './interactions.js';\nexport default function App(){useEffect(()=>{document.title=${JSON.stringify(site.title)};return initializeSite();},[]);return <>${jsx(parseFragment(site.html))}</>;}`,
-    'src/site.css': site.css,
-    'src/interactions.js': `export function initializeSite(){\n${site.js}\n}`,
+    'src/site.css':
+      site.css +
+      '\n[hidden]:not([hidden="until-found"]){display:none!important}',
+    'src/interactions.js': `export function initializeSite(){\n${exportInteractions(site.js)}\n}`,
     'standalone.html': siteDocument(site),
     'README.md':
       '# Your Fusion website\n\nRun npm install then npm run dev. Build with npm run build.\n\nEditable React markup lives in src/App.jsx, styles in src/site.css, and interactions in src/interactions.js.\n\nThis is a frontend website. External stock images and Google Fonts require an internet connection. Uploaded images are embedded. Forms, checkout and other backend services are not connected.\n',
   };
+  if (site.variants?.length) {
+    const choices = site.variants;
+    const names = choices.map((v, i) => `Viewport${i}`);
+    choices.forEach((variant, i) => {
+      files[`src/Viewport${i}.jsx`] =
+        `import React from 'react';\nexport default function Viewport${i}(){return <>${jsx(parseFragment(variant.html))}</>;}`;
+    });
+    files['src/site.css'] = site.css + '\n[hidden]{display:none!important}';
+    files['src/viewport-styles.js'] =
+      `export const styles=${JSON.stringify(choices.map((v) => v.css + '\n[hidden]:not([hidden="until-found"]){display:none!important}'))};`;
+    files['src/interactions.js'] =
+      `export const initializers=[${choices.map((v) => 'function(){' + exportInteractions(v.js) + '}').join(',')}];`;
+    files['src/App.jsx'] =
+      `import {useEffect,useState} from 'react';\nimport {styles} from './viewport-styles.js';\nimport {initializers} from './interactions.js';\n${names.map((n, i) => `import ${n} from './Viewport${i}.jsx';`).join('\n')}\nconst components=[${names.join(',')}],breakpoints=${JSON.stringify(choices.map((v) => v.minWidth))};\nconst choose=()=>Math.max(0,breakpoints.findIndex(w=>innerWidth>=w));\nexport default function App(){const [index,setIndex]=useState(choose);useEffect(()=>{const resize=()=>setIndex(choose());addEventListener('resize',resize);return()=>removeEventListener('resize',resize);},[]);useEffect(()=>{document.title=${JSON.stringify(site.title)};return initializers[index]();},[index]);const View=components[index];return <><style>{styles[index]}</style><View key={index}/></>;}`;
+    files['README.md'] +=
+      "\nThis reconstruction preserves the measured breakpoint variants as editable JSX components. Reference assets and fonts currently use their captured URLs. Interactive states are reconstructed from observed browser changes; refer to the builder's coverage report for unverified behavior.\n";
+  }
   return zipSync(
     Object.fromEntries(Object.entries(files).map(([k, v]) => [k, strToU8(v)])),
   );

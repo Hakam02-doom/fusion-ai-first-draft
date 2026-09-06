@@ -2,6 +2,8 @@
 
 An editable React 19 + Vite implementation of https://fusionai.framer.website/, preserving its layouts, local fonts, artwork, and responsive styles.
 
+The local builder now supports browser-driven reference reconstruction. See [RECONSTRUCTION.md](RECONSTRUCTION.md) for usage, measured results, worker setup, and current limitations. This supersedes the generic draft foundation described in the historical notes below. Browserbase is pending; local Chromium and NVIDIA Kimi K3 are selected. The reconstruction work is local only.
+
 ## Run locally
 
 ```sh
@@ -100,4 +102,12 @@ Validation: `npm run lint`, `npm run test:builder`, and `npm run build`. Browser
 
 The builder now uses `/api/builder` for real marketplace discovery, cloud projects, AI requests, image uploads, version history, public snapshot links and React source export. See [IMPLEMENTATION.md](IMPLEMENTATION.md) for architecture, setup, limits and validation. The existing local demo store is retained for migration and its previous controls are no longer used for new generation.
 
-SiliconFlow is now the default AI provider; configure its server API key and an available model as described in IMPLEMENTATION.md. SiliconFlow API authentication is verified. Live generation is pending an available free model or credit allowance; the current global account has a zero balance. The application reports provider failures honestly and keeps the previous saved version. Workspaces currently use recovery keys for cross-device access, not email accounts. Generated websites are frontend-only.
+NVIDIA Kimi K3 is the selected local provider, using its hosted prototype endpoint and a server-only API key. MiniMax is no longer selected; providers never switch automatically. See IMPLEMENTATION.md for configuration and live validation; current experiments must remain local. The application reports provider failures honestly and keeps the previous saved version. Workspaces currently use recovery keys for cross-device access, not email accounts. Generated websites are frontend-only.
+
+Kimi generation now saves six steps and shows a draft preview as they complete. Retry or Resume continues unfinished work. Final versions, sharing and export require successful browser validation.
+
+The local draft foundation now includes a responsive visual hero immediately: an interactive, clearly labelled sample analytics preview for software briefs, or photography for other categories. Feature and workflow sections receive foundation styling before the later refinement step. Existing checkpoints are upgraded on read without changing saved sections, resume fingerprints, or validated versions. Orbit Analytics retains its 3/6 saved steps; this visual upgrade does not complete the remaining model requests.
+
+## Persistent browser worker — 2026-09-06
+
+The local builder now uses a separate Node browser worker through a signed API connection. Its persistent queue resumes checkpoints after restarts, limits concurrency, supports cancellation, and keeps progress connected in chat. The gateway can forward the same workflow from Vercel without running long browser jobs in a Function. NVIDIA Kimi remains selected. See [WORKER-HOSTING.md](WORKER-HOSTING.md) for local commands, Docker/Compose packaging, optional Render configuration and deployment checks. No cloud worker was provisioned and no Vercel deployment was made.

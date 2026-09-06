@@ -1,4 +1,24 @@
-import { aiConfigured } from '../server/model.js';
+import {
+  remoteWorker,
+  workerRequest,
+  workerActions,
+} from '../server/worker/transport.js';
+import {
+  startJob,
+  readJob,
+  publicJob,
+  cancelJob,
+  artifact,
+} from '../server/reconstruction/jobs.js';
+import { browserProvider } from '../server/reconstruction/session.js';
+import { workflowMode } from '../server/reconstruction/workflow.js';
+import { allowedPreview } from '../server/browser.js';
+import {
+  advanceGeneration,
+  canResumeGeneration,
+  refreshGenerationDraft,
+} from '../server/staged-generation.js';
+import { aiConfigured, generationTimeoutMs } from '../server/model.js';
 import { randomUUID, createHash } from 'node:crypto';
 import {
   ownerFrom,
@@ -70,14 +90,20 @@ async function quota(owner) {
   );
 }
 function slim(p) {
-  const { versions: _versions, messages: _messages, site, ...rest } = p;
+  const {
+    versions: _versions,
+    messages: _messages,
+    generation: _generation,
+    site,
+    ...rest
+  } = p;
   return { ...rest, hasSite: !!site };
 }
 async function projectFor(owner, id) {
   const p = await read(projectKey(owner, identifier(id)));
   if (!p || p.deleted)
     throw fail('This website was not found in your workspace.', 404);
-  return p;
+  return refreshGenerationDraft(p);
 }
 export default async function handler(req, res) {
   res.setHeader('Cache-Control', 'no-store');
@@ -87,12 +113,37 @@ export default async function handler(req, res) {
   let started = false;
   try {
     if (action === 'status') {
+      if (remoteWorker()) {
+        let worker;
+        try {
+          worker = await (await workerRequest('status')).json();
+        } catch {
+          worker = {
+            aiConfigured: false,
+            reconstructionEnabled: false,
+            browserProvider: 'unavailable',
+          };
+        }
+        res.setHeader('Content-Type', 'application/json');
+        return res.end(
+          JSON.stringify({
+            storage: cloudStorage() ? 'cloud' : 'local-server',
+            categories,
+            aiConfigured: worker.aiConfigured,
+            reconstructionEnabled: worker.reconstructionEnabled,
+            browserProvider: worker.browserProvider,
+            worker: worker.reconstructionEnabled ? 'connected' : 'unavailable',
+          }),
+        );
+      }
       res.setHeader('Content-Type', 'application/json');
       return res.end(
         JSON.stringify({
           storage: cloudStorage() ? 'cloud' : 'local-server',
           aiConfigured: await aiConfigured(),
           categories,
+          reconstructionEnabled: !process.env.VERCEL,
+          browserProvider: browserProvider(),
         }),
       );
     }
@@ -121,8 +172,111 @@ export default async function handler(req, res) {
     }
     const owner = ownerFrom(req);
     const body = req.method === 'GET' ? {} : await bodyOf(req);
+    if (remoteWorker() && workerActions.has(action)) {
+      const response = await workerRequest(action, {
+        method: req.method,
+        authorization: req.headers.authorization,
+        body: req.method === 'GET' ? undefined : body,
+        params: Object.fromEntries(
+          [...url.searchParams].filter(([key]) => key !== 'action'),
+        ),
+      });
+      res.setHeader(
+        'Content-Type',
+        response.headers.get('content-type') || 'application/json',
+      );
+      return res.end(Buffer.from(await response.arrayBuffer()));
+    }
     let result;
-    if (action === 'projects' && req.method === 'GET') {
+    if (action === 'reconstruction-job' && req.method === 'GET') {
+      result = publicJob(
+        await readJob(identifier(url.searchParams.get('job')), owner),
+      );
+    } else if (action === 'reconstruction-cancel' && req.method === 'POST') {
+      result = await cancelJob(identifier(body.job), owner);
+    } else if (action === 'reconstruction-artifact' && req.method === 'GET') {
+      const bytes = await artifact(
+        identifier(url.searchParams.get('job')),
+        owner,
+        url.searchParams.get('name'),
+      );
+      res.setHeader('Content-Type', 'image/png');
+      return res.end(bytes);
+    } else if (action === 'reconstruct' && req.method === 'POST') {
+      let p = await projectFor(owner, body.id);
+      const prompt =
+        typeof body.prompt === 'string' ? body.prompt.trim() : p.prompt;
+      if (!prompt || prompt.length > 6000)
+        throw fail('Enter a request of up to 6,000 characters.');
+      const mode = workflowMode(p, body);
+      const editing = await read(`locks/${owner}/${p.id}.json`);
+      if (editing && Date.now() - editing.at < generationTimeoutMs() + 60000)
+        throw fail(
+          'This website is already being updated. Wait for that request to finish.',
+          409,
+        );
+      if (!p.reference && mode !== 'edit') {
+        const catalog = await discover(p.category);
+        const candidates = rankCandidates(
+          catalog.items.filter((item) => allowedPreview(item.previewUrl)),
+          p.prompt,
+          p.id,
+        );
+        if (!candidates.length)
+          throw fail(
+            'No supported Framer previews were found in this category. Choose another category in References.',
+          );
+        p = { ...p, candidates, reference: candidates[0] };
+        await write(projectKey(owner, p.id), p);
+      }
+      if (mode !== 'edit' && !allowedPreview(p.reference?.previewUrl))
+        throw fail(
+          'Choose a public Framer-hosted reference from the shortlist.',
+        );
+      const job = await startJob(
+        owner,
+        p,
+        {
+          prompt,
+          mode,
+          requestId: identifier(body.requestId || randomUUID()),
+        },
+        {
+          beforeStart: ({ resuming }) => (resuming ? undefined : quota(owner)),
+          onQueued: (queued) =>
+            write(projectKey(owner, p.id), {
+              ...p,
+              generation: {
+                engine: 'reconstruction',
+                jobId: queued.id,
+                mode,
+                prompt,
+                completed: queued.resumedFrom
+                  ? p.generation?.completed || 0
+                  : 0,
+                total: queued.steps.length,
+                draftSite: queued.resumedFrom
+                  ? p.generation?.draftSite || null
+                  : null,
+              },
+              generationError: null,
+              failedPrompt: prompt,
+              reconstruction: {
+                ...(mode === 'edit' ? p.reconstruction : {}),
+                comparisonJobId:
+                  mode === 'edit'
+                    ? p.reconstruction?.comparisonJobId ||
+                      p.reconstruction?.jobId
+                    : undefined,
+                jobId: queued.id,
+                status: queued.status,
+                mode,
+              },
+            }),
+        },
+      );
+      result = { job };
+    } else if (action === 'projects' && req.method === 'GET') {
       const all = await keys(`workspaces/${owner}/projects/`);
       const projects = await Promise.all(all.slice(0, 100).map(read));
       result = {
@@ -219,6 +373,23 @@ export default async function handler(req, res) {
     } else if (action === 'generate' && req.method === 'POST') {
       const id = identifier(body.id);
       let p = await projectFor(owner, id);
+      if (p.reconstruction?.jobId) {
+        const active = remoteWorker()
+          ? await (
+              await workerRequest('reconstruction-job', {
+                authorization: req.headers.authorization,
+                params: { job: p.reconstruction.jobId },
+              })
+            )
+              .json()
+              .catch(() => null)
+          : await readJob(p.reconstruction.jobId, owner).catch(() => null);
+        if (active && ['queued', 'running'].includes(active.status))
+          throw fail(
+            'Reference reconstruction is still running. Wait for it to finish or stop it before editing.',
+            409,
+          );
+      }
       if (
         typeof body.prompt !== 'string' ||
         !body.prompt.trim() ||
@@ -231,7 +402,10 @@ export default async function handler(req, res) {
       } else {
         const lock = `locks/${owner}/${id}.json`;
         const existing = await read(lock);
-        if (existing && Date.now() - existing.at < 330000)
+        if (
+          existing &&
+          Date.now() - existing.at < generationTimeoutMs() + 60000
+        )
           throw fail(
             'This website is already being updated. Wait for that request to finish.',
             409,
@@ -243,11 +417,15 @@ export default async function handler(req, res) {
           throw fail('This website is already being updated.', 409);
         }
         const abort = new AbortController();
+        const generationSignal = AbortSignal.any([
+          abort.signal,
+          AbortSignal.timeout(generationTimeoutMs()),
+        ]);
         res.on('close', () => {
           if (!res.writableEnded) abort.abort();
         });
         try {
-          await quota(owner);
+          if (!canResumeGeneration(p, body)) await quota(owner);
           res.setHeader('Content-Type', 'application/x-ndjson');
           res.setHeader('X-Accel-Buffering', 'no');
           res.statusCode = 200;
@@ -302,14 +480,57 @@ export default async function handler(req, res) {
               data: (await read(`assets/${a.id}.json`))?.data,
             })),
           );
-          let site = await generateSite({
-            prompt: body.prompt,
-            reference: p.reference,
-            inspection,
-            previous: body.redesign ? null : p.site,
-            assets: assetData,
-            signal: abort.signal,
-          });
+          let site;
+          if (
+            process.env.FUSION_AI_PROVIDER === 'nvidia' &&
+            (!p.site || body.redesign || canResumeGeneration(p, body))
+          ) {
+            const next = await advanceGeneration({
+              project: p,
+              body,
+              inspection,
+              assets: assetData,
+              signal: generationSignal,
+              onProgress: event,
+              checkpoint: p.generation,
+            });
+            const current = await projectFor(owner, id);
+            if (current.revision !== p.revision)
+              throw fail(
+                'This project changed in another tab. Reload before continuing.',
+                409,
+              );
+            p = {
+              ...current,
+              generation: next.checkpoint,
+              generationError: null,
+              failedPrompt: body.prompt,
+            };
+            await write(projectKey(owner, id), p);
+            event({
+              stage: `Saved step ${next.checkpoint.completed} of 6`,
+              checkpoint: {
+                completed: next.checkpoint.completed,
+                total: 6,
+                draftSite: next.site,
+              },
+            });
+            if (!next.complete) {
+              event({ continuation: true });
+              return res.end();
+            }
+            site = next.site;
+          } else {
+            site = await generateSite({
+              prompt: body.prompt,
+              reference: p.reference,
+              inspection,
+              previous: body.redesign ? null : p.site,
+              assets: assetData,
+              signal: generationSignal,
+              onProgress: event,
+            });
+          }
           event({
             stage: 'Checking desktop, mobile, navigation and JavaScript',
           });
@@ -325,7 +546,8 @@ export default async function handler(req, res) {
                 checks: verification.checks,
                 errors: verification.errors,
               },
-              signal: abort.signal,
+              signal: generationSignal,
+              onProgress: event,
             });
             verification = await inspectGenerated(site, assetData);
           }
@@ -377,10 +599,15 @@ export default async function handler(req, res) {
             ].slice(-80),
             status: 'Draft',
             generationError: null,
+            generation: null,
+            reconstruction: p.reconstruction
+              ? { ...p.reconstruction, status: 'edited' }
+              : null,
             failedPrompt: null,
             revision: p.revision + 1,
             updatedAt: Date.now(),
           };
+          event({ stage: 'Saving your website and version history' });
           await write(projectKey(owner, id), result);
           event({ result });
           return res.end();

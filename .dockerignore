@@ -1,0 +1,14 @@
+**
+!package.json
+!package-lock.json
+!server/
+!server/**
+!shared/
+!shared/**
+!api/
+!api/**
+!scripts/
+!scripts/reconstruction-worker.mjs
+!scripts/worker-server.mjs
+!scripts/check-worker.mjs
+!Dockerfile.worker

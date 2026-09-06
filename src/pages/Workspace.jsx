@@ -37,13 +37,25 @@ import {
 import {
   api,
   generate,
+  reconstruct,
+  watchReconstruction,
   imageData,
   exportProject,
 } from '../components/builder/client.js';
+import ReconstructionReview from '../components/builder/ReconstructionReview.jsx';
 import GeneratedPreview from '../components/builder/GeneratedPreview.jsx';
 import WorkspaceAccess from '../components/builder/WorkspaceAccess.jsx';
 import { samples } from '../components/builder/store.js';
 import '../styles/builder.css';
+const workflowLabels = {
+  capturing: 'Inspect reference',
+  rebuilding: 'Reconstruct design',
+  comparing: 'Compare layouts',
+  personalizing: 'Apply your brief',
+  editing: 'Apply your changes',
+  checking: 'Check all screen sizes',
+  saving: 'Save version',
+};
 export default function Workspace() {
   const [project, setProject] = useState(null),
     [loading, setLoading] = useState(true),
@@ -52,6 +64,11 @@ export default function Workspace() {
   const [prompt, setPrompt] = useState(''),
     [busy, setBusy] = useState(false),
     [stage, setStage] = useState(''),
+    [progress, setProgress] = useState(null),
+    [stageHistory, setStageHistory] = useState([]),
+    [elapsed, setElapsed] = useState(0),
+    [draft, setDraft] = useState(null),
+    [reconstructionJob, setReconstructionJob] = useState(null),
     [messages, setMessages] = useState([]),
     [device, setDevice] = useState('Desktop'),
     [mobileTab, setMobileTab] = useState('Chat'),
@@ -67,23 +84,78 @@ export default function Workspace() {
     lastRequest = useRef(null);
   const accept = (p) => {
     setProject(p);
-    setMessages(p.messages || []);
+    setDraft(
+      p.generation?.draftSite
+        ? {
+            draftSite: p.generation.draftSite,
+            completed: p.generation.completed,
+            total: p.generation.total || 6,
+          }
+        : null,
+    );
+    const savedMessages = p.messages || [];
+    const pendingPrompt = p.generation?.prompt;
+    setMessages(
+      pendingPrompt && savedMessages.at(-1)?.text !== pendingPrompt
+        ? [...savedMessages, { role: 'user', text: pendingPrompt }]
+        : savedMessages,
+    );
   };
-  async function run(text, p = project, { redesign = false } = {}) {
+  async function run(
+    text,
+    p = project,
+    { redesign = false, mode: requestedMode } = {},
+  ) {
     if (!p || busy || !text.trim()) return;
+    const mode =
+      requestedMode ||
+      (p.generation?.engine === 'reconstruction' && p.generation.prompt === text
+        ? p.generation.mode || 'clone'
+        : p.site?.variants?.length
+          ? 'edit'
+          : !p.site && !p.generation
+            ? 'build'
+            : null);
     setBusy(true);
     setError('');
     setPrompt('');
     setStage('Preparing your website');
+    setStageHistory(['Preparing your website']);
+    setProgress(null);
+    setReconstructionJob(null);
+    setElapsed(0);
     setPanel('Chat');
-    lastRequest.current = { text, redesign };
+    lastRequest.current = { text, redesign, mode };
     setMessages([...(p.messages || []), { role: 'user', text }]);
     controller.current = new AbortController();
     try {
       accept(
-        await generate(p.id, text, setStage, controller.current.signal, {
-          redesign,
-        }),
+        await (mode ? reconstruct : generate)(
+          p.id,
+          text,
+          (next) => {
+            setStage(next);
+            setStageHistory((items) =>
+              items.at(-1) === next ? items : [...items, next],
+            );
+            setProgress(null);
+          },
+          controller.current.signal,
+          {
+            redesign,
+            mode,
+            onProgress: setProgress,
+            onCheckpoint: setDraft,
+            onJob: (job) => {
+              setReconstructionJob(job);
+              setProgress(
+                ['editing', 'personalizing', 'comparing'].includes(job.phase)
+                  ? job.progress || null
+                  : null,
+              );
+            },
+          },
+        ),
       );
       setMobileTab('Preview');
     } catch (e) {
@@ -94,7 +166,7 @@ export default function Workspace() {
       );
       try {
         const saved = await api('project', null, { query: `&id=${p.id}` });
-        setProject(saved);
+        accept(saved);
       } catch {
         /* Retain the current version when offline. */
       }
@@ -103,7 +175,51 @@ export default function Workspace() {
       setStage('');
     }
   }
+  useEffect(() => {
+    if (!busy) return;
+    const start = reconstructionJob?.createdAt || Date.now();
+    const timer = setInterval(
+      () => setElapsed(Math.floor((Date.now() - start) / 1000)),
+      1000,
+    );
+    return () => clearInterval(timer);
+  }, [busy, reconstructionJob?.createdAt]);
   const startInitial = useEffectEvent((p) => run(p.prompt, p));
+  const reconnectJob = useEffectEvent(async (p) => {
+    setBusy(true);
+    controller.current = new AbortController();
+    try {
+      accept(
+        await watchReconstruction(
+          p.id,
+          p.reconstruction.jobId,
+          setStage,
+          controller.current.signal,
+          {
+            onJob: (job) => {
+              setReconstructionJob(job);
+              setProgress(
+                ['editing', 'personalizing', 'comparing'].includes(job.phase)
+                  ? job.progress || null
+                  : null,
+              );
+              setStageHistory(job.events.map((e) => e.stage));
+            },
+            onCheckpoint: setDraft,
+          },
+        ),
+      );
+    } catch (e) {
+      if (e.name !== 'AbortError') setError(e.message);
+      const saved = await api('project', null, { query: `&id=${p.id}` }).catch(
+        () => null,
+      );
+      if (saved) accept(saved);
+    } finally {
+      setBusy(false);
+      setStage('');
+    }
+  });
   useEffect(() => {
     let live = true;
     const load = async () => {
@@ -128,11 +244,19 @@ export default function Workspace() {
           setError(p.generationError);
           lastRequest.current = {
             text: p.failedPrompt || p.prompt,
-            redesign: false,
+            redesign: p.generation?.redesign || false,
+            mode:
+              p.generation?.mode ||
+              (p.generation?.engine === 'reconstruction' ? 'clone' : undefined),
           };
         }
         setLoading(false);
-        if (url.searchParams.get('new') === '1') {
+        if (
+          p.reconstruction &&
+          ['queued', 'running', 'comparing'].includes(p.reconstruction.status)
+        ) {
+          reconnectJob(p);
+        } else if (url.searchParams.get('new') === '1') {
           history.replaceState(null, '', `/workspace?project=${id}`);
           startInitial(p);
         }
@@ -343,7 +467,7 @@ export default function Workspace() {
                       <p>
                         {project.site
                           ? 'Your website is ready. What would you like to change?'
-                          : 'I’ll find a Framer reference for your brief, inspect its design, and build your first website.'}
+                          : 'I’ll choose a Framer reference, reconstruct and compare its design, then apply your brief with Kimi.'}
                       </p>
                       <p>{project.prompt}</p>
                       {!busy && (
@@ -380,11 +504,96 @@ export default function Workspace() {
                 {(busy || stage) && (
                   <div className="b-message assistant">
                     <img className="b-message-avatar" src={orb} alt="" />
-                    <p className="b-working">
-                      {stage}
-                      <span>…</span>
-                    </p>
+                    <div className="b-generation-progress">
+                      {!!reconstructionJob?.steps?.length && (
+                        <ol
+                          className="b-workflow-steps"
+                          aria-label="Website workflow"
+                        >
+                          {reconstructionJob.steps.map((step) => (
+                            <li
+                              key={step}
+                              data-state={
+                                reconstructionJob.completedSteps?.includes(step)
+                                  ? 'complete'
+                                  : reconstructionJob.phase === step
+                                    ? 'current'
+                                    : 'pending'
+                              }
+                              aria-current={
+                                reconstructionJob.phase === step
+                                  ? 'step'
+                                  : undefined
+                              }
+                            >
+                              <span>{workflowLabels[step]}</span>
+                              {reconstructionJob.completedSteps?.includes(
+                                step,
+                              ) && <Check size={13} aria-label="Completed" />}
+                            </li>
+                          ))}
+                        </ol>
+                      )}
+                      {!reconstructionJob?.steps?.length &&
+                        stageHistory.length > 1 && (
+                          <ol aria-label="Generation progress">
+                            {stageHistory
+                              .slice(0, -1)
+                              .slice(-4)
+                              .map((item, index) => (
+                                <li key={index}>{item}</li>
+                              ))}
+                          </ol>
+                        )}
+                      <p className="b-working">
+                        {stage}
+                        <span>…</span>
+                      </p>
+                      <small aria-live="off">
+                        {Math.floor(elapsed / 60)}:
+                        {String(elapsed % 60).padStart(2, '0')} elapsed
+                        {progress?.detail ? ` · ${progress.detail}` : ''}
+                      </small>
+                    </div>
                   </div>
+                )}
+                {reconstructionJob?.browser?.liveUrl && (
+                  <a
+                    className="b-outline"
+                    href={reconstructionJob.browser.liveUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Watch browser inspection
+                  </a>
+                )}
+                <ReconstructionReview reconstruction={project.reconstruction} />
+                {!busy && draft && !error && (
+                  <button
+                    className="b-outline"
+                    onClick={() =>
+                      run(
+                        project.generation?.prompt ||
+                          lastRequest.current?.text ||
+                          project.prompt,
+                        project,
+                        {
+                          redesign:
+                            project.generation?.redesign ||
+                            lastRequest.current?.redesign ||
+                            false,
+                          mode:
+                            project.generation?.mode ||
+                            lastRequest.current?.mode ||
+                            (project.generation?.engine === 'reconstruction'
+                              ? 'clone'
+                              : undefined),
+                        },
+                      )
+                    }
+                  >
+                    Resume generation
+                  </button>
                 )}
                 {error && (
                   <div className="b-generation-error" role="alert">
@@ -394,9 +603,20 @@ export default function Workspace() {
                       disabled={busy}
                       onClick={() =>
                         run(
-                          lastRequest.current?.text || project.prompt,
+                          lastRequest.current?.text ||
+                            project.generation?.prompt ||
+                            project.failedPrompt ||
+                            project.prompt,
                           project,
-                          { redesign: lastRequest.current?.redesign },
+                          {
+                            redesign: lastRequest.current?.redesign,
+                            mode:
+                              lastRequest.current?.mode ||
+                              project.generation?.mode ||
+                              (project.generation?.engine === 'reconstruction'
+                                ? 'clone'
+                                : undefined),
+                          },
                         )
                       }
                     >
@@ -461,7 +681,18 @@ export default function Workspace() {
                       <button
                         type="button"
                         className="b-outline"
-                        onClick={() => controller.current?.abort()}
+                        onClick={async () => {
+                          if (
+                            reconstructionJob &&
+                            ['queued', 'running'].includes(
+                              reconstructionJob.status,
+                            )
+                          )
+                            await api('reconstruction-cancel', {
+                              job: reconstructionJob.id,
+                            });
+                          controller.current?.abort();
+                        }}
                       >
                         <Square size={15} />
                         Stop
@@ -563,16 +794,32 @@ export default function Workspace() {
                     </article>
                   ))}
                   {project.reference && (
-                    <GlowButton
-                      disabled={busy || pending}
-                      onClick={() =>
-                        run(project.prompt, project, { redesign: true })
-                      }
-                    >
-                      {project.site
-                        ? 'Build another design'
-                        : 'Build this design'}
-                    </GlowButton>
+                    <>
+                      <GlowButton
+                        disabled={busy || pending}
+                        onClick={() =>
+                          run(project.prompt, project, { mode: 'build' })
+                        }
+                      >
+                        Build from this reference
+                      </GlowButton>
+                      <GlowButton
+                        disabled={busy || pending}
+                        onClick={() =>
+                          run(project.prompt, project, {
+                            redesign: true,
+                            mode: 'clone',
+                          })
+                        }
+                      >
+                        Reconstruct this reference
+                      </GlowButton>
+                      <p>
+                        Build applies your brief after checking the captured
+                        layout. Reconstruct keeps the reference content for you
+                        to edit later.
+                      </p>
+                    </>
                   )}
                   {project.inspection && (
                     <p>
@@ -713,10 +960,16 @@ export default function Workspace() {
             </a>
           </div>
           <div className="b-preview-stage">
+            {draft && (
+              <output className="b-draft-status">
+                Draft preview · {draft.completed}/{draft.total} steps saved
+                {busy ? ' · Building…' : ' · Saved draft'}
+              </output>
+            )}
             <div
               className={`b-live-preview b-generated-container device-${device.toLowerCase()}`}
             >
-              <GeneratedPreview site={project.site} />
+              <GeneratedPreview site={draft?.draftSite || project.site} />
             </div>
           </div>
         </main>
