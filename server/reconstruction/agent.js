@@ -48,7 +48,9 @@ const contract = z.object({
         color: z
           .string()
           .max(40)
-          .regex(/^(#[\da-f]{3,8}|[a-z]+)$/i)
+          .regex(
+            /^(#(?:[\da-f]{3,4}|[\da-f]{6}|[\da-f]{8})|[a-z]+|rgba?\(\s*\d+(?:\.\d+)?%?(?:\s*,\s*\d+(?:\.\d+)?%?){2}(?:\s*,\s*(?:0|1|0?\.\d+))?\s*\))$/i,
+          )
           .optional(),
       }),
     )
@@ -61,8 +63,11 @@ const contract = z.object({
 export function applyCapturedPatch(previous, input) {
   const patch = contract.parse(input),
     next = structuredClone(previous);
+  const changes = patch.changes.filter(
+    (change) => change.find !== change.replace,
+  );
   let applied = 0;
-  for (const change of patch.changes) {
+  for (const change of changes) {
     let hits = 0;
     for (const variant of next.variants) {
       if (change.width && variant.width !== change.width) continue;
@@ -111,7 +116,7 @@ export function applyCapturedPatch(previous, input) {
     variant.js = patchInteractionContent(variant.js, [], [mark]);
     applied += result.hits;
   }
-  if (!applied && patch.changes.length)
+  if (!applied && changes.length)
     throw Error('No reconstruction changes could be applied.');
   Object.assign(next, {
     html: next.variants[0].html,

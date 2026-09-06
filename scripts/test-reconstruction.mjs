@@ -482,3 +482,45 @@ test('malformed inspection requests return correction feedback before a browser 
   assert.equal(calls, 2);
   assert.match(edited.html, /Training/);
 });
+
+test('computed RGB wordmark colors and redundant unchanged edits do not reject a valid brand update', () => {
+  const previous = assembleCapture(capture);
+  for (const variant of previous.variants)
+    variant.html +=
+      '<img data-fusion-node="12" src="https://framerusercontent.com/logo.png" alt="Logo">';
+  const patch = {
+    changes: [
+      {
+        file: 'html',
+        scope: 'text',
+        find: 'Original section',
+        replace: 'Training',
+        all: true,
+      },
+      {
+        file: 'html',
+        scope: 'text',
+        find: 'Original section',
+        replace: 'Original section',
+        all: true,
+      },
+    ],
+    wordmarks: [
+      { width: 1440, id: '12', text: 'NORTHSTAR', color: 'rgb(245,245,240)' },
+    ],
+    reply: 'Updated',
+  };
+  const changed = applyCapturedPatch(previous, patch);
+  assert.match(changed.html, /NORTHSTAR/);
+  assert.match(changed.html, /rgb\(245,245,240\)/);
+  assert.match(changed.html, /Training/);
+  assert.match(previous.variants[0].html, /Original section/);
+  assert.throws(() =>
+    applyCapturedPatch(previous, {
+      ...patch,
+      wordmarks: [
+        { ...patch.wordmarks[0], color: 'rgb(1,2,3);background:url(x)' },
+      ],
+    }),
+  );
+});
